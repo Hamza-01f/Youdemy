@@ -2,7 +2,8 @@
 /App/config
 UML
 index.php
-/App/views/teacher
+/App/views/Admin
+/App/views/student
 /App/models
 /App/controllers
 public
