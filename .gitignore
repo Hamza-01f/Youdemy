@@ -1,0 +1,9 @@
+.env
+/App/config
+UML
+index.php
+/App/views
+/App/models
+/App/controllers
+public
+/vendor/
