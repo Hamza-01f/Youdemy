@@ -24,18 +24,7 @@
     </nav>
 
     <main class="container mx-auto p-6">
-        <!-- Time Range Selector -->
-        <div class="bg-white rounded-lg shadow-lg p-4 mb-6">
-            <div class="flex justify-between items-center">
-                <h2 class="text-xl font-bold text-gray-800">Période d'analyse</h2>
-                <select class="p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none">
-                    <option>7 derniers jours</option>
-                    <option>30 derniers jours</option>
-                    <option>3 derniers mois</option>
-                    <option>Cette année</option>
-                </select>
-            </div>
-        </div>
+
 
         <!-- Key Metrics Cards -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
@@ -44,7 +33,6 @@
                     <div>
                         <p class="text-sm text-gray-500">Total Étudiants</p>
                         <p class="text-2xl font-bold text-gray-800">1,234</p>
-                        <p class="text-sm text-green-500">+12% vs période précédente</p>
                     </div>
                     <div class="p-3 bg-blue-100 rounded-full">
                         <i class="fas fa-users text-blue-600 text-xl"></i>
@@ -57,7 +45,6 @@
                     <div>
                         <p class="text-sm text-gray-500">Cours Actifs</p>
                         <p class="text-2xl font-bold text-gray-800">45</p>
-                        <p class="text-sm text-green-500">+5% vs période précédente</p>
                     </div>
                     <div class="p-3 bg-green-100 rounded-full">
                         <i class="fas fa-book text-green-600 text-xl"></i>
@@ -68,28 +55,26 @@
             <div class="bg-white p-6 rounded-lg shadow-lg border-l-4 border-yellow-500">
                 <div class="flex justify-between items-center">
                     <div>
-                        <p class="text-sm text-gray-500">Taux de Complétion</p>
+                        <p class="text-sm text-gray-500">Nombre d’étudiants inscrits </p>
                         <p class="text-2xl font-bold text-gray-800">78%</p>
-                        <p class="text-sm text-yellow-500">-2% vs période précédente</p>
                     </div>
                     <div class="p-3 bg-yellow-100 rounded-full">
                         <i class="fas fa-graduation-cap text-yellow-600 text-xl"></i>
                     </div>
                 </div>
             </div>
-
-            <div class="bg-white p-6 rounded-lg shadow-lg border-l-4 border-purple-500">
+            <div class="bg-white p-6 rounded-lg shadow-lg border-l-4 border-green-500">
                 <div class="flex justify-between items-center">
                     <div>
-                        <p class="text-sm text-gray-500">Note Moyenne</p>
-                        <p class="text-2xl font-bold text-gray-800">4.8/5</p>
-                        <p class="text-sm text-green-500">+0.2 vs période précédente</p>
+                        <p class="text-sm text-gray-500">Cours non Actifs</p>
+                        <p class="text-2xl font-bold text-gray-800">45</p>
                     </div>
-                    <div class="p-3 bg-purple-100 rounded-full">
-                        <i class="fas fa-star text-purple-600 text-xl"></i>
+                    <div class="p-3 bg-green-100 rounded-full">
+                        <i class="fas fa-book text-green-600 text-xl"></i>
                     </div>
                 </div>
             </div>
+           
         </div>
 
         <!-- Charts Section -->

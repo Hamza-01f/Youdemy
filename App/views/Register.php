@@ -1,3 +1,43 @@
+<?php
+
+require_once __DIR__.'/../models/User.php';
+require_once __DIR__.'/../models/Student.php';
+require_once __DIR__.'/../models/Teacher.php';
+
+use App\models\Student;
+use App\models\Teacher;
+use App\models\User;
+
+$user = null;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $bio = $_POST['bio'];
+    $imageUrl = $_POST['photo'];
+    $role = $_POST['role'];
+
+    if ($role === 'student') {
+        $user = new Student($username, $email, $password, $role, $bio, $imageUrl);
+    } elseif ($role === 'teacher') {
+        $user = new Teacher($username, $email, $password, $role, $bio, $imageUrl);
+    }
+
+    if ($user instanceof User) {
+        $user->setPassword($password); 
+        if ($user->save()) {
+            echo "Registration successful!";
+        } else {
+            echo "There was an error while registering.";
+        }
+    } else {
+        echo "Invalid user role selected.";
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -59,7 +99,7 @@
                 <p class="mt-2 text-gray-600">Start your journey of endless knowledge</p>
             </div>
 
-            <form method="POST" action="/router.php?action=addUser" class="form space-y-6" onsubmit="return validateForm(this)">
+            <form method="POST"  class="form space-y-6" >
                 <div class="relative">
                     <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
                     <div class="relative">
@@ -151,6 +191,25 @@
 
                 <!-- Role selection dropdown -->
                 <div class="relative">
+                   <label for="bio" class="block text-sm font-medium text-gray-700 mb-1">Bio</label>
+                  <div class="relative">
+                        <span class="absolute top-3 left-0 pl-3 flex items-center text-gray-500">
+                            <i class="fas fa-pen"></i>
+                        </span>
+                        <textarea
+                            id="bio"
+                            name="bio"
+                            rows="3"
+                            class="form-input block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl text-gray-700
+                                focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500
+                                transition-all duration-300"
+                            placeholder="Tell us about yourself..."
+                        ></textarea>
+                    </div>
+                    <p id="bioError" class="text-sm text-red-600 mt-1"></p>
+                </div>
+
+                <div class="relative">
                     <label for="role" class="block text-sm font-medium text-gray-700 mb-1">Role</label>
                     <select
                         id="role"
@@ -159,8 +218,8 @@
                             focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500
                             transition-all duration-300"
                     >
-                        <option value="student">Étudiant</option>
-                        <option value="teacher">Enseignant</option>
+                        <option value="student">Student</option>
+                        <option value="teacher">Teacher</option>
                     </select>
                     <p id="roleError" class="text-sm text-red-600 mt-1"></p>
                 </div>
@@ -192,40 +251,43 @@
     </div>
 
     <script>
-        const usernameRegex = /^\w{4,20}$/;  
-        const emailRegex = /^[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/;  
-        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{6,20}$/; 
-        const urlRegex = /^https:\/\/.*\.(jpg|jpeg|png|gif)$/;
+        // const usernameRegex = /^\w{4,20}$/;  
+        // const emailRegex = /^[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/;  
+        // const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{6,20}$/; 
+        // const urlRegex = /^https:\/\/.*\.(jpg|jpeg|png|gif)$/;
 
-        function validateForm(form) {
-            let isValid = true;
+        // function validateForm(form) {
+        //     let isValid = true;
 
-            const errorMessages = form.querySelectorAll('.text-red-600');
-            errorMessages.forEach(error => error.textContent = '');
+        //     const errorMessages = form.querySelectorAll('.text-red-600');
+        //     errorMessages.forEach(error => error.textContent = '');
 
-            const inputs = form.querySelectorAll('input, textarea, select');
-            inputs.forEach(input => {
-                let errorMessageElement = document.getElementById(input.id + 'Error');
-                if (!input.value) {
-                    errorMessageElement.textContent = 'This field is required';
-                    isValid = false;
-                } else if (input.name === 'username' && !usernameRegex.test(input.value)) {
-                    errorMessageElement.textContent = 'Username must be 4-20 characters and can include letters, numbers, and underscores.';
-                    isValid = false;
-                } else if (input.name === 'email' && !emailRegex.test(input.value)) {
-                    errorMessageElement.textContent = 'Please enter a valid email address.';
-                    isValid = false;
-                } else if (input.name === 'password' && !passwordRegex.test(input.value)) {
-                    errorMessageElement.textContent = 'Password must be 6-20 characters long, with at least one number, one lowercase letter, and one uppercase letter.';
-                    isValid = false;
-                } else if (input.name === 'photo' && !urlRegex.test(input.value)) {
-                    errorMessageElement.textContent = 'Please enter a valid image URL (PNG, JPG, JPEG, GIF only).';
-                    isValid = false;
-                }
-            });
+        //     const inputs = form.querySelectorAll('input, textarea, select');
+        //     inputs.forEach(input => {
+        //         let errorMessageElement = document.getElementById(input.id + 'Error');
+        //         if (!input.value) {
+        //             errorMessageElement.textContent = 'This field is required';
+        //             isValid = false;
+        //         } else if (input.name === 'username' && !usernameRegex.test(input.value)) {
+        //             errorMessageElement.textContent = 'Username must be 4-20 characters and can include letters, numbers, and underscores.';
+        //             isValid = false;
+        //         } else if (input.name === 'email' && !emailRegex.test(input.value)) {
+        //             errorMessageElement.textContent = 'Please enter a valid email address.';
+        //             isValid = false;
+        //         } else if (input.name === 'password' && !passwordRegex.test(input.value)) {
+        //             errorMessageElement.textContent = 'Password must be 6-20 characters long, with at least one number, one lowercase letter, and one uppercase letter.';
+        //             isValid = false;
+        //         } else if (input.name === 'photo' && !urlRegex.test(input.value)) {
+        //             errorMessageElement.textContent = 'Please enter a valid image URL (PNG, JPG, JPEG, GIF only).';
+        //             isValid = false;
+        //         }
+        //     });
 
-            return isValid;
-        }
+        //     return isValid;
+        // }
+
+
+        // onsubmit="return validateForm(this)"
 
         function previewImage(input) {
             const preview = document.getElementById('image-preview');
