@@ -9,8 +9,9 @@ $courseController = new CourseController();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action']) && $_POST['action'] === 'save_course') {
         $courseController->saveCourse();
-        header('Location:/App/views/teacher/TeacherSpace.php');
+        header('Location:/App/views/teacher/AddCourse.php');
         exit();
     }
+
 }
 
