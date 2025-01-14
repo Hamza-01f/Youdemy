@@ -1,3 +1,19 @@
+<?php
+
+require_once __DIR__ . '/../controllers/authcontroller.php';
+
+use App\controllers\authcontroller;
+
+
+if(isset($_POST["submit"]) &&  $_SERVER['REQUEST_METHOD'] == "POST")
+{
+        $username = $_POST["username"];
+        $password = $_POST["password"];
+        authcontroller::logIn($username,$password);     
+}
+
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">

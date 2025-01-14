@@ -1,4 +1,7 @@
 <?php
+session_start();
+
+$name = $_SESSION['user']['username'];
 
 require_once __DIR__.'/../../controllers/CourseController.php';
 require_once __DIR__.'/../../controllers/CategoryController.php';
@@ -45,7 +48,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'pending' && isset($_GET['id']
             <div class="space-x-4">
                 <a href="AddCourse.php" class="text-gray-900 hover:text-blue-600 transition-colors duration-200 font-medium">AddCourse</a>
                 <a href="Statistics.php" class="text-gray-900 hover:text-blue-600 transition-colors duration-200 font-medium">Analytics</a>
-                <span class="font-medium">Professeur: Jean Dupont</span>
+                <span class="font-medium">Welcom Back Professor: <?php echo $name ?></span>
                 <button class="bg-indigo-500 hover:bg-indigo-700 px-4 py-2 rounded-lg">
                     <i class="fas fa-sign-out-alt mr-2"></i>Déconnexion
                 </button>

@@ -15,13 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    if ($_GET['action'] === 'addUser') {
-        UsersController::addUser();
-        
-        header('Location: /index.php');
-        exit();
-
-    }
 
 }
 
