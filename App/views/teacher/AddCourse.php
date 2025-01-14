@@ -1,6 +1,11 @@
 <?php
 
+session_start();
+
+$userId = $_SESSION['user']['id'];
+
 require_once __DIR__.'/../../controllers/CategoryController.php';
+
 require_once __DIR__.'/../../controllers/TagController.php';
 
 use  App\Controllers\CategoryController;
@@ -104,12 +109,17 @@ $tag = $categoryTags->getTags();
                             <div class="space-y-6">
                                 <div>
                                     <label class="block text-sm font-medium mb-2 text-gray-700">Course Title</label>
-                                    <input type="text" name="content" placeholder="Enter course title" 
+                                    <input type="text" name="title" placeholder="Enter course title" 
                                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium mb-2 text-gray-700">Course Description</label>
                                     <textarea rows="4" name="description" placeholder="Enter course description" 
+                                              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"></textarea>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2 text-gray-700">Course Content</label>
+                                    <textarea rows="4" name="content" placeholder="Enter course content" 
                                               class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"></textarea>
                                 </div>
                                 <div class="grid grid-cols-2 gap-4">
@@ -142,8 +152,7 @@ $tag = $categoryTags->getTags();
                             </div>
                         </div>
                     </div>
-
-                    <!-- Preview Sidebar -->
+                    <input type="hidden" name="author" value="<?php echo $userId ?>">
                     <div class="col-span-1">
                         <div class="bg-white rounded-xl custom-shadow p-8 sticky top-24 hover-scale transition-all duration-300">
                             <div class="flex items-center space-x-3 mb-6">
@@ -161,6 +170,7 @@ $tag = $categoryTags->getTags();
                                                class="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
                                     </div>
                                 </div>
+                               
                                 <div>
                                     <label class="block text-sm font-medium mb-2 text-gray-700">Course Image URL</label>
                                     <div class="flex items-center space-x-2">

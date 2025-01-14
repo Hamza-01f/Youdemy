@@ -24,15 +24,18 @@ if (isset($_GET['id'])) {
     }
 }
 
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_course') {
-    $title = $_POST['content'] ;
+
+    $title = $_POST['title'] ;
+    $content = $_POST['content'] ;
     $description = $_POST['description'] ;
     $categoryId = $_POST['category_id'] ;
     $tags = $_POST['tags'] ?? [];
     $courseUrl = $_POST['courseUrl'] ;
     $courseImage = $_POST['courseImage'] ;
 
-    $courseController->updateCourse($courseId, $title, $description, $categoryId, $courseUrl, $courseImage, $tags);
+    $courseController->updateCourse($courseId, $title, $description,$content, $categoryId, $courseUrl, $courseImage, $tags);
     header("Location: ManageCourses.php");  
     exit();
 }
@@ -127,12 +130,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                             <div class="space-y-6">
                                 <div>
                                     <label class="block text-sm font-medium mb-2 text-gray-700">Course Title</label>
-                                    <input type="text" name="content" value="<?= htmlspecialchars($courseDetails['title']) ?>" 
+                                    <input type="text" name="title" value="<?= htmlspecialchars($courseDetails['title']) ?>" 
                                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium mb-2 text-gray-700">Course Description</label>
                                     <textarea rows="4" name="description" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"><?= htmlspecialchars($courseDetails['description']) ?></textarea>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2 text-gray-700">Course content</label>
+                                    <textarea rows="4" name="content" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"><?= htmlspecialchars($courseDetails['content']) ?></textarea>
                                 </div>
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
