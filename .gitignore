@@ -1,7 +1,6 @@
 .env
 /App/config
 UML
-index.php
 /App/views/Admin
 /App/views/student
 /App/models
