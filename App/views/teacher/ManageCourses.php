@@ -49,9 +49,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'pending' && isset($_GET['id']
                 <a href="AddCourse.php" class="text-gray-900 hover:text-blue-600 transition-colors duration-200 font-medium">AddCourse</a>
                 <a href="Statistics.php" class="text-gray-900 hover:text-blue-600 transition-colors duration-200 font-medium">Analytics</a>
                 <span class="font-medium">Welcom Back Professor: <?php echo $name ?></span>
-                <button class="bg-indigo-500 hover:bg-indigo-700 px-4 py-2 rounded-lg">
+                <a href="/App/views/logOut.php">
                     <i class="fas fa-sign-out-alt mr-2"></i>Déconnexion
-                </button>
+                </a>
             </div>
         </div>
     </nav>

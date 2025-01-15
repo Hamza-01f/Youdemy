@@ -110,16 +110,19 @@ $courses = $courseController->getAllowedCourses();
                                 <span class="px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full text-sm font-medium">'.$course['category_name'].'</span>
                                 <p class="text-gray-600 mt-4">'.$course['description'].'</p>
                                 <div class="flex items-center mt-4 mb-6">
-                                    <img src="/api/placeholder/32/32" alt="Instructor" class="w-8 h-8 rounded-full">
-                                    <span class="ml-2 text-sm font-medium">Instructor Name</span>
+                                    <img src="'.$course['profile_image'].'" alt="Instructor" class="w-8 h-8 rounded-full">
+                                    <span class="ml-2 text-sm font-medium">'.$course['username'].'</span>
                                 </div>
                                 <div class="flex justify-between items-center">
-                                    <span class="text-sm text-gray-500">Created: '.date('M d, Y').'</span>
+                                    <span class="text-sm text-gray-500">Created at: '.$course['created_at'].'</span>
                                     <form method="POST" action="your_php_logic.php">
                                         <input type="hidden" name="course_id" value="'.$course['id'].'">
-                                        <button type="submit" name="enroll" class="px-6 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors">
+                                        <a href="?enrollid='.$course['id'].'&action=enroll" class="px-6 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors">
                                             Enroll Now
-                                        </button>
+                                        </a>
+                                        <a href="?readid='.$course['id'].'&action=read" class="px-6 py-2 bg-green-400 text-white rounded-full hover:bg-indigo-700 transition-colors">
+                                            Read
+                                        </a>
                                     </form>
                                 </div>
                             </div>
