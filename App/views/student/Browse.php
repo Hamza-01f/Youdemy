@@ -1,11 +1,29 @@
 <?php
+session_start();
 
+$Studentid = $_SESSION['user']['id'];
 
 require_once __DIR__.'/../../controllers/CategoryController.php';
+require_once __DIR__.'/../../controllers/EnrollementController.php';
 
 $courseController = new \App\Controllers\CourseController();
+$enrolling = new App\Controllers\EnrollmentController();
+
 
 $courses = $courseController->getAllowedCourses();
+
+
+
+
+if (isset($_GET['enrollid']) && $_GET['action'] === 'enroll') {
+    $enrollId = $_GET['enrollid'];
+    $enrolling->enrollStudent($Studentid,$enrollId);
+}
+
+if(isset($_GET['readid']) && $_GET['action'] === 'read'){
+    $ReadId = $_GET['readid']; 
+
+}
 
 ?>
 
@@ -62,7 +80,7 @@ $courses = $courseController->getAllowedCourses();
                     <div class="flex items-center space-x-3">
                         <img src="/api/placeholder/40/40" alt="Profile" class="w-10 h-10 rounded-full border-2 border-indigo-200">
                         <div class="hidden md:block">
-                            <p class="font-medium text-gray-900">John Doe</p>
+                            <p class="font-medium text-gray-900"><?php echo $_SESSION['user']['username']; ?></p>
                             <p class="text-sm text-gray-500">Student</p>
                         </div>
                     </div>
@@ -100,7 +118,6 @@ $courses = $courseController->getAllowedCourses();
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="page-1">
             <?php
-
             if (count($courses) > 0) {
                 foreach ($courses as $course) {
                     echo '
@@ -115,15 +132,12 @@ $courses = $courseController->getAllowedCourses();
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <span class="text-sm text-gray-500">Created at: '.$course['created_at'].'</span>
-                                    <form method="POST" action="your_php_logic.php">
-                                        <input type="hidden" name="course_id" value="'.$course['id'].'">
-                                        <a href="?enrollid='.$course['id'].'&action=enroll" class="px-6 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors">
-                                            Enroll Now
-                                        </a>
-                                        <a href="?readid='.$course['id'].'&action=read" class="px-6 py-2 bg-green-400 text-white rounded-full hover:bg-indigo-700 transition-colors">
-                                            Read
-                                        </a>
-                                    </form>
+                                    <a href="?enrollid='.$course['id'].'&action=enroll" class="px-6 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors">
+                                        Enroll
+                                    </a>
+                                    <a href="?readid='.$course['id'].'&action=read" class="px-6 py-2 bg-green-400 text-white rounded-full hover:bg-indigo-700 transition-colors">
+                                        Read
+                                    </a>
                                 </div>
                             </div>
                         </div>';
