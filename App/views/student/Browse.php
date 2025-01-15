@@ -14,7 +14,6 @@ $courses = $courseController->getAllowedCourses();
 
 
 
-
 if (isset($_GET['enrollid']) && $_GET['action'] === 'enroll') {
     $enrollId = $_GET['enrollid'];
     $enrolling->enrollStudent($Studentid,$enrollId);
