@@ -32,10 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $description = $_POST['description'] ;
     $categoryId = $_POST['category_id'] ;
     $tags = $_POST['tags'] ?? [];
-    $courseUrl = $_POST['courseUrl'] ;
     $courseImage = $_POST['courseImage'] ;
 
-    $courseController->updateCourse($courseId, $title, $description,$content, $categoryId, $courseUrl, $courseImage, $tags);
+    $courseController->updateCourse($courseId, $title, $description,$content, $categoryId, $courseImage, $tags);
     header("Location: ManageCourses.php");  
     exit();
 }

@@ -43,6 +43,15 @@ if (isset($_GET['readid']) && $_GET['action'] === 'read') {
             height: 100%;
             border-radius: 12px;
         }
+        .nav-button {
+            @apply px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105;
+        }
+        .nav-button-primary {
+            @apply gradient-bg text-white hover:shadow-lg;
+        }
+        .nav-button-secondary {
+            @apply bg-gray-100 text-gray-700 hover:bg-gray-200;
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -50,6 +59,7 @@ if (isset($_GET['readid']) && $_GET['action'] === 'read') {
     <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between h-20 items-center">
+                <!-- Logo Section -->
                 <div class="flex items-center space-x-2">
                     <div class="gradient-bg p-2 rounded-lg">
                         <i class="fas fa-graduation-cap text-2xl text-white"></i>
@@ -57,13 +67,30 @@ if (isset($_GET['readid']) && $_GET['action'] === 'read') {
                     <span class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Youdemy</span>
                 </div>
 
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="Browse.php" class="nav-button nav-button-secondary flex items-center space-x-2">
+                        <i class="fas fa-compass"></i>
+                        <span>Browse Courses</span>
+                    </a>
+                    <a href="MesCours.php" class="nav-button nav-button-secondary flex items-center space-x-2">
+                        <i class="fas fa-book-open"></i>
+                        <span>My Courses</span>
+                    </a>
+                </div>
+
+                <!-- Profile Section -->
                 <div class="flex items-center space-x-6">
                     <div class="flex items-center space-x-3">
-                        <img src="<?php echo $imageProfile ?>" alt="Profile" class="w-10 h-10 rounded-full border-2 border-indigo-200">
+                        <img src="<?php echo $imageProfile ?>" alt="Profile" class="w-10 h-10 rounded-full border-2 border-indigo-200 object-cover shadow-md">
                         <div class="hidden md:block">
                             <p class="font-medium text-gray-900"><?php echo $name ?></p>
                             <p class="text-sm text-gray-500">Student</p>
                         </div>
+                        <a href="../LogOut.php" class="nav-button nav-button-primary flex items-center space-x-2">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -74,7 +101,7 @@ if (isset($_GET['readid']) && $_GET['action'] === 'read') {
     <div class="relative">
         <!-- Course Banner Image -->
         <div class="h-64 md:h-80 w-full overflow-hidden relative">
-            <img src="<?php echo $courses['image_url'] ?>" alt="Course Banner" class="w-full h-full object-cover">
+            <img src="<?php echo $courses['image_url'] ?>" alt="Course Banner" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
         </div>
 
@@ -82,17 +109,17 @@ if (isset($_GET['readid']) && $_GET['action'] === 'read') {
         <div class="absolute bottom-0 left-0 right-0">
             <div class="max-w-7xl mx-auto px-4 pb-8">
                 <div class="text-white">
-                    <h1 class="text-4xl font-bold mb-4"><?php echo $courses['title'] ?></h1>
+                    <h1 class="text-4xl font-bold mb-4 drop-shadow-lg"><?php echo $courses['title'] ?></h1>
                     <div class="flex flex-wrap items-center gap-6">
-                        <div class="flex items-center space-x-2">
+                        <div class="flex items-center space-x-2 bg-black/30 rounded-full px-4 py-2">
                             <i class="fas fa-clock"></i>
-                            <span>12 hours</span> <!-- Duration - can be added later -->
+                            <span>12 hours</span>
                         </div>
-                        <div class="flex items-center space-x-2">
+                        <div class="flex items-center space-x-2 bg-black/30 rounded-full px-4 py-2">
                             <i class="fas fa-calendar"></i>
                             <span>Created: <?php echo date('M d, Y', strtotime($courses['created_at'])) ?></span>
                         </div>
-                        <div class="flex items-center space-x-2">
+                        <div class="flex items-center space-x-2 bg-black/30 rounded-full px-4 py-2">
                             <i class="fas fa-user"></i>
                             <span>By <?php echo $courses['teacher_name'] ?></span>
                         </div>
@@ -108,15 +135,13 @@ if (isset($_GET['readid']) && $_GET['action'] === 'read') {
             <!-- Course Content -->
             <div class="lg:col-span-2 space-y-8">
                 <!-- Video Section -->
-                <div class="bg-white rounded-2xl p-6 content-shadow">
-                    <h2 class="text-2xl font-bold mb-6">Course Content</h2>
+                <div class="bg-white rounded-2xl p-6 content-shadow hover:shadow-xl transition-shadow duration-300">
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800">Course Content</h2>
                     <div class="video-container mb-6">
                         <?php
-                     
                             if (filter_var($courses['content'], FILTER_VALIDATE_URL)) {
                                 echo '<iframe src="' . $courses['content'] . '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
                             } else {
-                               
                                 echo '<p class="text-gray-600 leading-relaxed">' . nl2br($courses['content']) . '</p>';
                             }
                         ?>
@@ -124,17 +149,17 @@ if (isset($_GET['readid']) && $_GET['action'] === 'read') {
                 </div>
 
                 <!-- Description Section -->
-                <div class="bg-white rounded-2xl p-6 content-shadow">
-                    <h2 class="text-2xl font-bold mb-6">Course Description</h2>
+                <div class="bg-white rounded-2xl p-6 content-shadow hover:shadow-xl transition-shadow duration-300">
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800">Course Description</h2>
                     <p class="text-gray-600 leading-relaxed"><?php echo nl2br($courses['description']) ?></p>
                 </div>
 
                 <!-- Course Tags -->
-                <div class="bg-white rounded-2xl p-6 content-shadow">
-                    <h2 class="text-2xl font-bold mb-6">Course Tags</h2>
+                <div class="bg-white rounded-2xl p-6 content-shadow hover:shadow-xl transition-shadow duration-300">
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800">Course Tags</h2>
                     <div class="flex flex-wrap gap-3">
                         <?php foreach ($courses['tags'] as $tag): ?>
-                            <span class="px-4 py-2 bg-indigo-600 text-white rounded-full"><?php echo $tag ?></span>
+                            <span class="px-4 py-2 gradient-bg text-white rounded-full shadow-md hover:shadow-lg transition-shadow duration-300"><?php echo $tag ?></span>
                         <?php endforeach; ?>
                     </div>
                 </div>
@@ -145,7 +170,12 @@ if (isset($_GET['readid']) && $_GET['action'] === 'read') {
 </html>
 
 
-
+<!-- <!?php if (filter_var($courses['content'], FILTER_VALIDATE_URL)): ?>
+                                <iframe width="560" height="315" src="<!?php echo $courses['description']  ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <!?php else: ?>
+                           
+                            <p class="text-gray-600 leading-relaxed"><!?php nl2br($courses['description']) ?></p>
+                        <!?php endif; ?> -->
 
 
             <!-- Sidebar -->

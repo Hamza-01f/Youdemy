@@ -60,12 +60,12 @@ class CourseController {
     }
     
 
-    public function updateCourse($courseId, $title,$content, $description, $categoryId, $courseUrl, $courseImage, $tags) {
-        $courseModel = new Course();
+    public function updateCourse($courseId, $title,$content, $description, $categoryId,  $courseImage, $tags) {
+        // $courseModel = new Course();
 
-        $courseModel->updateCourse($courseId, $title,$content, $description, $categoryId, $courseUrl, $courseImage);
+        Course::updateCourse($courseId, $title,$content, $description, $categoryId,  $courseImage);
         
-        $courseModel->updateCourseTags($courseId, $tags);
+        Course::updateCourseTags($courseId, $tags);
     }
 
     public static function active($id){

@@ -127,21 +127,20 @@ class Course {
         $stmt->execute();
     }
     
-    public static function updateCourse($courseId, $title,$content, $description, $categoryId, $courseUrl, $courseImage) {
+    public static function updateCourse($courseId, $title,$content, $description, $categoryId,  $courseImage) {
          $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("UPDATE courses SET title = :title, description = :description, content = :description, category_id = :category_id, content_url = :content_url, image_url = :image_url WHERE id = :courseId");
+        $stmt = $db->prepare("UPDATE courses SET title = :title, description = :description, content = :content, category_id = :category_id, image_url = :image_url WHERE id = :courseId");
         $stmt->execute([
             ':title' => $title,
             ':content' => $content,
             ':description' => $description,
             ':category_id' => $categoryId,
-            ':content_url' => $courseUrl,
             ':image_url' => $courseImage,
             ':courseId' => $courseId
         ]);
     }
 
-    public function updateCourseTags($courseId, $tags) {
+    public static function updateCourseTags($courseId, $tags) {
          $db = Database::getInstance()->getConnection();
 
         $stmt = $db->prepare("DELETE FROM course_tags WHERE course_id = :course_id");
@@ -169,12 +168,14 @@ class Course {
     }
 
     public static function active($id){
+        $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("UPDATE courses SET status = 'pending' WHERE id = :id");
         $stmt->bindparam(':id', $id , \PDO::PARAM_INT);
         return $stmt->execute();
     }
 
     public static function pending($id){
+        $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("UPDATE courses SET status = 'active' WHERE id = :id");
         $stmt->bindparam(':id', $id , \PDO::PARAM_INT);
         return $stmt->execute();

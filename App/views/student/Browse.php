@@ -94,7 +94,7 @@ if (isset($_GET['enrollid']) && $_GET['action'] === 'enroll') {
                             <p class="font-medium text-gray-900"><?php echo $_SESSION['user']['username']; ?></p>
                             <p class="text-sm text-gray-500">Student</p>
                         </div>
-                        <a href="logout.php" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
+                        <a href="../LogOut.php" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
                             <i class="fas fa-sign-out-alt mr-2"></i>Logout
                         </a>
                     </div>
