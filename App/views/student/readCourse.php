@@ -1,3 +1,19 @@
+<?php
+require_once '../../../vendor/autoload.php';
+session_start();
+
+$imageProfile = $_SESSION['user']['profile_image'];
+$name = $_SESSION['user']['username'];
+$Studentid = $_SESSION['user']['id'];
+
+$courseController = new \App\Controllers\CourseController();
+
+if (isset($_GET['readid']) && $_GET['action'] === 'read') {
+    $ReadId = $_GET['readid']; 
+    $courses = $courseController->getSpecificCourse($ReadId);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,14 +58,10 @@
                 </div>
 
                 <div class="flex items-center space-x-6">
-                    <button class="relative">
-                        <i class="fas fa-bell text-xl text-gray-600"></i>
-                        <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">3</span>
-                    </button>
                     <div class="flex items-center space-x-3">
-                        <img src="/api/placeholder/40/40" alt="Profile" class="w-10 h-10 rounded-full border-2 border-indigo-200">
+                        <img src="<?php echo $imageProfile ?>" alt="Profile" class="w-10 h-10 rounded-full border-2 border-indigo-200">
                         <div class="hidden md:block">
-                            <p class="font-medium text-gray-900">John Doe</p>
+                            <p class="font-medium text-gray-900"><?php echo $name ?></p>
                             <p class="text-sm text-gray-500">Student</p>
                         </div>
                     </div>
@@ -62,34 +74,27 @@
     <div class="relative">
         <!-- Course Banner Image -->
         <div class="h-64 md:h-80 w-full overflow-hidden relative">
-            <!-- PHP: Replace with actual image URL -->
-            <img src="https://www.nullplex.com/uploads/blogs/coverimages/fad4b53c-9630-48ab-bcbf-2a9b3c536119-20240130071903.png" 
-                 alt="Course Banner" 
-                 class="w-full h-full object-cover">
+            <img src="<?php echo $courses['image_url'] ?>" alt="Course Banner" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
         </div>
-        
+
         <!-- Course Info Overlay -->
         <div class="absolute bottom-0 left-0 right-0">
             <div class="max-w-7xl mx-auto px-4 pb-8">
                 <div class="text-white">
-                    <!-- PHP: Replace with actual course title -->
-                    <h1 class="text-4xl font-bold mb-4">UI/UX Design Mastery</h1>
+                    <h1 class="text-4xl font-bold mb-4"><?php echo $courses['title'] ?></h1>
                     <div class="flex flex-wrap items-center gap-6">
                         <div class="flex items-center space-x-2">
                             <i class="fas fa-clock"></i>
-                            <!-- PHP: Replace with actual duration -->
-                            <span>12 hours</span>
+                            <span>12 hours</span> <!-- Duration - can be added later -->
                         </div>
                         <div class="flex items-center space-x-2">
                             <i class="fas fa-calendar"></i>
-                            <!-- PHP: Replace with actual date -->
-                            <span>Created: Jan 15, 2024</span>
+                            <span>Created: <?php echo date('M d, Y', strtotime($courses['created_at'])) ?></span>
                         </div>
                         <div class="flex items-center space-x-2">
                             <i class="fas fa-user"></i>
-                            <!-- PHP: Replace with actual author -->
-                            <span>By Sarah Wilson</span>
+                            <span>By <?php echo $courses['teacher_name'] ?></span>
                         </div>
                     </div>
                 </div>
@@ -106,34 +111,48 @@
                 <div class="bg-white rounded-2xl p-6 content-shadow">
                     <h2 class="text-2xl font-bold mb-6">Course Content</h2>
                     <div class="video-container mb-6">
-                        <!-- PHP: Replace src with actual video URL from database -->
-                        <iframe 
-                            src="https://www.youtube.com/watch?v=bEGNvUxYf2o&list=PLr3d3QYzkw2xabQRUpcZ_IBk9W50M9pe-&index=40" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen>
-                        </iframe>
+                        <?php
+                     
+                            if (filter_var($courses['content'], FILTER_VALIDATE_URL)) {
+                                echo '<iframe src="' . $courses['content'] . '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+                            } else {
+                               
+                                echo '<p class="text-gray-600 leading-relaxed">' . nl2br($courses['content']) . '</p>';
+                            }
+                        ?>
                     </div>
                 </div>
 
                 <!-- Description Section -->
                 <div class="bg-white rounded-2xl p-6 content-shadow">
                     <h2 class="text-2xl font-bold mb-6">Course Description</h2>
-                    <!-- PHP: Replace with actual course description -->
-                    <p class="text-gray-600 leading-relaxed">
-                        Master modern UI/UX design principles and tools with this comprehensive course. 
-                        Learn everything from user research and wireframing to prototyping and design systems. 
-                        Perfect for beginners and intermediate designers looking to upgrade their skills.
-                    </p>
+                    <p class="text-gray-600 leading-relaxed"><?php echo nl2br($courses['description']) ?></p>
+                </div>
+
+                <!-- Course Tags -->
+                <div class="bg-white rounded-2xl p-6 content-shadow">
+                    <h2 class="text-2xl font-bold mb-6">Course Tags</h2>
+                    <div class="flex flex-wrap gap-3">
+                        <?php foreach ($courses['tags'] as $tag): ?>
+                            <span class="px-4 py-2 bg-indigo-600 text-white rounded-full"><?php echo $tag ?></span>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
 
             <!-- Sidebar -->
-            <div class="lg:col-span-1">
+            <!-- <div class="lg:col-span-1">
                 <div class="bg-white rounded-2xl p-6 content-shadow sticky top-24">
                     <h3 class="text-xl font-bold mb-6">Course Progress</h3>
                     <div class="space-y-6">
-                        <!-- Progress Bar -->
                         <div>
                             <div class="flex justify-between text-sm mb-2">
                                 <span class="text-gray-600">Overall Progress</span>
@@ -144,7 +163,6 @@
                             </div>
                         </div>
 
-                        <!-- Course Stats -->
                         <div class="grid grid-cols-2 gap-4">
                             <div class="bg-gray-50 rounded-xl p-4">
                                 <div class="text-gray-500 text-sm mb-1">Time Spent</div>
@@ -156,16 +174,10 @@
                             </div>
                         </div>
 
-                        <!-- Next Section Button -->
                         <button class="w-full py-3 px-6 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors flex items-center justify-center space-x-2">
                             <span>Next Section</span>
                             <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-</body>
-</html>
+            </div> -->

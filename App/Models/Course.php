@@ -66,6 +66,38 @@ class Course {
         }
     }
 
+    public static function ReadCourse($id){
+        $db = Database::getInstance()->getConnection();
+        
+        $stmt = $db->prepare("
+            SELECT courses.id, courses.title, courses.description, courses.content, courses.created_at, courses.image_url, 
+                   users.username AS teacher_name, categories.name AS category_name
+            FROM courses
+            JOIN users ON courses.teacher_id = users.id
+            JOIN categories ON courses.category_id = categories.id
+            WHERE courses.id = :id
+        ");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $course = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        $tagsStmt = $db->prepare("
+            SELECT tags.name 
+            FROM tags 
+            JOIN course_tags ON tags.id = course_tags.tag_id 
+            WHERE course_tags.course_id = :id
+        ");
+        $tagsStmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $tagsStmt->execute();
+        $tags = $tagsStmt->fetchAll(PDO::FETCH_ASSOC);
+  
+        $course['tags'] = array_map(function($tag) {
+            return $tag['name'];
+        }, $tags);
+        
+        return $course;
+    }
+    
 
     public static function getAllCourses() {
         $db = Database::getInstance()->getConnection();

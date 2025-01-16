@@ -125,7 +125,7 @@ $tag = $categoryTags->getTags();
 
                     <div id="documentContent" >
                         <label class="block text-sm font-medium mb-2 text-gray-700">Course Content</label>
-                        <textarea rows="4" name="content" placeholder="Enter course content" 
+                        <textarea rows="4" name="document" placeholder="Enter course content" 
                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"></textarea>
                     </div>
 

@@ -54,6 +54,10 @@ class CourseController {
         // $courseModel = new \App\Models\Course();
         Course::deleteCourse($courseId);
     }
+
+    public function getSpecificCourse($id){
+        return Course::ReadCourse($id);
+    }
     
 
     public function updateCourse($courseId, $title,$content, $description, $categoryId, $courseUrl, $courseImage, $tags) {

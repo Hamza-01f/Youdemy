@@ -16,9 +16,6 @@ if (isset($_GET['enrollid']) && $_GET['action'] === 'enroll') {
     $enrolling->enrollStudent($Studentid,$enrollId);
 }
 
-if(isset($_GET['readid']) && $_GET['action'] === 'read'){
-    $ReadId = $_GET['readid']; 
-}
 ?>
 
 <!DOCTYPE html>
