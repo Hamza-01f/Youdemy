@@ -52,14 +52,13 @@ $tag = $categoryTags->getTags();
     </style>
 </head>
 <body class="bg-gradient-to-br from-blue-50 to-indigo-50 min-h-screen">
-    <!-- Decorative background elements -->
+
     <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
         <div class="absolute top-0 left-0 w-96 h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
         <div class="absolute top-0 right-0 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
         <div class="absolute bottom-0 left-1/2 w-96 h-96 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
     </div>
 
-    <!-- Navigation -->
     <nav class="glass-effect shadow-lg border-b border-gray-200 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between h-16 items-center">
@@ -87,7 +86,7 @@ $tag = $categoryTags->getTags();
         </div>
     </nav>
 
-    <!-- Main Content -->
+    
     <div class="flex justify-center items-center min-h-screen py-12 relative z-10">
         <div class="max-w-7xl w-full px-4">
             <div class="flex justify-between items-center mb-8">
@@ -95,102 +94,107 @@ $tag = $categoryTags->getTags();
             </div>
 
             <form action="/../../../router.php" method="POST">
-                <input type="hidden" name="action" value="save_course">
+    <input type="hidden" name="action" value="save_course">
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Main Form -->
-                    <div class="col-span-1 md:col-span-2 space-y-6">
-                  
-                        <div class="bg-white rounded-xl custom-shadow p-8 hover-scale transition-all duration-300">
-                            <div class="flex items-center space-x-3 mb-6">
-                                <i class="fas fa-info-circle text-blue-600 text-xl"></i>
-                                <h2 class="text-xl font-bold">Basic Information</h2>
-                            </div>
-                            <div class="space-y-6">
-                                <div>
-                                    <label class="block text-sm font-medium mb-2 text-gray-700">Course Title</label>
-                                    <input type="text" name="title" placeholder="Enter course title" 
-                                           class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium mb-2 text-gray-700">Course Description</label>
-                                    <textarea rows="4" name="description" placeholder="Enter course description" 
-                                              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"></textarea>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium mb-2 text-gray-700">Course Content</label>
-                                    <textarea rows="4" name="content" placeholder="Enter course content" 
-                                              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"></textarea>
-                                </div>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-sm font-medium mb-2 text-gray-700">Category</label>
-                                        <select name="category_id" 
-                                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
-                                            <option>Select category</option>
-                                            <?php foreach ($categories as $category): ?>
-                                                <option value="<?= $category['id'] ?>"><?= htmlspecialchars($category['name']) ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Tags Section -->
-                        <div class="bg-white rounded-xl custom-shadow p-8 hover-scale transition-all duration-300">
-                            <div class="flex items-center space-x-3 mb-6">
-                                <i class="fas fa-tags text-blue-600 text-xl"></i>
-                                <h2 class="text-xl font-bold">Tags</h2>
-                            </div>
-                            <div class="space-y-4">
-                                <select id="tags" name="tags[]" class="w-full" multiple>
-                                    <?php foreach ($tag as $tagItem): ?>
-                                        <option value="<?= $tagItem['id'] ?>"><?= htmlspecialchars($tagItem['name']) ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                        </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="col-span-1 md:col-span-2 space-y-6">
+            <div class="bg-white rounded-xl custom-shadow p-8 hover-scale transition-all duration-300">
+                <div class="flex items-center space-x-3 mb-6">
+                    <i class="fas fa-info-circle text-blue-600 text-xl"></i>
+                    <h2 class="text-xl font-bold">Basic Information</h2>
+                </div>
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium mb-2 text-gray-700">Course Title</label>
+                        <input type="text" name="title" placeholder="Enter course title" 
+                               class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
                     </div>
-                    <input type="hidden" name="author" value="<?php echo $userId ?>">
-                    <div class="col-span-1">
-                        <div class="bg-white rounded-xl custom-shadow p-8 sticky top-24 hover-scale transition-all duration-300">
-                            <div class="flex items-center space-x-3 mb-6">
-                                <i class="fas fa-link text-blue-600 text-xl"></i>
-                                <h2 class="text-xl font-bold">Course URL</h2>
-                            </div>
-                            <div class="space-y-6">
-                                <div class="aspect-w-16 aspect-h-9 bg-gray-50 rounded-lg mb-4 border-2 border-dashed border-gray-200 flex items-center justify-center">
-                                    <i class="fas fa-image text-4xl text-gray-300"></i>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium mb-2 text-gray-700">Course URL</label>
-                                    <div class="flex items-center space-x-2">
-                                        <input type="url" name="courseUrl" placeholder="course-url" 
-                                               class="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
-                                    </div>
-                                </div>
-                               
-                                <div>
-                                    <label class="block text-sm font-medium mb-2 text-gray-700">Course Image URL</label>
-                                    <div class="flex items-center space-x-2">
-                                        <input type="url" name="courseImage" placeholder="course Image" 
-                                               class="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
-                                    </div>
-                                </div>
-                            </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2 text-gray-700">Course Description</label>
+                        <textarea rows="4" name="description" placeholder="Enter course description" 
+                                  class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2 text-gray-700">Content Type</label>
+                        <select name="content_type" id="content_type" 
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                            <option value="document">Document</option>
+                            <option value="video">Video</option>
+                        </select>
+                    </div>
+
+                    <div id="documentContent" >
+                        <label class="block text-sm font-medium mb-2 text-gray-700">Course Content</label>
+                        <textarea rows="4" name="content" placeholder="Enter course content" 
+                                  class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"></textarea>
+                    </div>
+
+                    <div id="videoContent" style="display: none;">
+                        <label class="block text-sm font-medium mb-2 text-gray-700">Video URL</label>
+                        <input type="url" name="content" placeholder="Enter video URL" 
+                               class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2 text-gray-700">Category</label>
+                        <select name="category_id" 
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                            <option>Select category</option>
+                            <?php foreach ($categories as $category): ?>
+                                <option value="<?= $category['id'] ?>"><?= htmlspecialchars($category['name']) ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl custom-shadow p-8 hover-scale transition-all duration-300">
+                <div class="flex items-center space-x-3 mb-6">
+                    <i class="fas fa-tags text-blue-600 text-xl"></i>
+                    <h2 class="text-xl font-bold">Tags</h2>
+                </div>
+                <div class="space-y-4">
+                    <select id="tags" name="tags[]" class="w-full" multiple>
+                        <?php foreach ($tag as $tagItem): ?>
+                            <option value="<?= $tagItem['id'] ?>"><?= htmlspecialchars($tagItem['name']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <input type="hidden" name="author" value="<?php echo $userId ?>">
+
+        <div class="col-span-1">
+            <div class="bg-white rounded-xl custom-shadow p-8 sticky top-24 hover-scale transition-all duration-300">
+                <div class="flex items-center space-x-3 mb-6">
+                    <i class="fas fa-link text-blue-600 text-xl"></i>
+                    <h2 class="text-xl font-bold">Course URL</h2>
+                </div>
+                <div class="space-y-6">
+                    <div class="aspect-w-16 aspect-h-9 bg-gray-50 rounded-lg mb-4 border-2 border-dashed border-gray-200 flex items-center justify-center">
+                        <i class="fas fa-image text-4xl text-gray-300"></i>
+                    </div>   
+                    <div>
+                        <label class="block text-sm font-medium mb-2 text-gray-700">Course Image URL</label>
+                        <div class="flex items-center space-x-2">
+                            <input type="url" name="courseImage" placeholder="course Image" 
+                                   class="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
 
-                <div class="mt-8 text-right">
-                    <button type="submit" 
-                            class="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transform hover:-translate-y-1 transition-all duration-200 font-medium shadow-lg hover:shadow-xl">
-                        <i class="fas fa-plus-circle mr-2"></i>
-                        Create Course
-                    </button>
-                </div>
-            </form>
+    <div class="mt-8 text-right">
+        <button type="submit" 
+                class="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transform hover:-translate-y-1 transition-all duration-200 font-medium shadow-lg hover:shadow-xl">
+            <i class="fas fa-plus-circle mr-2"></i>
+            Create Course
+        </button>
+    </div>
+</form>
         </div>
     </div>
 
@@ -201,6 +205,16 @@ $tag = $categoryTags->getTags();
             maxItems: 5,
             placeholder: "Select tags...",
             persist: false,
+        });
+
+        document.getElementById('content_type').addEventListener('change', function() {
+        if (this.value === 'video') {
+            document.getElementById('documentContent').style.display = 'none';
+            document.getElementById('videoContent').style.display = 'block';
+        } else {
+            document.getElementById('documentContent').style.display = 'block';
+            document.getElementById('videoContent').style.display = 'none';
+        }
         });
     </script>
 </body>

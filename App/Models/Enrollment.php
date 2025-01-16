@@ -11,7 +11,6 @@ class Enrollment {
     public function createEnrollment($studentId, $courseId) {
         $db = Database::getInstance()->getConnection();
 
-        // Check if the student is already enrolled
         $stmt = $db->prepare("SELECT * FROM enrollments WHERE student_id = :student_id AND course_id = :course_id");
         $stmt->execute([
             ':student_id' => $studentId,
@@ -19,7 +18,7 @@ class Enrollment {
         ]);
 
         if ($stmt->rowCount() == 0) {
-            // Student not enrolled, enroll them
+
             $stmt = $db->prepare("INSERT INTO enrollments (student_id, course_id) VALUES (:student_id, :course_id)");
             $stmt->execute([
                 ':student_id' => $studentId,

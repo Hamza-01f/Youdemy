@@ -2,75 +2,57 @@
 
 namespace App\Controllers;
 
-// require_once __DIR__.'/../models/Course.php';
+require_once __DIR__.'/../Models/Course.php';
+require_once __DIR__.'/../Models/Document.php';
+require_once __DIR__.'/../Models/Video.php';
 
 
 use App\Models\Course;
+use App\Models\Document;
+use App\Models\Video;
 
 class CourseController {
 
-    public function saveCourse() {
 
-        $title = $_POST['title'] ;
-        $content = $_POST['content'] ;
-        $description = $_POST['description'] ;
-        $categoryId = $_POST['category_id'] ;
-        $tags = $_POST['tags'] ?? [];
-        $courseUrl = $_POST['courseUrl'] ;
-        $courseImage = $_POST['courseImage'] ;
-        $coursId = $_POST['author'] ;
-      
-        $errors = [];
 
-        if (empty($title)) {
-            $errors[] = 'Course title is required';
+    public function saveCourse($title, $description, $content, $courseImage, $teacherId, $categoryId, $tags, $contentType) {
+        $course = null;
+    
+        if ($contentType == 'document') {
+            
+            $course = new Document($title, $description, $content, $courseImage, $teacherId, $categoryId, $tags);
+           
+        } else if ($contentType == 'video') {
+         
+            $course = new Video($title, $description, $content, $courseImage, $teacherId, $categoryId, $tags);
         }
-
-        if (empty($description)) {
-            $errors[] = 'Course description is required';
-        }
-
-        if (empty($categoryId)) {
-            $errors[] = 'Category is required';
-        }
-
-        if (empty($tags)) {
-            $errors[] = 'At least one tag is required';
-        }
-
-        if (empty($courseUrl)) {
-            $errors[] = 'Course URL is required';
-        }
-
-        if (empty($courseImage)) {
-            $errors[] = 'Course image URL is required';
-        }
-
-
-        $courseModel = new Course();
-        $courseModel->saveCourse($title, $description, $content, $courseUrl , $courseImage, $coursId , $categoryId, $tags);
         
-
+        if ($course) {
+            $course->save();
+        }
+        
     }
 
     public function getCourses() {
-        $courseModel = new \App\Models\Course();
-        return $courseModel->getAllCourses();
+        
+        // $courseModel = new \App\Models\Course(); 
+        return Course::getAllCourses();  
     }
+    
 
     public function getAllowedCourses() {
-        $courseModel = new \App\Models\Course();
-        return $courseModel->getAllowedCourses();
+        // $courseModel = new \App\Models\Course();
+        return Course::getAllowedCourses();
     }
 
     public function getCourseById($id) {
-        $courseModel = new \App\Models\Course();
-        return $courseModel->getSpecificCourse($id);
+        // $courseModel = new \App\Models\Course();
+        return Course::getSpecificCourse($id);
     }
     
     public function deleteCourse($courseId) {
-        $courseModel = new \App\Models\Course();
-        $courseModel->deleteCourse($courseId);
+        // $courseModel = new \App\Models\Course();
+        Course::deleteCourse($courseId);
     }
     
 

@@ -186,11 +186,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                                 <div class="aspect-w-16 aspect-h-9 bg-gray-50 rounded-lg mb-4 border-2 border-dashed border-gray-200 flex items-center justify-center">
                                     <i class="fas fa-image text-4xl text-gray-300"></i>
                                 </div>
-                                <div>
+                                <!-- <div>
                                     <label class="block text-sm font-medium mb-2 text-gray-700">Course URL</label>
-                                    <input type="url" name="courseUrl" value="<?= htmlspecialchars($courseDetails['content_url']) ?>" 
+                                    <input type="url" name="courseUrl" value="<!?= htmlspecialchars($courseDetails['content_url']) ?>" 
                                            class="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
-                                </div>
+                                </div> -->
                                 <div>
                                     <label class="block text-sm font-medium mb-2 text-gray-700">Course Image URL</label>
                                     <input type="url" name="courseImage" value="<?= htmlspecialchars($courseDetails['image_url']) ?>" 

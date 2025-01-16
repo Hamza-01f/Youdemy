@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-require_once __DIR__.'/../../vendor/autoload.php';
-
-// require_once __DIR__.'/../Config/db.php';
+require_once __DIR__.'/../Config/Database.php';
 
 use  App\Config\Database;
 
@@ -12,33 +10,48 @@ use PDO;
 
 class Course {
 
-    public function saveCourse($title, $description, $content, $courseUrl , $courseImage, $teacherId , $categoryId, $tags) {
 
-        $db = Database::getInstance()->getConnection();
+    protected $title;
+    protected $description;
+    protected $content;
+    protected $imageUrl;
+    protected $teacherId;
+    protected $categoryId;
+    protected $tags = [];
 
+
+    public function __construct($title, $description, $content,  $imageUrl, $teacherId, $categoryId, $tags = []) {
+        $this->title = $title;
+        $this->description = $description;
+        $this->content = $content;
+        $this->imageUrl = $imageUrl;
+        $this->teacherId = $teacherId;
+        $this->categoryId = $categoryId;
+        $this->tags = $tags;
+
+    }
+
+    public function save() {
+         $db = Database::getInstance()->getConnection();
         try {
-        
-            $db->beginTransaction();
 
-            $stmt = $db->prepare("INSERT INTO courses (title, description, content, content_url, image_url, teacher_id, category_id) VALUES (:title, :description, :content, :content_url, :image_url, :teacher_id, :category_id)");
+            $stmt = $db->prepare("INSERT INTO courses (title, description, content,  image_url, teacher_id, category_id) 
+                                  VALUES (:title, :description, :content,  :image_url, :teacher_id, :category_id)");
             $stmt->execute([
-                ':title' => $title,
-                ':description' => $description,
-                ':content' => $content,
-                ':content_url' => $courseUrl,
-                ':image_url' => $courseImage,
-                ':teacher_id' => $teacherId,
-                ':category_id' => $categoryId
+                ':title' => $this->title,
+                ':description' => $this->description,
+                ':content' => $this->content,   
+                ':image_url' => $this->imageUrl,
+                ':teacher_id' => $this->teacherId,
+                ':category_id' => $this->categoryId
             ]);
-            
 
-         
             $courseId = $db->lastInsertId();
 
            
-            if (!empty($tags)) {
+            if (!empty($this->tags)) {
                 $stmt = $db->prepare("INSERT INTO course_tags (course_id, tag_id) VALUES (:course_id, :tag_id)");
-                foreach ($tags as $tagId) {
+                foreach ($this->tags as $tagId) {
                     $stmt->execute([
                         ':course_id' => $courseId,
                         ':tag_id' => $tagId,
@@ -46,15 +59,15 @@ class Course {
                 }
             }
 
-            $db->commit();
         } catch (PDOException $e) {
-            $db->rollBack();
+          
             echo "Error: " . $e->getMessage();
             exit();
         }
     }
 
-    public function getAllCourses() {
+
+    public static function getAllCourses() {
         $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("SELECT courses.id, courses.title, courses.description, categories.name AS category_name, courses.status
                               FROM courses
@@ -63,7 +76,7 @@ class Course {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getAllowedCourses() {
+    public static function getAllowedCourses() {
         $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("SELECT courses.id, courses.title,courses.created_at ,courses.image_url, courses.description, categories.name AS category_name, courses.status,users.username,users.profile_image
                               FROM courses
@@ -75,15 +88,15 @@ class Course {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
-    public function deleteCourse($courseId) {
-        $db = Database::getInstance()->getConnection();
+    public static function deleteCourse($courseId) {
+         $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("DELETE FROM courses WHERE id = :courseId");
         $stmt->bindParam(':courseId', $courseId);
         $stmt->execute();
     }
     
-    public function updateCourse($courseId, $title,$content, $description, $categoryId, $courseUrl, $courseImage) {
-        $db = Database::getInstance()->getConnection();
+    public static function updateCourse($courseId, $title,$content, $description, $categoryId, $courseUrl, $courseImage) {
+         $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("UPDATE courses SET title = :title, description = :description, content = :description, category_id = :category_id, content_url = :content_url, image_url = :image_url WHERE id = :courseId");
         $stmt->execute([
             ':title' => $title,
@@ -97,7 +110,7 @@ class Course {
     }
 
     public function updateCourseTags($courseId, $tags) {
-        $db = Database::getInstance()->getConnection();
+         $db = Database::getInstance()->getConnection();
 
         $stmt = $db->prepare("DELETE FROM course_tags WHERE course_id = :course_id");
         $stmt->execute([':course_id' => $courseId]);
@@ -113,8 +126,8 @@ class Course {
         }
     }
 
-    public function getSpecificCourse($id) {
-        $db = Database::getInstance()->getConnection();
+    public static function getSpecificCourse($id) {
+         $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("SELECT *                                   
                               FROM courses
                               WHERE courses.id = :id");
@@ -124,13 +137,13 @@ class Course {
     }
 
     public static function active($id){
-        $stmt = Database::getInstance()->getConnection()->prepare("UPDATE courses SET status = 'pending' WHERE id = :id");
+        $stmt = $db->prepare("UPDATE courses SET status = 'pending' WHERE id = :id");
         $stmt->bindparam(':id', $id , \PDO::PARAM_INT);
         return $stmt->execute();
     }
 
     public static function pending($id){
-        $stmt = Database::getInstance()->getConnection()->prepare("UPDATE courses SET status = 'active' WHERE id = :id");
+        $stmt = $db->prepare("UPDATE courses SET status = 'active' WHERE id = :id");
         $stmt->bindparam(':id', $id , \PDO::PARAM_INT);
         return $stmt->execute();
     }
