@@ -1,7 +1,6 @@
 .env
 /App/config
 UML
-/App/Controllers
 /App/Models
 public
 /vendor/

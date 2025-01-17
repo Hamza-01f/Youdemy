@@ -1,12 +1,15 @@
 <?php
 
 require_once __DIR__ . '/../../Controllers/approveRejectController.php';
+require_once __DIR__ . '/../../Models/approveReject.php';
 
 use App\Models\approve_reject;
 
 $userHandler = new approve_reject();
 
-$users = $userHandler->fetchUsers();
+$requestedUsers = $userHandler->fetchRequestedUsers();
+
+$allUsers = $userHandler->fetchUsers();
 
 ?>
 <!DOCTYPE html>
@@ -95,7 +98,7 @@ $users = $userHandler->fetchUsers();
                     <a href="/App/views/Admin/seecourses.php" class="hover:text-blue-200">Browse</a>
                 </div>
                 <div class="nav-item flex items-center">
-                 <i class="fas fa-book-open mr-2"></i>
+                    <i class="fas fa-book-open mr-2"></i>
                     <a href="/App/views/teacher/ManageCourses.php" class="hover:text-blue-200">Courses</a>
                 </div>
                 <div class="flex items-center space-x-4 ml-6 border-l pl-6">
@@ -108,6 +111,8 @@ $users = $userHandler->fetchUsers();
     </nav>
 
     <main class="container mx-auto p-6 space-y-6">
+        
+        <!-- Table 1: Requested Teachers Validation -->
         <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold text-gray-800 flex items-center">
@@ -123,23 +128,19 @@ $users = $userHandler->fetchUsers();
                             <th class="px-6 py-3 text-left text-gray-700">Photo</th>
                             <th class="px-6 py-3 text-left text-gray-700">User</th>
                             <th class="px-6 py-3 text-left text-gray-700">Status</th>
-                            <th class="px-6 py-3 text-left text-gray-700">asked At</th>
+                            <th class="px-6 py-3 text-left text-gray-700">Asked At</th>
                             <th class="px-6 py-3 text-left text-gray-700">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
-                        <?php foreach ($users as $user): ?>
+                        <?php foreach ($requestedUsers as $user): ?>
                             <tr class="table-row-animate">
                                 <td class="px-6 py-4">
                                     <img src="<?= $user['profile_image'] ?>" class="h-20 w-16 rounded-full border-2 border-blue-200" alt="Profile">
                                 </td>
                                 <td class="px-6 py-4">
-                                    <div class="flex items-center">
-                                        <div>
-                                            <div class="font-medium"><?= $user['username'] ?></div>
-                                            <div class="text-sm text-gray-500"><?= $user['email'] ?></div>
-                                        </div>
-                                    </div>
+                                    <div class="font-medium"><?= $user['username'] ?></div>
+                                    <div class="text-sm text-gray-500"><?= $user['email'] ?></div>
                                 </td>
                                 <td class="px-6 py-4">
                                     <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full flex items-center w-fit">
@@ -148,8 +149,8 @@ $users = $userHandler->fetchUsers();
                                 </td>
                                 <td class="px-6 py-4">
                                     <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full flex items-center w-fit">
-                                    <i class="far fa-calendar-alt mr-2"></i><?= $user['created_at'] ?>
-                                </span>
+                                        <i class="far fa-calendar-alt mr-2"></i><?= $user['created_at'] ?>
+                                    </span>
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex space-x-2">
@@ -175,7 +176,7 @@ $users = $userHandler->fetchUsers();
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold text-gray-800 flex items-center">
                     <i class="fas fa-users mr-3 text-blue-600"></i>
-                    All Users
+                    All Users Management
                 </h2>
             </div>
 
@@ -187,56 +188,63 @@ $users = $userHandler->fetchUsers();
                             <th class="px-6 py-3 text-left text-gray-700">Personal Info</th>
                             <th class="px-6 py-3 text-left text-gray-700">Joined At</th>
                             <th class="px-6 py-3 text-left text-gray-700">Role</th>
-                            <th class="px-6 py-3 text-left text-gray-700">situation</th>
+                            <th class="px-6 py-3 text-left text-gray-700">Status</th>
                             <th class="px-6 py-3 text-left text-gray-700">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
-                        <tr class="table-row-animate">
-                            <td class="px-6 py-4">
-                                <img src="/api/placeholder/40/40" class="rounded-full border-2 border-blue-200" alt="Profile">
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex items-center">
-                                    <div>
-                                        <div class="font-medium">Marie Dubois</div>
-                                        <div class="text-sm text-gray-500">marie.dubois@email.com</div>
+                        <?php foreach ($allUsers as $user): ?>
+                            <tr class="table-row-animate">
+                                <td class="px-6 py-4">
+                                    <img src="<?= $user['profile_image'] ?>" class="h-20 w-16 rounded-full border-2 border-blue-200" alt="Profile">
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="font-medium"><?= $user['username'] ?></div>
+                                    <div class="text-sm text-gray-500"><?= $user['email'] ?></div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full flex items-center w-fit">
+                                        <i class="far fa-calendar-alt mr-2"></i><?= $user['created_at'] ?>
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full flex items-center w-fit">
+                                        <i ></i><?= $user['role'] ?>
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="px-3 py-1 <?= $user['status'] == 'suspended' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800' ?> rounded-full flex items-center w-fit">
+                                        <i ></i><?= ucfirst($user['status']) ?>
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex space-x-2">
+                                        <form method="POST" action="">
+                                            <input type="hidden" name="id" value="<?= $user['id'] ?>" />
+                                            
+                                            <?php if ($user['status'] != 'suspended'): ?>
+                                                <button name="block" class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 flex items-center action-button">
+                                                    <i class="fas fa-ban mr-2"></i>Block
+                                                </button>
+                                            <?php else: ?>
+                                                <button name="unblock" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center action-button">
+                                                    <i class="fas fa-unlock-alt mr-2"></i>Unblock
+                                                </button>
+                                            <?php endif; ?>
+
+                                            <button name="delete" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 flex items-center action-button">
+                                                <i class="fas fa-trash-alt mr-2"></i>Delete
+                                            </button>
+                                        </form>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full flex items-center w-fit">
-                                    <i class="far fa-calendar-alt mr-2"></i>12/01/2024
-                                </span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full flex items-center w-fit">
-                                    <i class="fas fa-user-graduate mr-2"></i>Student
-                                </span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full flex items-center w-fit">
-                                    <i class="fas fa-user-graduate mr-2"></i>active
-                                </span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex space-x-2">
-                                    <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 flex items-center action-button">
-                                        <i class="fas fa-trash-alt mr-2"></i>
-                                    </button>
-                                    <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 flex items-center action-button">
-                                        <i class="fas fa-unlock mr-2"></i>
-                                    </button>
-                                    <button class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 flex items-center action-button">
-                                        <i class="fas fa-lock mr-2"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
         </div>
+
     </main>
 </body>
 </html>
