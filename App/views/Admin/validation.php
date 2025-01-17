@@ -94,11 +94,11 @@ $users = $userHandler->fetchUsers();
                     <i class="fas fa-search mr-2"></i>
                     <a href="/App/views/Admin/seecourses.php" class="hover:text-blue-200">Browse</a>
                 </div>
+                <div class="nav-item flex items-center">
+                 <i class="fas fa-book-open mr-2"></i>
+                    <a href="/App/views/teacher/ManageCourses.php" class="hover:text-blue-200">Courses</a>
+                </div>
                 <div class="flex items-center space-x-4 ml-6 border-l pl-6">
-                    <span class="flex items-center">
-                        <i class="fas fa-user-circle mr-2"></i>
-                        Sarah Martin
-                    </span>
                     <a href="../LogOut.php" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg flex items-center action-button">
                         <i class="fas fa-sign-out-alt mr-2"></i>Logout
                     </a>

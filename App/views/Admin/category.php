@@ -88,11 +88,13 @@ if (isset($_GET['delete_id'])) {
                     <a href="validation.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
                         <i class="fas fa-th h-6 w-6 mr-2"></i> users
                     </a>
+                      <i class="fas fa-book-open mr-2"></i>
+                      <a href="/App/views/teacher/ManageCourses.php" class="hover:text-blue-200">Courses</a>
+                     </div>
                 </nav>
             </div>
         </div>
 
-        <!-- Main Content -->
         <div class="flex-1 flex flex-col bg-white">
             <header class="flex items-center justify-between p-6 bg-white shadow-md">
                 <div class="flex items-center">

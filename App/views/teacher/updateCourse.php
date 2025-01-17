@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require_once __DIR__.'/../../controllers/CourseController.php';
 require_once __DIR__.'/../../controllers/TagController.php';
 require_once __DIR__.'/../../controllers/CategoryController.php';
@@ -89,18 +89,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                         <i class="fas fa-graduation-cap text-2xl text-blue-600"></i>
                         <span class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 text-transparent bg-clip-text">Youdemy</span>
                     </div>
-                    <div class="hidden md:flex space-x-6">
+                    <?php if($_SESSION['user']['role'] == 'admin'): ?>
+                        <div class="flex items-center space-x-6">
+                        <div class="nav-item flex items-center">
+                            <i class="fas fa-tags mr-2"></i>
+                            <a href="/App/views/Admin/tag.php" class="hover:text-blue-200">Tags</a>
+                        </div>
+                        <div class="nav-item flex items-center">
+                            <i class="fas fa-th-large mr-2"></i>
+                            <a href="/App/views/Admin/category.php" class="hover:text-blue-200">Categories</a>
+                        </div>
+                        <div class="nav-item flex items-center">
+                            <i class="fas fa-chart-bar mr-2"></i>
+                            <a href="/App/views/Admin/statistics.php" class="hover:text-blue-200">Statistics</a>
+                        </div>
+                        <div class="nav-item flex items-center">
+                            <i class="fas fa-search mr-2"></i>
+                            <a href="/App/views/Admin/seecourses.php" class="hover:text-blue-200">Browse</a>
+                        </div>
+                        <div class="flex items-center space-x-4 ml-6 border-l pl-6">
+                            <a href="/App/views/logOut.php" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg flex items-center action-button">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                            </a>
+                        </div>
+                    <?php else: ?>
+                     <div class="hidden md:flex space-x-6">
                         <a href="ManageCourses.php" class="text-gray-900 hover:text-blue-600 transition-colors duration-200 font-medium">Manage Courses</a>
                         <a href="Statistics.php" class="text-gray-900 hover:text-blue-600 transition-colors duration-200 font-medium">Analytics</a>
-                    </div>
+                     </div>
+                    <?php endif; ?>
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <button class="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-colors duration-200">
-                        <i class="fas fa-bell text-xl"></i>
-                    </button>
                     <div class="relative">
-                        <img src="/api/placeholder/32/32" alt="Profile" class="w-10 h-10 rounded-full border-2 border-blue-200 hover:border-blue-400 transition-colors duration-200">
+                        <img src="<?php echo $_SESSION['user']['profile_image'] ?>" alt="Profile" class="w-10 h-10 rounded-full border-2 border-blue-200 hover:border-blue-400 transition-colors duration-200">
                         <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white"></div>
                     </div>
                 </div>
@@ -185,11 +207,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                                 <div class="aspect-w-16 aspect-h-9 bg-gray-50 rounded-lg mb-4 border-2 border-dashed border-gray-200 flex items-center justify-center">
                                     <i class="fas fa-image text-4xl text-gray-300"></i>
                                 </div>
-                                <!-- <div>
-                                    <label class="block text-sm font-medium mb-2 text-gray-700">Course URL</label>
-                                    <input type="url" name="courseUrl" value="<!?= htmlspecialchars($courseDetails['content_url']) ?>" 
-                                           class="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
-                                </div> -->
                                 <div>
                                     <label class="block text-sm font-medium mb-2 text-gray-700">Course Image URL</label>
                                     <input type="url" name="courseImage" value="<?= htmlspecialchars($courseDetails['image_url']) ?>" 

@@ -55,21 +55,46 @@ if (isset($_GET['action']) && $_GET['action'] === 'pending' && isset($_GET['id']
                 </div>
                 
                 <div class="hidden md:flex items-center space-x-6">
-                    <a href="AddCourse.php" class="px-4 py-2 rounded-full bg-white text-indigo-700 hover:bg-indigo-100 transition-colors duration-200 font-medium flex items-center">
-                        <i class="fas fa-plus-circle mr-2"></i>Add Course
-                    </a>
-                    <a href="Statistics.php" class="px-4 py-2 rounded-full bg-white text-indigo-700 hover:bg-indigo-100 transition-colors duration-200 font-medium flex items-center">
-                        <i class="fas fa-chart-line mr-2"></i>Analytics
-                    </a>
-                    <a href="seeCourses.php" class="px-4 py-2 rounded-full bg-white text-indigo-700 hover:bg-indigo-100 transition-colors duration-200 font-medium flex items-center">
-                        <i class="fas fa-book mr-2"></i>My Courses
-                    </a>
-                    <div class="flex items-center space-x-4">
-                        <span class="font-medium">Welcome Back Professor: <?php echo $name ?></span>
-                        <a href="/App/views/logOut.php" class="px-4 py-2 rounded-full bg-red-500 hover:bg-red-600 text-white transition-colors duration-200 flex items-center">
-                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                    <?php if($_SESSION['user']['role'] == 'admin'): ?>
+                        <div class="flex items-center space-x-6">
+                        <div class="nav-item flex items-center">
+                            <i class="fas fa-tags mr-2"></i>
+                            <a href="/App/views/Admin/tag.php" class="hover:text-blue-200">Tags</a>
+                        </div>
+                        <div class="nav-item flex items-center">
+                            <i class="fas fa-th-large mr-2"></i>
+                            <a href="/App/views/Admin/category.php" class="hover:text-blue-200">Categories</a>
+                        </div>
+                        <div class="nav-item flex items-center">
+                            <i class="fas fa-chart-bar mr-2"></i>
+                            <a href="/App/views/Admin/statistics.php" class="hover:text-blue-200">Statistics</a>
+                        </div>
+                        <div class="nav-item flex items-center">
+                            <i class="fas fa-search mr-2"></i>
+                            <a href="/App/views/Admin/seecourses.php" class="hover:text-blue-200">Browse</a>
+                        </div>
+                        <div class="flex items-center space-x-4 ml-6 border-l pl-6">
+                            <a href="/App/views/logOut.php" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg flex items-center action-button">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                            </a>
+                        </div>
+                    <?php else: ?>
+                        <a href="AddCourse.php" class="px-4 py-2 rounded-full bg-white text-indigo-700 hover:bg-indigo-100 transition-colors duration-200 font-medium flex items-center">
+                            <i class="fas fa-plus-circle mr-2"></i>Add Course
                         </a>
-                    </div>
+                        <a href="Statistics.php" class="px-4 py-2 rounded-full bg-white text-indigo-700 hover:bg-indigo-100 transition-colors duration-200 font-medium flex items-center">
+                            <i class="fas fa-chart-line mr-2"></i>Analytics
+                        </a>
+                        <a href="seeCourses.php" class="px-4 py-2 rounded-full bg-white text-indigo-700 hover:bg-indigo-100 transition-colors duration-200 font-medium flex items-center">
+                            <i class="fas fa-book mr-2"></i>My Courses
+                        </a>
+                        <div class="flex items-center space-x-4">
+                            <span class="font-medium">Welcome Back Professor: <?php echo $name ?></span>
+                            <a href="/App/views/logOut.php" class="px-4 py-2 rounded-full bg-red-500 hover:bg-red-600 text-white transition-colors duration-200 flex items-center">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                            </a>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -83,7 +108,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'pending' && isset($_GET['id']
         <div class="relative container mx-auto px-4">
             <div class="max-w-3xl">
                 <h1 class="text-4xl font-bold mb-4">Course Management Dashboard</h1>
-                <p class="text-xl text-indigo-200">Efficiently manage your educational content and track course performance all in one place.</p>
+                <p class="text-xl text-indigo-200">Efficiently manage Educational content and track course performance all in one place.</p>
             </div>
         </div>
     </div>
@@ -93,14 +118,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'pending' && isset($_GET['id']
         <div class="bg-white rounded-xl shadow-xl p-8 mb-6">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold text-gray-800">Course Management</h2>
-                <div class="flex space-x-2">
-                    <button class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200">
-                        <i class="fas fa-filter mr-2"></i>Filter
-                    </button>
-                    <button class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200">
-                        <i class="fas fa-sort mr-2"></i>Sort
-                    </button>
-                </div>
             </div>
 
             <div class="overflow-x-auto">

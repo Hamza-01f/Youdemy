@@ -57,6 +57,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateTag'])) {
                     <a href="validation.php" class="flex items-center p-3 text-gray-100 hover:bg-indigo-500 rounded-md">
                         <i class="fas fa-newspaper h-6 w-6 mr-2"></i> users
                     </a>
+                    <div class="nav-item flex items-center">
+                      <i class="fas fa-book-open mr-2"></i>
+                      <a href="/App/views/teacher/ManageCourses.php" class="hover:text-blue-200">Courses</a>
+                    </div>
                 </nav>
             </div>
         </div>

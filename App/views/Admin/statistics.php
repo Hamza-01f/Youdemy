@@ -83,6 +83,11 @@
                     <i class="fas fa-newspaper mr-3 text-pink-400 group-hover:text-pink-300"></i>
                     <span class="group-hover:text-pink-300">Browse Courses</span>
                 </a>
+                <a href="/App/views/teacher/ManageCourses.php" class="nav-item flex items-center text-lg group p-3 rounded-lg hover:bg-white/10">
+                    <i class="fas fa-book-open mr-2 text-pink-400 group-hover:text-pink-300"></i>
+                    <span class="group-hover:text-pink-300">Courses</span>
+                </a>
+
             </nav>
         </div>
 
@@ -115,7 +120,6 @@
                 </div>
             </div>
 
-            <!-- Charts -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div class="chart-container bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
                     <h2 class="text-2xl font-semibold mb-4 text-gray-800">Platform Statistics</h2>
@@ -143,7 +147,7 @@
     </div>
 
     <script>
-        // Sample data for demonstration
+
         const sampleData = {
             platformStats: {
                 labels: ['Users', 'Articles', 'Categories'],

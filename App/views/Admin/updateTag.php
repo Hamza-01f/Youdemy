@@ -60,6 +60,10 @@ if (isset($_GET['id'])) {
                 <a href="/app/view/AdmineDashboard/AdmineDashboard.php" class="flex items-center p-3 text-gray-200 hover:bg-gray-700 rounded-md">
                     <i class="fas fa-tag h-6 w-6 mr-2"></i> Tags
                 </a>
+                <div class="nav-item flex items-center">
+                    <i class="fas fa-search mr-2"></i>
+                    <a href="/App/views/Admin/seecourses.php" class="hover:text-blue-200">Courses</a>
+                </div>
             </nav>
         </div>
 
