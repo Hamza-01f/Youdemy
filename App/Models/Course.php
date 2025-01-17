@@ -18,6 +18,7 @@ class Course {
     protected $teacherId;
     protected $categoryId;
     protected $tags = [];
+    private $db;
 
 
     public function __construct($title, $description, $content,  $imageUrl, $teacherId, $categoryId, $tags = []) {
@@ -28,6 +29,7 @@ class Course {
         $this->teacherId = $teacherId;
         $this->categoryId = $categoryId;
         $this->tags = $tags;
+        $this->db = Database::getInstance()->getConnection();
 
     }
 
@@ -206,6 +208,10 @@ class Course {
         $stmt = $db->prepare("UPDATE courses SET status = 'active' WHERE id = :id");
         $stmt->bindparam(':id', $id , \PDO::PARAM_INT);
         return $stmt->execute();
+    }
+
+    public static function search($id,$role){
+          
     }
 
 }

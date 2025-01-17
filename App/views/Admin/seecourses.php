@@ -4,7 +4,14 @@ session_start();
 require_once __DIR__.'/../../../vendor/autoload.php';
 
 $id = $_SESSION['user']['id'];
+$role = $_SESSION['user']['role'];
+
 $courseController = new \App\Controllers\CourseController();
+$search = new \App\Controllers\CourseController();
+
+$searching = $search->search($id,$role);
+
+print_r($searching);
 
 $courses = $courseController->getCourses($id);
 
@@ -106,15 +113,15 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
 
     <div class="custom-gradient text-white pt-32 pb-20 px-6">
         <div class="max-w-7xl mx-auto">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4">Welcome to Your Courses</h1>
-            <p class="text-xl text-gray-100 max-w-2xl">Review the content of your courses!</p>
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Welcome to  Courses</h1>
+            <p class="text-xl text-gray-100 max-w-2xl">Review the content of the courses! And make sure if everything goes well</p>
         </div>
     </div>
 
     <div class="max-w-7xl mx-auto px-6 -mt-16" id="courses">
         <div class="flex justify-between items-center mb-12">
             <h2 class="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                Your Available Courses
+                 Available Courses
             </h2>
             <div class="flex space-x-2">
                 <?php for ($i = 1; $i <= $totalPages; $i++): ?>

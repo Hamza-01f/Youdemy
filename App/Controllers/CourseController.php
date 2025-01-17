@@ -78,4 +78,8 @@ class CourseController {
     public static function pending($id){
         Course::pending($id);
     }
+
+    public function search($id,$role){
+        Course::search($id,$role);
+    }
 }
