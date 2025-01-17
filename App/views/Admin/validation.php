@@ -197,7 +197,7 @@ $allUsers = $userHandler->fetchUsers();
                         <?php foreach ($allUsers as $user): ?>
                             <tr class="table-row-animate">
                                 <td class="px-6 py-4">
-                                    <img src="<?= $user['profile_image'] ?>" class="h-20 w-16 rounded-full border-2 border-blue-200" alt="Profile">
+                                    <img src="<?= $user['profile_image'] ?>" class="h-18 w-16 rounded-full border-2 border-blue-200" alt="Profile">
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="font-medium"><?= $user['username'] ?></div>

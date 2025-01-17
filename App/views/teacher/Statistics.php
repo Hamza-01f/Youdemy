@@ -10,7 +10,7 @@ $teacherId = $_SESSION['user']['id'];
 $statistics = new Statistics();
 
 
-$statisticsData = $statistics->getData($teacherId);
+$statisticsData = $statistics->getAllStats($teacherId);
 
 $activeCourses = $statisticsData['activeCourses'];
 $enrolledStudents = $statisticsData['enrolledStudents'];
@@ -99,7 +99,7 @@ $coursePerformance = $statisticsData['coursePerformance'];
                     <span class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full font-medium">
                         <i class="fas fa-user mr-2"></i><?php echo $_SESSION['user']['username']; ?>
                     </span>
-                    <a href="logout.php" class="px-6 py-2.5 gradient-bg text-white rounded-full hover:shadow-lg transition-all duration-300">
+                    <a href="/App/views/LogOut.php" class="px-6 py-2.5 gradient-bg text-white rounded-full hover:shadow-lg transition-all duration-300">
                         <i class="fas fa-sign-out-alt mr-2"></i>Logout
                     </a>
                 </div>

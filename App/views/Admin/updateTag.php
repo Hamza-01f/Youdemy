@@ -94,5 +94,6 @@ if (isset($_GET['id'])) {
             </main>
         </div>
     </div>
+    <?php include __DIR__.'/../../../public/footer.php' ?>
 </body>
 </html>

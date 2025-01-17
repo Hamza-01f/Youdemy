@@ -1,34 +1,3 @@
-<!--p 
-
-session_start();
-
-if (!isset($_SESSION['user'])) {
-    header('Location: /app/view/AdmineDashboard/users/logIn.php');
-    exit();
-}
-
- require_once __DIR__ . '/../../../controllers/CategoriesController.php';
-
-use App\Controllers\CategoriesController;
-use App\Models\ModelCategories;
-
-$categories = CategoriesController::show();
-// $totalTags = TagsController::totalTags();
-// TagsController::create();
-
-if (isset($_POST['addCategory']) && isset($_POST['categorie_name']) && $_SERVER["REQUEST_METHOD"] == "POST") {
-    $value = $_POST['categorie_name'];
-    $result = CategoriesController::create($value);
-}
-
-
-// // Check if the delete action is triggered
-if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
-    $id = $_GET['id'];
-    CategoriesController::delete($id); 
-}
-?-->
-
 <?php
 require_once __DIR__.'/../../controllers/CategoryController.php';
 
@@ -52,115 +21,166 @@ if (isset($_GET['delete_id'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/f01941449c.js" crossorigin="anonymous"></script>
     <title>Categories Dashboard</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-item {
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover {
+            transform: translateX(5px);
+        }
+    </style>
 </head>
 
-<body class="bg-gray-100">
-
+<body class="bg-gradient-to-br from-gray-50 to-gray-100">
     <div class="flex h-screen overflow-hidden">
-
-        <!-- Sidebar -->
-        <div class="flex flex-col w-64 bg-gray-800 text-white shadow-lg">
-            <div class="flex items-center justify-center h-16 bg-gray-900">
-                <span class="text-2xl font-bold uppercase">DivoBlog</span>
+        <!-- Enhanced Sidebar -->
+        <div class="flex flex-col w-64 bg-gradient-to-b from-indigo-900 to-indigo-700 text-white shadow-xl">
+            <div class="flex items-center justify-center h-20 bg-indigo-800">
+                <i class="fas fa-graduation-cap text-3xl mr-2 text-indigo-300"></i>
+                <span class="text-2xl font-bold">Youdemy</span>
             </div>
+            
             <div class="flex flex-col flex-1 overflow-y-auto">
-                <nav class="flex-1 p-4 space-y-2">
-                    <a href="statistics.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                        Dashboard
+                <nav class="flex-1 p-6 space-y-4">
+                    <a href="statistics.php" class="nav-item flex items-center p-4 text-gray-100 hover:bg-indigo-800 rounded-xl transition-all duration-300">
+                        <i class="fas fa-chart-line mr-3"></i>
+                        <span>Dashboard</span>
                     </a>
-                    <a href="seecourses.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
-                        <i class="fas fa-newspaper h-6 w-6 mr-2"></i> courses
+                    <a href="seecourses.php" class="nav-item flex items-center p-4 text-gray-100 hover:bg-indigo-800 rounded-xl transition-all duration-300">
+                        <i class="fas fa-newspaper mr-3"></i>
+                        <span>Courses</span>
                     </a>
-                    <a href="tag.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
-                        <i class="fas fa-tag h-6 w-6 mr-2"></i> Tags
+                    <a href="tag.php" class="nav-item flex items-center p-4 text-gray-100 hover:bg-indigo-800 rounded-xl transition-all duration-300">
+                        <i class="fas fa-tags mr-3"></i>
+                        <span>Tags</span>
                     </a>
-                    <a href="validation.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
-                        <i class="fas fa-th h-6 w-6 mr-2"></i> users
+                    <a href="validation.php" class="nav-item flex items-center p-4 text-gray-100 hover:bg-indigo-800 rounded-xl transition-all duration-300">
+                        <i class="fas fa-users mr-3"></i>
+                        <span>Users</span>
                     </a>
-                      <i class="fas fa-book-open mr-2"></i>
-                      <a href="/App/views/teacher/ManageCourses.php" class="hover:text-blue-200">Courses</a>
-                     </div>
+                    <a href="/App/views/teacher/ManageCourses.php" class="nav-item flex items-center p-4 text-gray-100 hover:bg-indigo-800 rounded-xl transition-all duration-300">
+                        <i class="fas fa-book-open mr-3"></i>
+                        <span>Manage Courses</span>
+                    </a>
                 </nav>
             </div>
         </div>
 
-        <div class="flex-1 flex flex-col bg-white">
-            <header class="flex items-center justify-between p-6 bg-white shadow-md">
-                <div class="flex items-center">
-                    <span class="text-2xl font-bold">Manage Categories</span>
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col bg-gray-50">
+            <!-- Enhanced Header -->
+            <header class="bg-white shadow-md px-8 py-6">
+                <div class="flex justify-between items-center">
+                    <h1 class="text-2xl font-bold text-gray-800">Category Management</h1>
+                    <div class="flex items-center space-x-4">
+                        <button class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition duration-300 flex items-center">
+                            <i class="fas fa-plus mr-2"></i>
+                            Add New Category
+                        </button>
+                    </div>
                 </div>
             </header>
 
-            <main class="flex-1 p-6 space-y-6">
-                <!-- Success or Error message -->
+            <main class="flex-1 p-8 overflow-y-auto">
+                <!-- Success Message -->
                 <?php if (!empty($message)): ?>
-                    <div class="bg-green-100 text-green-800 p-4 rounded-md">
+                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded-md animate-fade-in">
+                    <div class="flex items-center">
+                        <i class="fas fa-check-circle mr-2"></i>
                         <?= $message; ?>
                     </div>
+                </div>
                 <?php endif; ?>
 
-                <!-- Add Category Form -->
-                <div class="bg-white shadow-md rounded-lg p-6 mt-6 border-t-4 border-indigo-600">
+                <!-- Enhanced Add Category Form -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-8 card-hover border border-gray-100">
+                    <h2 class="text-xl font-semibold mb-6 text-gray-800">Add New Category</h2>
                     <form method="POST" class="space-y-4">
-                        <div>
-                            <label for="categorie_name" class="block text-sm font-medium text-gray-700">Category Name</label>
-                            <input type="text" name="categorie_name" id="categorie_name" placeholder="Enter category name"
-                                class="mt-2 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                                required>
+                        <div class="flex flex-col space-y-2">
+                            <label for="categorie_name" class="text-sm font-medium text-gray-700">Category Name</label>
+                            <div class="relative">
+                                <input type="text" 
+                                    name="categorie_name" 
+                                    id="categorie_name" 
+                                    placeholder="Enter category name"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200"
+                                    required>
+                                <i class="fas fa-folder absolute right-3 top-3 text-gray-400"></i>
+                            </div>
                         </div>
-                        <button type="submit" name="addCategory"
-                            class="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition duration-200">Add Category</button>
+                        <button type="submit" 
+                            name="addCategory"
+                            class="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-3 rounded-lg hover:from-indigo-700 hover:to-indigo-800 transition duration-300 flex items-center justify-center">
+                            <i class="fas fa-plus-circle mr-2"></i>
+                            Add Category
+                        </button>
                     </form>
                 </div>
 
-                <!-- Categories Table -->
-                <div class="bg-white shadow-md rounded-lg p-6 mt-6 overflow-x-auto">
-                    <table class="min-w-full table-auto">
-                        <thead class="bg-gray-800 text-white">
-                            <tr>
-                                <th class="px-4 py-2 text-center">Number</th>
-                                <th class="px-4 py-2 text-center">Category Name</th>
-                                <th class="px-4 py-2 text-center">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-300">
-                            <?php foreach ($categories as $index => $category): ?>
-                                <tr class="hover:bg-gray-100 transition duration-200 ease-in-out">
-                                    <td class="px-4 py-2 text-center"><?= $index + 1; ?></td>
-                                    <td class="px-4 py-2 text-center"><?= htmlspecialchars($category['name']); ?></td>
-                                    <td class="px-4 py-2 text-center">
-                                        <!-- Edit icon -->
-                                        <a href="updateCategory.php?id=<?= $category['id']; ?>" class="cursor-pointer hover:text-blue-500">
+                <!-- Enhanced Categories Table -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover border border-gray-100">
+                    <div class="p-6 border-b border-gray-100">
+                        <h2 class="text-xl font-semibold text-gray-800">Categories List</h2>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-sm font-medium text-gray-500">#</th>
+                                    <th class="px-6 py-4 text-left text-sm font-medium text-gray-500">Category Name</th>
+                                    <th class="px-6 py-4 text-right text-sm font-medium text-gray-500">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <?php foreach ($categories as $index => $category): ?>
+                                <tr class="hover:bg-gray-50 transition duration-150">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <?= $index + 1; ?>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                        <?= htmlspecialchars($category['name']); ?>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <a href="updateCategory.php?id=<?= $category['id']; ?>" 
+                                           class="text-indigo-600 hover:text-indigo-900 mr-4 transition duration-150">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <!-- Delete icon -->
-                                        <a href="category.php?delete_id=<?= $category['id']; ?>" class="w-4 mr-2 transform hover:text-red-500 hover:scale-110 cursor-pointer">
+                                        <a href="category.php?delete_id=<?= $category['id']; ?>" 
+                                           class="text-red-600 hover:text-red-900 transition duration-150">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </td>
                                 </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-
             </main>
         </div>
     </div>
-
+    <?php include __DIR__.'/../../../public/footer.php'; ?>
 </body>
-
 </html>
-
-
