@@ -11,6 +11,12 @@ class authcontroller{
     public static function logIn($username, $password) {
        
         $user = authontification::finduser($username, $password);
+        if($user['role'] == 'admin'){
+            session_start();
+            $_SESSION['user'] = $user;
+            header('Location: /App/views/Admin/accountValida.php');
+            exit();
+        }
         if(password_verify($password, $user['password'])) {
            
             if ($user['role'] == 'teacher' && $user['status'] == 'active' && $user['validation'] == 'notaccepted') {
@@ -23,11 +29,6 @@ class authcontroller{
                 $_SESSION['user'] = $user;
                 header('Location: /App/views/student/Browse.php');
                 exit();          
-            } else if ($user['role'] == 'admin') {
-                session_start();
-                $_SESSION['user'] = $user;
-                header('Location: /App/views/Admin/accountValida.php');
-                exit();
             } else { 
                 if($user['validation'] == 'accepted'){
                     session_start();

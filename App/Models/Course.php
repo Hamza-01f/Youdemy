@@ -101,7 +101,7 @@ class Course {
 
     public static function getAllCourses() {
         $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("SELECT courses.id, courses.title, courses.description, categories.name AS category_name, courses.status
+        $stmt = $db->prepare("SELECT courses.id, courses.title, courses.description, courses.image_url, categories.name AS category_name, courses.status
                               FROM courses
                               JOIN categories ON courses.category_id = categories.id");
         $stmt->execute();

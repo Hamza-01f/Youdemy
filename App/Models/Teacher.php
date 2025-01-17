@@ -5,7 +5,7 @@ namespace App\models;
 
 
 use App\Config\Database;
-use App\models\User;
+use App\Models\User;
 
 class Teacher extends User {
 

@@ -25,139 +25,143 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .gradient-bg {
-            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
         }
-        .hero-bg {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+        
+        .custom-gradient {
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #EC4899 100%);
         }
-        .card-hover {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        
+        .card-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #f3f4f6 100%);
         }
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.1);
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
         }
-        .nav-button {
-            @apply px-6 py-2.5 rounded-full transition-all duration-300 font-medium text-sm;
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
         }
-        .nav-button.primary {
-            @apply bg-indigo-600 text-white hover:bg-indigo-700 hover:shadow-lg;
-        }
-        .nav-button.secondary {
-            @apply bg-white text-indigo-600 hover:bg-indigo-50 border-2 border-indigo-600;
-        }
-        .pagination-active {
-            @apply bg-indigo-600 text-white;
-        }
-        .search-input {
-            @apply w-full pl-10 pr-4 py-3 rounded-full border-2 border-gray-200 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-300;
+        
+        .custom-shadow {
+            box-shadow: 0 10px 30px -5px rgba(79, 70, 229, 0.2);
         }
     </style>
 </head>
-<body class="bg-gray-50">
-    <!-- Navigation -->
-    <nav class="bg-white/95 backdrop-blur-md fixed w-full z-50 border-b border-gray-100 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4">
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+    <!-- Enhanced Navigation -->
+    <nav class="glass-effect fixed w-full z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-6">
             <div class="flex justify-between h-20 items-center">
-                <div class="flex items-center space-x-3">
-                    <div class="gradient-bg p-2.5 rounded-xl">
+                <div class="flex items-center space-x-4">
+                    <div class="custom-gradient p-3 rounded-2xl animate-float">
                         <i class="fas fa-graduation-cap text-2xl text-white"></i>
                     </div>
-                    <span class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Youdemy</span>
+                    <span class="text-3xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent">
+                        Youdemy
+                    </span>
                 </div>
                 
                 <div class="hidden md:flex items-center space-x-8">
-                    <div class="relative w-72">
+                    <div class="relative w-80">
                         <input type="text" 
-                               placeholder="Search courses..." 
-                               class="search-input">
-                        <i class="fas fa-search absolute left-4 top-3.5 text-gray-400"></i>
+                               placeholder="Search for courses" 
+                               class="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300 bg-white/80">
+                        <i class="fas fa-search absolute left-4 top-4 text-indigo-500"></i>
                     </div>
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <a href="/../LogOut.php" class="nav-button secondary">
-                        Log Out
+                    <a href="/../LogOut.php" class="px-6 py-2.5 rounded-xl border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Log Out
                     </a>
-                    <a href="Statistics.php" class="nav-button primary">
-                        statistics
+                    <a href="Statistics.php" class="px-6 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl hover:shadow-lg transition-all duration-300">
+                        <i class="fas fa-chart-bar mr-2"></i>Statistics
                     </a>
-                    <a href="AddCourse.php" class="nav-button primary">
-                        add course
+                    <a href="AddCourse.php" class="px-6 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl hover:shadow-lg transition-all duration-300">
+                        <i class="fas fa-plus mr-2"></i>Add Course
                     </a>
-                    <a href="ManageCourses.php" class="nav-button primary">
-                        Manage Courses
+                    <a href="ManageCourses.php" class="px-6 py-2.5 bg-gradient-to-r from-pink-500 to-red-500 text-white rounded-xl hover:shadow-lg transition-all duration-300">
+                        <i class="fas fa-cog mr-2"></i>Manage
                     </a>
                 </div>
             </div>
         </div>
     </nav>
 
+    <!-- Hero Section -->
+    <div class="custom-gradient text-white pt-32 pb-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Welcome to Your Courses</h1>
+            <p class="text-xl text-gray-100 max-w-2xl">Review the content of your courses!</p>
+        </div>
+    </div>
 
-    <div class="max-w-7xl mx-auto px-4 py-16" id="courses">
+    <!-- Courses Section -->
+    <div class="max-w-7xl mx-auto px-6 -mt-16" id="courses">
         <div class="flex justify-between items-center mb-12">
             <h2 class="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-               Your Available Courses
+                Your Available Courses
             </h2>
             <div class="flex space-x-2">
-                <?php
-                for ($i = 1; $i <= $totalPages; $i++) {
-                    echo '<span onclick="showPage(' . $i . ')" class="w-10 h-10 flex items-center justify-center rounded-full ' . ($i === $page ? 'pagination-active' : 'border-2 border-indigo-600 text-indigo-600') . ' cursor-pointer transition-colors hover:bg-indigo-50">' . $i . '</span>';
-                }
-                ?>
+                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                    <span onclick="showPage(<?php echo $i ?>)" 
+                          class="w-10 h-10 flex items-center justify-center rounded-xl cursor-pointer transition-all duration-300 <?php echo $i === $page ? 'custom-gradient text-white shadow-lg' : 'bg-white text-indigo-600 hover:bg-indigo-50 border-2 border-indigo-600' ?>">
+                        <?php echo $i ?>
+                    </span>
+                <?php endfor; ?>
             </div>
         </div>
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <?php
-            if (count($currentPageCourses) > 0) {
-                foreach ($currentPageCourses as $course) {
-                    echo '
-                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover border border-gray-100">
-                            <div class="relative">
-                                <img src="'.$course['image_url'].'" alt="'.$course['title'].'" class="w-full h-48 object-cover">
-                                <div class="absolute top-4 right-4">
-                                    <span class="px-4 py-1.5 bg-white/90 backdrop-blur-sm text-indigo-600 rounded-full text-sm font-medium shadow-md">
-                                        '.$course['category_name'].' 
-                                    </span>
+            <?php if (count($currentPageCourses) > 0): ?>
+                <?php foreach ($currentPageCourses as $course): ?>
+                    <div class="card-gradient rounded-2xl custom-shadow overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
+                        <div class="relative">
+                            <img src="<?php echo $course['image_url'] ?>" alt="<?php echo $course['title'] ?>" class="w-full h-48 object-cover">
+                            <div class="absolute top-4 right-4">
+                                <span class="px-4 py-2 glass-effect text-indigo-600 rounded-xl text-sm font-medium">
+                                    <?php echo $course['category_name'] ?>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-gray-800"><?php echo $course['title'] ?></h3>
+                            <p class="text-gray-600 mb-4 line-clamp-2"><?php echo $course['description'] ?></p>
+                            <div class="flex items-center mb-6">
+                                <img src="<?php echo $course['profile_image'] ?>" alt="Instructor" class="w-12 h-12 rounded-xl border-2 border-indigo-200">
+                                <div class="ml-3">
+                                    <p class="font-bold text-gray-800"><?php echo $course['username'] ?></p>
+                                    <p class="text-sm text-indigo-500">Instructor</p>
                                 </div>
                             </div>
-                            <div class="p-6">
-                                <h3 class="text-xl font-semibold mb-2">'.$course['title'].'</h3>
-                                <p class="text-gray-600 mb-4 line-clamp-2">'.$course['description'].'</p>
-                                <div class="flex items-center mb-6">
-                                    <img src="'.$course['profile_image'].'" alt="Instructor" class="w-12 h-12 rounded-full border-2 border-indigo-100">
-                                    <div class="ml-3">
-                                        <p class="font-medium">'.$course['username'].'</p>
-                                        <p class="text-sm text-gray-500">Instructor</p>
-                                    </div>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-sm text-gray-500">
-                                        <i class="far fa-calendar-alt mr-2"></i>
-                                        '.date('M d, Y', strtotime($course['created_at'])).'
-                                    </span>
-                                    <a href="/App/views/student/readCourse.php?readid='.$course['id'].'&action=read" class="px-6 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors shadow-md hover:shadow-lg">
-                                         <i class="fas fa-book-reader mr-2"></i>Review
-                                    </a>
-                                </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-500">
+                                    <i class="far fa-calendar-alt mr-2"></i>
+                                    <?php echo date('M d, Y', strtotime($course['created_at'])) ?>
+                                </span>
+                                <a href="/App/views/student/readCourse.php?readid=<?php echo $course['id'] ?>&action=read" 
+                                   class="px-6 py-2.5 bg-gradient-to-r from-green-400 to-emerald-500 text-white rounded-xl hover:shadow-lg transition-all duration-300">
+                                    <i class="fas fa-book-reader mr-2"></i>Review
+                                </a>
                             </div>
-                        </div>';
-                }
-            } else {
-                echo '<div class="col-span-3 text-center py-12">
-                        <i class="fas fa-book-open text-6xl text-gray-300 mb-4"></i>
-                        <p class="text-xl text-gray-500">No courses available at the moment.</p>
-                      </div>';
-            }
-            ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="col-span-3 text-center py-20 bg-white rounded-2xl custom-shadow">
+                    <i class="fas fa-book-open text-6xl text-gray-300 mb-4 animate-float"></i>
+                    <p class="text-2xl text-gray-500">No courses available at the moment.</p>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
-    <?php include __DIR__.'/../../..//public/footer.php' ?>
+    <?php include __DIR__.'/../../../public/footer.php'; ?>
     <script>
         function showPage(page) {
             const url = new URL(window.location.href);

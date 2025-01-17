@@ -1,11 +1,10 @@
 <?php
-namespace App\models;
+namespace App\Models;
 
 require_once __DIR__.'/../Config/Database.php';
 
 
-
-use App\models\User;
+use App\Models\User;
 use App\Config\Database;
 
 class Student extends User {
@@ -25,4 +24,5 @@ class Student extends User {
         ]);
     }
 }
+
 ?>

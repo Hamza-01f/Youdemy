@@ -14,6 +14,7 @@ use  App\Controllers\CourseController;
 $courseController = new CourseController();
 $courses = $courseController->getCourses();
 
+
 if (isset($_GET['id']) && isset($_GET['action']) && $_GET['action'] === 'delete') {
     $id = $_GET['id'];
     $deletecourse = new CourseController();
@@ -41,66 +42,120 @@ if (isset($_GET['action']) && $_GET['action'] === 'pending' && isset($_GET['id']
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50">
-    <nav class="bg-indigo-600 text-white p-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold">Youdemy</h1>
-            <div class="space-x-4">
-                <a href="AddCourse.php" class="text-gray-900 hover:text-blue-600 transition-colors duration-200 font-medium">AddCourse</a>
-                <a href="Statistics.php" class="text-gray-900 hover:text-blue-600 transition-colors duration-200 font-medium">Analytics</a>
-                <span class="font-medium">Welcom Back Professor: <?php echo $name ?></span>
-                <a href="/App/views/logOut.php">
-                    <i class="fas fa-sign-out-alt mr-2"></i>Déconnexion
-                </a>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+   
+    <nav class="bg-gradient-to-r from-indigo-700 to-purple-700 text-white shadow-lg">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-2">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                    <h1 class="text-3xl font-bold">Youdemy</h1>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="AddCourse.php" class="px-4 py-2 rounded-full bg-white text-indigo-700 hover:bg-indigo-100 transition-colors duration-200 font-medium flex items-center">
+                        <i class="fas fa-plus-circle mr-2"></i>Add Course
+                    </a>
+                    <a href="Statistics.php" class="px-4 py-2 rounded-full bg-white text-indigo-700 hover:bg-indigo-100 transition-colors duration-200 font-medium flex items-center">
+                        <i class="fas fa-chart-line mr-2"></i>Analytics
+                    </a>
+                    <a href="seeCourses.php" class="px-4 py-2 rounded-full bg-white text-indigo-700 hover:bg-indigo-100 transition-colors duration-200 font-medium flex items-center">
+                        <i class="fas fa-book mr-2"></i>My Courses
+                    </a>
+                    <div class="flex items-center space-x-4">
+                        <span class="font-medium">Welcome Back Professor: <?php echo $name ?></span>
+                        <a href="/App/views/logOut.php" class="px-4 py-2 rounded-full bg-red-500 hover:bg-red-600 text-white transition-colors duration-200 flex items-center">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
 
-    <main class="container mx-auto p-6">
-        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4">Gestion des Cours</h2>
+    <!-- Hero Section -->
+    <div class="relative bg-gradient-to-b from-indigo-800 to-indigo-900 text-white py-16">
+        <div class="absolute inset-0 overflow-hidden">
+            <img src="https://i.pinimg.com/736x/eb/36/5d/eb365db8255ddf92d5e2d46fa06cc246.jpg" alt="Education Background" class="w-full h-full object-cover opacity-10"/>
+        </div>
+        <div class="relative container mx-auto px-4">
+            <div class="max-w-3xl">
+                <h1 class="text-4xl font-bold mb-4">Course Management Dashboard</h1>
+                <p class="text-xl text-indigo-200">Efficiently manage your educational content and track course performance all in one place.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-6 flex-grow">
+        <div class="bg-white rounded-xl shadow-xl p-8 mb-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Course Management</h2>
+                <div class="flex space-x-2">
+                    <button class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200">
+                        <i class="fas fa-filter mr-2"></i>Filter
+                    </button>
+                    <button class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200">
+                        <i class="fas fa-sort mr-2"></i>Sort
+                    </button>
+                </div>
+            </div>
 
             <div class="overflow-x-auto">
                 <table class="min-w-full">
-                    <thead class="bg-gray-100">
+                    <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-6 py-3 text-left text-gray-700">Titre du cours</th>
-                            <th class="px-6 py-3 text-left text-gray-700">Category</th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider rounded-tl-lg">Course Title</th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Category</th>
                             <?php if($_SESSION['user']['role'] == 'admin'): ?>
-                            <th class="px-6 py-3 text-left text-gray-700">Statut</th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Status</th>
                             <?php endif; ?>
-                            <th class="px-6 py-3 text-left text-gray-700">Actions</th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider rounded-tr-lg">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-200">
+                    <tbody class="bg-white divide-y divide-gray-200">
                         <?php foreach ($courses as $course): ?>
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4"><?= htmlspecialchars($course['title']) ?></td>
-                            <td class="px-6 py-4"><?= htmlspecialchars($course['category_name']) ?></td>
-                            <td class="px-6 py-4">
-                                <div>
-                                    <?php if($_SESSION['user']['role'] == 'admin'): ?>
-                                        <?php if($course['status'] === 'pending' ):  ?>
-                                           <a href="?id=<?= $course['id'] ?>&action=pending" class="text-white">
-                                           <button class="bg-yellow-500 hover:bg-yellow-600 px-4 py-2 rounded-lg shadow-md">PENDING</button>
-                                           </a>
-                                        <?php else: ?>
-                                            <a href="?id=<?= $course['id'] ?>&action=active" class="text-white">
-                                            <button class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg shadow-md">ACTIVE</button>
-                                            </a>
-                                        <?php endif; ?>
-                                    <?php endif; ?>
+                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="h-10 w-10 flex-shrink-0 mr-4">
+                                        <img class="h-10 w-10 rounded-full" src="<?= htmlspecialchars($course['image_url']) ?>" alt="Course thumbnail"/>
+                                    </div>
+                                    <div class="text-sm font-medium text-gray-900"><?= htmlspecialchars($course['title']) ?></div>
                                 </div>
                             </td>
-                            <td class="px-6 py-4">
-                                <div class="flex space-x-2">
-                                 
-                                    <a href="updateCourse.php?id=<?= $course['id'] ?>" class="text-blue-600 hover:text-blue-800">
-                                        <i class="fas fa-edit"></i>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800">
+                                    <?= htmlspecialchars($course['category_name']) ?>
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <?php if($_SESSION['user']['role'] == 'admin'): ?>
+                                    <?php if($course['status'] === 'pending' ):  ?>
+                                        <a href="?id=<?= $course['id'] ?>&action=pending" class="inline-flex">
+                                            <span class="px-4 py-2 inline-flex text-sm leading-5 font-semibold rounded-lg bg-yellow-100 text-yellow-800">
+                                                <i class="fas fa-clock mr-2"></i>PENDING
+                                            </span>
+                                        </a>
+                                    <?php else: ?>
+                                        <a href="?id=<?= $course['id'] ?>&action=active" class="inline-flex">
+                                            <span class="px-4 py-2 inline-flex text-sm leading-5 font-semibold rounded-lg bg-green-100 text-green-800">
+                                                <i class="fas fa-check mr-2"></i>ACTIVE
+                                            </span>
+                                        </a>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                <div class="flex space-x-4">
+                                    <a href="updateCourse.php?id=<?= $course['id'] ?>" class="text-blue-600 hover:text-blue-900 transition-colors duration-200">
+                                        <i class="fas fa-edit text-lg"></i>
                                     </a>
-                               
-                                    <a href="?id=<?= $course['id'] ?>&action=delete" class="text-red-600 hover:text-red-800" onclick="return confirm('Are you sure you want to delete this course?');">
-                                        <i class="fas fa-trash"></i>
+                                    <a href="?id=<?= $course['id'] ?>&action=delete" class="text-red-600 hover:text-red-900 transition-colors duration-200" 
+                                       onclick="return confirm('Are you sure you want to delete this course?');">
+                                        <i class="fas fa-trash text-lg"></i>
                                     </a>
                                 </div>
                             </td>
@@ -111,6 +166,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'pending' && isset($_GET['id']
             </div>
         </div>
     </main>
+
     <?php include __DIR__.'/../../../public/footer.php' ?>
 </body>
 </html>

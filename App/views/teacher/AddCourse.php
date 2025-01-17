@@ -30,169 +30,243 @@ $tag = $categoryTags->getTags();
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.1/dist/css/tom-select.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.1/dist/js/tom-select.complete.min.js"></script>
     <style>
-        .gradient-bg {
-            background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        .upload-area {
-            background: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23CBD5E1' stroke-width='3' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+
+        .animated-gradient {
+            background: linear-gradient(-45deg, #4F46E5, #7C3AED, #2563EB, #4338CA);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
         }
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.95);
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
         }
-        .hover-scale {
-            transition: transform 0.2s;
+
+        .card-hover {
+            transition: all 0.3s ease;
         }
-        .hover-scale:hover {
-            transform: scale(1.02);
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
-        .custom-shadow {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+        .input-focus {
+            transition: all 0.3s ease;
+        }
+
+        .input-focus:focus {
+            transform: scale(1.01);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 4px;
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-indigo-50 min-h-screen">
-
-    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <div class="absolute top-0 left-0 w-96 h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
-        <div class="absolute top-0 right-0 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
-        <div class="absolute bottom-0 left-1/2 w-96 h-96 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
+<body class="bg-gray-50">
+    <!-- Animated Background -->
+    <div class="fixed inset-0 -z-10">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-50/80 via-indigo-50/80 to-purple-50/80"></div>
+        <div class="absolute top-0 left-0 w-1/2 h-1/2 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+        <div class="absolute top-0 right-0 w-1/2 h-1/2 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+        <div class="absolute bottom-0 left-1/4 w-1/2 h-1/2 bg-pink-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
     </div>
 
-    <nav class="glass-effect shadow-lg border-b border-gray-200 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex justify-between h-16 items-center">
+    <!-- Enhanced Navigation -->
+    <nav class="glass-nav sticky top-0 z-50 border-b border-gray-200/50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between h-20 items-center">
                 <div class="flex items-center space-x-8">
-                    <div class="flex items-center space-x-2 hover-scale">
-                        <i class="fas fa-graduation-cap text-2xl text-blue-600"></i>
-                        <span class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 text-transparent bg-clip-text">Youdemy</span>
-                    </div>
+                    <a href="#" class="flex items-center space-x-3 group">
+                        <div class="animated-gradient p-3 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300">
+                            <i class="fas fa-graduation-cap text-2xl text-white"></i>
+                        </div>
+                        <span class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                            Youdemy
+                        </span>
+                    </a>
                     <div class="hidden md:flex space-x-6">
-                        <a href="ManageCourses.php" class="text-gray-900 hover:text-blue-600 transition-colors duration-200 font-medium">Manage Courses</a>
-                        <a href="Statistics.php" class="text-gray-900 hover:text-blue-600 transition-colors duration-200 font-medium">Analytics</a>
+                        <a href="ManageCourses.php" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-all duration-300">
+                            <i class="fas fa-tasks mr-2"></i>Manage Courses
+                        </a>
+                        <a href="Statistics.php" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-all duration-300">
+                            <i class="fas fa-chart-line mr-2"></i>Analytics
+                        </a>
+                        <a href="seeCourses.php" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-all duration-300">
+                            <i class="fas fa-book mr-2"></i>My Courses
+                        </a>
                     </div>
                 </div>
 
-                <div class="flex items-center space-x-4">
-
-                    <div class="relative">
-                        <img src="<?php echo $_SESSION['user']['profile_image']?>" alt="Profile" class="w-10 h-10 rounded-full border-2 border-blue-200 hover:border-blue-400 transition-colors duration-200">                
-                        <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white"></div>
+                <div class="flex items-center space-x-6">
+                    <div class="relative group">
+                        <img src="<?php echo $_SESSION['user']['profile_image']?>" alt="Profile" 
+                             class="w-12 h-12 rounded-xl border-2 border-indigo-200 group-hover:border-indigo-400 transition-all duration-300 shadow-lg">
+                        <div class="absolute bottom-0 right-0 w-4 h-4 bg-green-400 rounded-full border-2 border-white shadow-lg"></div>
                     </div>
                 </div>
             </div>
         </div>
     </nav>
 
-    
-    <div class="flex justify-center items-center min-h-screen py-12 relative z-10">
-        <div class="max-w-7xl w-full px-4">
-            <div class="flex justify-between items-center mb-8">
-                <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 text-transparent bg-clip-text">Create New Course</h1>
-            </div>
-
-            <form action="/../../../router.php" method="POST">
-    <input type="hidden" name="action" value="save_course">
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="col-span-1 md:col-span-2 space-y-6">
-            <div class="bg-white rounded-xl custom-shadow p-8 hover-scale transition-all duration-300">
-                <div class="flex items-center space-x-3 mb-6">
-                    <i class="fas fa-info-circle text-blue-600 text-xl"></i>
-                    <h2 class="text-xl font-bold">Basic Information</h2>
-                </div>
-                <div class="space-y-6">
-                    <div>
-                        <label class="block text-sm font-medium mb-2 text-gray-700">Course Title</label>
-                        <input type="text" name="title" placeholder="Enter course title" 
-                               class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-2 text-gray-700">Course Description</label>
-                        <textarea rows="4" name="description" placeholder="Enter course description" 
-                                  class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"></textarea>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-2 text-gray-700">Content Type</label>
-                        <select name="content_type" id="content_type" 
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
-                            <option value="document">Document</option>
-                            <option value="video">Video</option>
-                        </select>
-                    </div>
-
-                    <div id="documentContent" >
-                        <label class="block text-sm font-medium mb-2 text-gray-700">Course Content</label>
-                        <textarea rows="4" name="document" placeholder="Enter course content" 
-                                  class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"></textarea>
-                    </div>
-
-                    <div id="videoContent" style="display: none;">
-                        <label class="block text-sm font-medium mb-2 text-gray-700">Video URL</label>
-                        <input type="url" name="content" placeholder="Enter video URL" 
-                               class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
-                    </div>
-                    
-                    <div>
-                        <label class="block text-sm font-medium mb-2 text-gray-700">Category</label>
-                        <select name="category_id" 
-                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
-                            <option>Select category</option>
-                            <?php foreach ($categories as $category): ?>
-                                <option value="<?= $category['id'] ?>"><?= htmlspecialchars($category['name']) ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+    <!-- Main Content -->
+    <div class="min-h-screen py-12">
+        <div class="max-w-7xl mx-auto px-6">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-12">
+                <div>
+                    <h1 class="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                        Create New Course
+                    </h1>
+                    <p class="text-gray-600">Share your knowledge with the world</p>
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl custom-shadow p-8 hover-scale transition-all duration-300">
-                <div class="flex items-center space-x-3 mb-6">
-                    <i class="fas fa-tags text-blue-600 text-xl"></i>
-                    <h2 class="text-xl font-bold">Tags</h2>
-                </div>
-                <div class="space-y-4">
-                    <select id="tags" name="tags[]" class="w-full" multiple>
-                        <?php foreach ($tag as $tagItem): ?>
-                            <option value="<?= $tagItem['id'] ?>"><?= htmlspecialchars($tagItem['name']) ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-            </div>
-        </div>
+            <!-- Form -->
+            <form action="/../../../router.php" method="POST" class="space-y-8">
+                <input type="hidden" name="action" value="save_course">
+                <input type="hidden" name="author" value="<?php echo $userId ?>">
 
-        <input type="hidden" name="author" value="<?php echo $userId ?>">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Main Content Section -->
+                    <div class="lg:col-span-2 space-y-8">
+                        <!-- Basic Information Card -->
+                        <div class="bg-white rounded-2xl shadow-lg p-8 card-hover">
+                            <div class="flex items-center space-x-4 mb-8">
+                                <div class="p-3 bg-indigo-100 rounded-xl">
+                                    <i class="fas fa-info-circle text-indigo-600 text-xl"></i>
+                                </div>
+                                <h2 class="text-2xl font-bold text-gray-800">Course Information</h2>
+                            </div>
 
-        <div class="col-span-1">
-            <div class="bg-white rounded-xl custom-shadow p-8 sticky top-24 hover-scale transition-all duration-300">
-                <div class="flex items-center space-x-3 mb-6">
-                    <i class="fas fa-link text-blue-600 text-xl"></i>
-                    <h2 class="text-xl font-bold">Course URL</h2>
-                </div>
-                <div class="space-y-6">
-                    <div class="aspect-w-16 aspect-h-9 bg-gray-50 rounded-lg mb-4 border-2 border-dashed border-gray-200 flex items-center justify-center">
-                        <i class="fas fa-image text-4xl text-gray-300"></i>
-                    </div>   
-                    <div>
-                        <label class="block text-sm font-medium mb-2 text-gray-700">Course Image URL</label>
-                        <div class="flex items-center space-x-2">
-                            <input type="text" name="courseImage" placeholder="course Image" 
-                                   class="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                            <div class="space-y-6">
+                                <div>
+                                    <label class="block text-sm font-medium mb-2 text-gray-700">Course Title</label>
+                                    <input type="text" name="title" placeholder="Enter an engaging title for your course" 
+                                           class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300 input-focus">
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium mb-2 text-gray-700">Course Description</label>
+                                    <textarea rows="4" name="description" placeholder="Describe what students will learn from your course" 
+                                              class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300 input-focus custom-scrollbar"></textarea>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2 text-gray-700">Content Type</label>
+                                        <select name="content_type" id="content_type" 
+                                                class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300">
+                                            <option value="document">Document</option>
+                                            <option value="video">Video</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2 text-gray-700">Category</label>
+                                        <select name="category_id" 
+                                                class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300">
+                                            <option>Select category</option>
+                                            <?php foreach ($categories as $category): ?>
+                                                <option value="<?= $category['id'] ?>"><?= htmlspecialchars($category['name']) ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div id="documentContent">
+                                    <label class="block text-sm font-medium mb-2 text-gray-700">Course Content</label>
+                                    <textarea rows="6" name="document" placeholder="Enter your course content here" 
+                                              class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300 input-focus custom-scrollbar"></textarea>
+                                </div>
+
+                                <div id="videoContent" style="display: none;">
+                                    <label class="block text-sm font-medium mb-2 text-gray-700">Video URL</label>
+                                    <input type="url" name="content" placeholder="Enter your video URL" 
+                                           class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300 input-focus">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tags Card -->
+                        <div class="bg-white rounded-2xl shadow-lg p-8 card-hover">
+                            <div class="flex items-center space-x-4 mb-8">
+                                <div class="p-3 bg-purple-100 rounded-xl">
+                                    <i class="fas fa-tags text-purple-600 text-xl"></i>
+                                </div>
+                                <h2 class="text-2xl font-bold text-gray-800">Course Tags</h2>
+                            </div>
+
+                            <select id="tags" name="tags[]" class="w-full" multiple>
+                                <?php foreach ($tag as $tagItem): ?>
+                                    <option value="<?= $tagItem['id'] ?>"><?= htmlspecialchars($tagItem['name']) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <div class="lg:col-span-1">
+                        <div class="bg-white rounded-2xl shadow-lg p-8 sticky top-24 card-hover">
+                            <div class="flex items-center space-x-4 mb-8">
+                                <div class="p-3 bg-blue-100 rounded-xl">
+                                    <i class="fas fa-image text-blue-600 text-xl"></i>
+                                </div>
+                                <h2 class="text-2xl font-bold text-gray-800">Course Image</h2>
+                            </div>
+
+                            <div class="space-y-6">
+                                <div class="aspect-w-16 aspect-h-9 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 p-8 flex items-center justify-center">
+                                    <div class="text-center">
+                                        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4 floating"></i>
+                                        <p class="text-gray-500">Upload your course thumbnail</p>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium mb-2 text-gray-700">Image URL</label>
+                                    <input type="text" name="courseImage" placeholder="Enter image URL" 
+                                           class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300 input-focus">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="mt-8 text-right">
-        <button type="submit" 
-                class="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transform hover:-translate-y-1 transition-all duration-200 font-medium shadow-lg hover:shadow-xl">
-            <i class="fas fa-plus-circle mr-2"></i>
-            Create Course
-        </button>
-    </div>
-</form>
+                <div class="flex justify-end">
+                    <button type="submit" 
+                            class="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+                        <i class="fas fa-plus-circle mr-2"></i>
+                        Create Course
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
     <?php include __DIR__.'/../../../public/footer.php' ?>
