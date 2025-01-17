@@ -210,8 +210,16 @@ class Course {
         return $stmt->execute();
     }
 
-    public static function search($id,$role){
-          
+    public static function search($id, $role, $searchTerm) {
+        $db = Database::getInstance()->getConnection();
+        
+        if ($role == 'admin') {
+            $stmt = $db->prepare("SELECT * FROM courses WHERE title LIKE :searchTerm");
+            $stmt->bindParam(':searchTerm', $searchTerm);
+            $stmt->execute();
+            
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
     }
 
 }

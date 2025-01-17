@@ -9,9 +9,15 @@ $role = $_SESSION['user']['role'];
 $courseController = new \App\Controllers\CourseController();
 $search = new \App\Controllers\CourseController();
 
-$searching = $search->search($id,$role);
+// Handle search term from the URL
+$searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
 
-print_r($searching);
+if (!empty($searchTerm)) {
+    // Only perform search if there is a search term
+    $searching = $search->search($id, $role, $searchTerm);
+} else {
+    $searching = [];
+}
 
 $courses = $courseController->getCourses($id);
 
@@ -62,7 +68,6 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
     </style>
 </head>
 <body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
-    <!-- Enhanced Navigation -->
     <nav class="glass-effect fixed w-full z-50 border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex justify-between h-20 items-center">
@@ -77,10 +82,13 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
                 
                 <div class="hidden md:flex items-center space-x-8">
                     <div class="relative w-80">
-                        <input type="text" 
-                               placeholder="Search for courses" 
-                               class="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300 bg-white/80">
-                        <i class="fas fa-search absolute left-4 top-4 text-indigo-500"></i>
+                        <form id="searchForm" action="" method="get" class="relative w-80">
+                            <input type="text" name="search" placeholder="Search for courses" 
+                                class="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300 bg-white/80">
+                            <button type="submit" class="absolute left-4 top-4 text-indigo-500">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
                     </div>
                 </div>
 
@@ -110,6 +118,45 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
             </div>
         </div>
     </nav>
+
+    <div class="searchingResults">
+        <?php if (!empty($searching)): ?>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <?php foreach ($searching as $course): ?>
+                    <div class=" card-gradient rounded-2xl custom-shadow overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
+                        <div class="relative">
+                            <img src="<?php echo $course['image_url'] ?>" alt="<?php echo $course['title'] ?>" class="w-full h-48 object-cover">
+                            <div class="absolute top-4 right-4">
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-gray-800"><?php echo $course['title'] ?></h3>
+                            <p class="text-gray-600 mb-4 line-clamp-2"><?php echo $course['description'] ?></p>
+                            <div class="flex items-center mb-6">
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-500">
+                                    <i class="far fa-calendar-alt mr-2"></i>
+                                    <?php echo date('M d, Y', strtotime($course['created_at'])) ?>
+                                </span>
+                                <a href="/App/views/student/readCourse.php?readid=<?php echo $course['id'] ?>&action=read" 
+                                class="px-6 py-2.5 bg-gradient-to-r from-green-400 to-emerald-500 text-white rounded-xl hover:shadow-lg transition-all duration-300">
+                                    <i class="fas fa-book-reader mr-2"></i>Review
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <?php if (!empty($searchTerm)): ?>
+                <div class="text-center py-20 bg-white rounded-2xl custom-shadow">
+                    <i class="fas fa-book-open text-6xl text-gray-300 mb-4 animate-float"></i>
+                    <p class="text-2xl text-gray-500">No results found for "<?php echo htmlspecialchars($searchTerm); ?>".</p>
+                </div>
+            <?php endif; ?>
+        <?php endif; ?>
+    </div>
 
     <div class="custom-gradient text-white pt-32 pb-20 px-6">
         <div class="max-w-7xl mx-auto">
@@ -176,7 +223,7 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
             <?php endif; ?>
         </div>
     </div>
-    <?php include __DIR__.'/../../../public/footer.php'; ?>
+
     <script>
         function showPage(page) {
             const url = new URL(window.location.href);

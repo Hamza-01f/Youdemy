@@ -64,7 +64,6 @@ class CourseController {
     }
 
     public function updateCourse($courseId, $title,$content, $description, $categoryId,  $courseImage, $tags) {
-        // $courseModel = new Course();
 
         Course::updateCourse($courseId, $title,$content, $description, $categoryId,  $courseImage);
         
@@ -79,7 +78,16 @@ class CourseController {
         Course::pending($id);
     }
 
-    public function search($id,$role){
-        Course::search($id,$role);
+    public function search($id, $role, $searchTerm = '') {
+
+        $searchTerm = trim($searchTerm);
+        $searchTerm = '%' . $searchTerm . '%'; 
+    
+        $searchResults = Course::search($id, $role, $searchTerm);
+        if ($searchResults) {
+            return $searchResults;
+        } else {
+            return 'No result Found';
+        }
     }
 }
