@@ -1,6 +1,6 @@
 
 <?php
-require_once __DIR__.'/../controllers/TagController.php';
+require_once __DIR__.'/../../controllers/TagController.php';
 
 use App\Controllers\TagController;
 
@@ -48,14 +48,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateTag'])) {
             </div>
             <div class="flex flex-col flex-1 overflow-y-auto">
                 <nav class="flex-1 p-4 space-y-2">
-                    <a href="tag.php" class="flex items-center p-3 text-gray-100 hover:bg-indigo-500 rounded-md">
-                        <i class="fas fa-tag h-6 w-6 mr-2"></i> Tags
+                    <a href="category.php" class="flex items-center p-3 text-gray-100 hover:bg-indigo-500 rounded-md">
+                        <i class="fas fa-tag h-6 w-6 mr-2"></i> categories
                     </a>
-                    <a href="/app/view/AdmineDashboard/AdmineDashboard.php" class="flex items-center p-3 text-gray-100 hover:bg-indigo-500 rounded-md">
+                    <a href="statistics.php" class="flex items-center p-3 text-gray-100 hover:bg-indigo-500 rounded-md">
                         <i class="fas fa-tachometer-alt h-6 w-6 mr-2"></i> Dashboard
                     </a>
-                    <a href="/app/view/AdmineDashboard/articles/ManageArticles.php" class="flex items-center p-3 text-gray-100 hover:bg-indigo-500 rounded-md">
-                        <i class="fas fa-newspaper h-6 w-6 mr-2"></i> Articles
+                    <a href="validation.php" class="flex items-center p-3 text-gray-100 hover:bg-indigo-500 rounded-md">
+                        <i class="fas fa-newspaper h-6 w-6 mr-2"></i> users
                     </a>
                 </nav>
             </div>

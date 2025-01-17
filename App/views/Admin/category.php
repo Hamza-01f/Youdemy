@@ -30,7 +30,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id']))
 ?-->
 
 <?php
-require_once __DIR__.'/../controllers/CategoryController.php';
+require_once __DIR__.'/../../controllers/CategoryController.php';
 
 use App\Controllers\CategoryController;
 
@@ -72,21 +72,21 @@ if (isset($_GET['delete_id'])) {
             </div>
             <div class="flex flex-col flex-1 overflow-y-auto">
                 <nav class="flex-1 p-4 space-y-2">
-                    <a href="/app/view/AdmineDashboard/AdmineDashboard.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
+                    <a href="statistics.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                         Dashboard
                     </a>
-                    <a href="/app/view/AdmineDashboard/articles/ManageArticles.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
-                        <i class="fas fa-newspaper h-6 w-6 mr-2"></i> Articles
+                    <a href="seecourses.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
+                        <i class="fas fa-newspaper h-6 w-6 mr-2"></i> courses
                     </a>
-                    <a href="/app/view/AdmineDashboard/Tags/tag.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
+                    <a href="tag.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
                         <i class="fas fa-tag h-6 w-6 mr-2"></i> Tags
                     </a>
-                    <a href="category.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
-                        <i class="fas fa-th h-6 w-6 mr-2"></i> Categories
+                    <a href="validation.php" class="flex items-center p-3 text-gray-100 hover:bg-gray-700 rounded-md">
+                        <i class="fas fa-th h-6 w-6 mr-2"></i> users
                     </a>
                 </nav>
             </div>
