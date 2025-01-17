@@ -51,7 +51,7 @@
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-3">
                 <i class="fas fa-code text-2xl text-pink-500"></i>
-                <h1 class="text-2xl font-extrabold bg-gradient-to-r from-pink-500 to-purple-500 text-transparent bg-clip-text">DevBlog Admin</h1>
+                <h1 class="text-2xl font-extrabold bg-gradient-to-r from-pink-500 to-purple-500 text-transparent bg-clip-text">Youdemy Admin</h1>
             </div>
             <a href="../LogOut.php" class="flex items-center space-x-2 bg-gradient-to-r from-pink-600 to-purple-600 px-6 py-2 rounded-full hover:from-pink-700 hover:to-purple-700 transition-all duration-300 shadow-md">
                 <i class="fas fa-sign-out-alt"></i>
@@ -127,22 +127,11 @@
                 </div>
 
                 <div class="chart-container bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
-                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Articles by Category</h2>
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">courses by Category</h2>
                     <canvas id="articlesByCategoryChart" class="w-full"></canvas>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div class="chart-container bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
-                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Popular Tags</h2>
-                    <canvas id="popularTagsChart" class="w-full"></canvas>
-                </div>
-
-                <div class="chart-container bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
-                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Top Authors</h2>
-                    <canvas id="topAuthorsChart" class="w-full"></canvas>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -150,24 +139,15 @@
 
         const sampleData = {
             platformStats: {
-                labels: ['Users', 'Articles', 'Categories'],
+                labels: ['Users', 'courses', 'Categories'],
                 data: [1234, 856, 32]
             },
             articlesByCategory: {
                 labels: ['Technology', 'Design', 'Development', 'Business', 'Marketing'],
                 data: [45, 32, 28, 24, 20]
             },
-            popularTags: {
-                labels: ['JavaScript', 'React', 'Python', 'Design', 'AI'],
-                data: [150, 120, 100, 80, 60]
-            },
-            topAuthors: {
-                labels: ['John Doe', 'Jane Smith', 'Mike Johnson'],
-                data: [25, 20, 15]
-            }
         };
 
-        // Platform Stats Chart
         new Chart('platformStatsChart', {
             type: 'doughnut',
             data: {
@@ -188,7 +168,6 @@
             }
         });
 
-        // Articles by Category Chart
         new Chart('articlesByCategoryChart', {
             type: 'bar',
             data: {
@@ -210,48 +189,6 @@
             }
         });
 
-        // Popular Tags Chart
-        new Chart('popularTagsChart', {
-            type: 'pie',
-            data: {
-                labels: sampleData.popularTags.labels,
-                datasets: [{
-                    data: sampleData.popularTags.data,
-                    backgroundColor: ['#EC4899', '#6366F1', '#8B5CF6', '#14B8A6', '#F59E0B'],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
-            }
-        });
-
-        // Top Authors Chart
-        new Chart('topAuthorsChart', {
-            type: 'bar',
-            data: {
-                labels: sampleData.topAuthors.labels,
-                datasets: [{
-                    label: 'Articles Published',
-                    data: sampleData.topAuthors.data,
-                    backgroundColor: '#6366F1',
-                    borderRadius: 8
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
     </script>
 </body>
 </html>

@@ -150,10 +150,6 @@ if (isset($_GET['readid']) && $_GET['action'] === 'read') {
                     <h1 class="text-4xl font-bold mb-4 drop-shadow-lg"><?php echo $courses['title'] ?></h1>
                     <div class="flex flex-wrap items-center gap-6">
                         <div class="flex items-center space-x-2 bg-black/30 rounded-full px-4 py-2">
-                            <i class="fas fa-clock"></i>
-                            <span>12 hours</span>
-                        </div>
-                        <div class="flex items-center space-x-2 bg-black/30 rounded-full px-4 py-2">
                             <i class="fas fa-calendar"></i>
                             <span>Created: <?php echo date('M d, Y', strtotime($courses['created_at'])) ?></span>
                         </div>
@@ -182,6 +178,19 @@ if (isset($_GET['readid']) && $_GET['action'] === 'read') {
                             }
                         ?>
                     </div>
+                    <?php if($_SESSION['user']['role'] == 'student'): ?>
+                        <div>
+                            <p>have you finished the course ? click below </p>
+                            <button onclick="downloadCertificate()" class="certificate-button flex items-center space-x-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-xl shadow-lg">
+                                <i class="fas fa-certificate text-xl"></i>
+                                <span class="font-semibold">Get Your Certificate</span>
+                                <div class="relative">
+                                    <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full"></div>
+                                    <i class="fas fa-download"></i>
+                                </div>
+                        </button>
+                        </div>
+                    <?php endif; ?>
                 </div>
 
                 
@@ -203,4 +212,15 @@ if (isset($_GET['readid']) && $_GET['action'] === 'read') {
     </div>
     <?php include __DIR__.'/../../../public/footer.php' ?>
 </body>
+<script>
+        function downloadCertificate() {
+        if (confirm('Congratulations on completing the course! Would you like to download your certificate?')) {
+            const button = document.querySelector('.certificate-button');
+            button.classList.add('scale-105');
+            setTimeout(() => button.classList.remove('scale-105'), 200);
+            
+            alert('Your certificate is being generated and will download shortly!');
+        }
+    }
+</script>
 </html>
