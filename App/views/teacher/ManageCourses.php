@@ -65,8 +65,10 @@ if (isset($_GET['action']) && $_GET['action'] === 'pending' && isset($_GET['id']
                     <thead class="bg-gray-100">
                         <tr>
                             <th class="px-6 py-3 text-left text-gray-700">Titre du cours</th>
-                            <th class="px-6 py-3 text-left text-gray-700">Catégorie</th>
+                            <th class="px-6 py-3 text-left text-gray-700">Category</th>
+                            <?php if($_SESSION['user']['role'] == 'admin'): ?>
                             <th class="px-6 py-3 text-left text-gray-700">Statut</th>
+                            <?php endif; ?>
                             <th class="px-6 py-3 text-left text-gray-700">Actions</th>
                         </tr>
                     </thead>
@@ -77,14 +79,16 @@ if (isset($_GET['action']) && $_GET['action'] === 'pending' && isset($_GET['id']
                             <td class="px-6 py-4"><?= htmlspecialchars($course['category_name']) ?></td>
                             <td class="px-6 py-4">
                                 <div>
-                                    <?php if($course['status'] === 'pending' ):  ?>
-                                        <a href="?id=<?= $course['id'] ?>&action=pending" class="text-white">
-                                            <button class="bg-yellow-500 hover:bg-yellow-600 px-4 py-2 rounded-lg shadow-md">PENDING</button>
-                                        </a>
-                                    <?php else: ?>
-                                        <a href="?id=<?= $course['id'] ?>&action=active" class="text-white">
+                                    <?php if($_SESSION['user']['role'] == 'admin'): ?>
+                                        <?php if($course['status'] === 'pending' ):  ?>
+                                           <a href="?id=<?= $course['id'] ?>&action=pending" class="text-white">
+                                           <button class="bg-yellow-500 hover:bg-yellow-600 px-4 py-2 rounded-lg shadow-md">PENDING</button>
+                                           </a>
+                                        <?php else: ?>
+                                            <a href="?id=<?= $course['id'] ?>&action=active" class="text-white">
                                             <button class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg shadow-md">ACTIVE</button>
-                                        </a>
+                                            </a>
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                 </div>
                             </td>
@@ -107,5 +111,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'pending' && isset($_GET['id']
             </div>
         </div>
     </main>
+    <?php include __DIR__.'/../../../public/footer.php' ?>
 </body>
 </html>

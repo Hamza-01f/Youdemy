@@ -1,10 +1,12 @@
 <?php
-require_once __DIR__.'/vendor/autoload.php';
+session_start();
 
+require_once __DIR__.'/../../../vendor/autoload.php';
+
+$id = $_SESSION['user']['id'];
 $courseController = new \App\Controllers\CourseController();
 
-$courses = $courseController->getAllowedCourses();
-
+$courses = $courseController->getRelatedCourses($id);
 $coursesPerPage = 3;
 $totalCourses = count($courses);
 $totalPages = ceil($totalCourses / $coursesPerPage);
@@ -78,35 +80,28 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <a href="/App/views/logIn.php" class="nav-button secondary">
-                        <i class="fas fa-sign-in-alt mr-2"></i>Log in
+                    <a href="/../LogOut.php" class="nav-button secondary">
+                        Log Out
                     </a>
-                    <a href="/App/views/Register.php" class="nav-button primary">
-                        <i class="fas fa-user-plus mr-2"></i>Register
+                    <a href="Statistics.php" class="nav-button primary">
+                        statistics
+                    </a>
+                    <a href="AddCourse.php" class="nav-button primary">
+                        add course
+                    </a>
+                    <a href="ManageCourses.php" class="nav-button primary">
+                        Manage Courses
                     </a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <div class="hero-bg min-h-[600px] flex items-center justify-center text-white">
-        <div class="max-w-7xl mx-auto px-4 py-32 text-center">
-            <h1 class="text-5xl font-bold mb-6">Expand Your Knowledge</h1>
-            <p class="text-xl mb-8 max-w-2xl mx-auto">Discover thousands of courses from expert instructors around the world. Start your learning journey today.</p>
-            <div class="flex justify-center space-x-4">
-                <a href="/App/views/Register.php" class="nav-button secondary border-white text-white hover:bg-white/20">
-                    <i class="fas fa-user-plus mr-2"></i>Join Now
-                </a>
-            </div>
-        </div>
-    </div>
-
 
     <div class="max-w-7xl mx-auto px-4 py-16" id="courses">
         <div class="flex justify-between items-center mb-12">
             <h2 class="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                Available Courses
+               Your Available Courses
             </h2>
             <div class="flex space-x-2">
                 <?php
@@ -146,8 +141,8 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
                                         <i class="far fa-calendar-alt mr-2"></i>
                                         '.date('M d, Y', strtotime($course['created_at'])).'
                                     </span>
-                                    <a href="/App/views/logIn.php" class="nav-button primary">
-                                        <i class="fas fa-user-plus mr-2"></i>Enroll
+                                    <a href="/App/views/student/readCourse.php?readid='.$course['id'].'&action=read" class="px-6 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors shadow-md hover:shadow-lg">
+                                         <i class="fas fa-book-reader mr-2"></i>Review
                                     </a>
                                 </div>
                             </div>
@@ -162,7 +157,7 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
             ?>
         </div>
     </div>
-    <?php include __DIR__.'/public/footer.php' ?>
+    <?php include __DIR__.'/../../..//public/footer.php' ?>
     <script>
         function showPage(page) {
             const url = new URL(window.location.href);

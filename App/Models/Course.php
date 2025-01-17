@@ -157,6 +157,19 @@ class Course {
         }
     }
 
+    public static function getRelatedCourses($id){
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("SELECT courses.id, courses.title,courses.created_at ,courses.image_url, courses.description, categories.name AS category_name, courses.status,users.username,users.profile_image
+                              FROM courses
+                              JOIN categories ON courses.category_id = categories.id
+                              Join users on courses.teacher_id = users.id
+                              where courses.status = 'active' AND users.id = :id
+                              ");
+        $stmt->bindParam(':id',$id,\PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function getSpecificCourse($id) {
          $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("SELECT *                                   

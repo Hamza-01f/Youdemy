@@ -134,7 +134,7 @@
             </div>
         </div>
     </main>
-
+    <?php include __DIR__.'/../../../public/footer.php' ?>
     <script>
       
         const enrollmentCtx = document.getElementById('enrollmentChart').getContext('2d');

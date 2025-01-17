@@ -4,18 +4,25 @@ session_start();
 
 $Studentid = $_SESSION['user']['id'];
 
-
-
 $courseController = new \App\Controllers\CourseController();
 $enrolling = new App\Controllers\EnrollmentController();
 
 $courses = $courseController->getAllowedCourses();
 
+// Pagination setup: Show 3 courses per page
+$coursesPerPage = 3;
+$totalCourses = count($courses);
+$totalPages = ceil($totalCourses / $coursesPerPage);
+
+// Determine the current page
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$startIndex = ($page - 1) * $coursesPerPage;
+$currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
+
 if (isset($_GET['enrollid']) && $_GET['action'] === 'enroll') {
     $enrollId = $_GET['enrollid'];
-    $enrolling->enrollStudent($Studentid,$enrollId);
+    $enrolling->enrollStudent($Studentid, $enrollId);
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -103,7 +110,6 @@ if (isset($_GET['enrollid']) && $_GET['action'] === 'enroll') {
         </div>
     </nav>
 
-    <!-- Welcome Section with enhanced styling -->
     <div class="gradient-bg pt-32 pb-20 text-white">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -120,22 +126,26 @@ if (isset($_GET['enrollid']) && $_GET['action'] === 'enroll') {
         </div>
     </div>
 
-    <!-- Courses Section with enhanced styling -->
     <div class="max-w-7xl mx-auto px-4 py-16" id="courses">
         <div class="flex justify-between items-center mb-12">
             <h2 class="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                 Available Courses
             </h2>
             <div class="flex space-x-2">
-                <span onclick="showPage(1)" class="w-10 h-10 flex items-center justify-center rounded-full pagination-active cursor-pointer transition-colors">1</span>
-                <span onclick="showPage(2)" class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 hover:border-indigo-600 cursor-pointer transition-colors">2</span>
+                <?php
+               
+                for ($i = 1; $i <= $totalPages; $i++) {
+                    echo '<span onclick="showPage(' . $i . ')" class="w-10 h-10 flex items-center justify-center rounded-full ' . ($i === $page ? 'pagination-active' : 'border') . ' cursor-pointer transition-colors">' . $i . '</span>';
+                }
+                ?>
             </div>
         </div>
 
+        
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="page-1">
             <?php
-            if (count($courses) > 0) {
-                foreach ($courses as $course) {
+            if (count($currentPageCourses) > 0) {
+                foreach ($currentPageCourses as $course) {
                     $isEnrolled = $enrolling->checkEnrollment($Studentid, $course['id']);
                     echo '
                         <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
@@ -143,7 +153,7 @@ if (isset($_GET['enrollid']) && $_GET['action'] === 'enroll') {
                                 <img src="'.$course['image_url'].'" alt="'.$course['title'].'" class="w-full h-48 object-cover">
                                 <div class="absolute top-4 right-4">
                                     <span class="px-3 py-1 bg-white/90 backdrop-blur-sm text-indigo-600 rounded-full text-sm font-medium shadow-md">
-                                        '.$course['category_name'].'
+                                        '.$course['category_name'].' 
                                     </span>
                                 </div>
                             </div>
@@ -182,33 +192,23 @@ if (isset($_GET['enrollid']) && $_GET['action'] === 'enroll') {
             ?>
         </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 hidden" id="page-2"></div>
+        <!-- Pagination Buttons for Pages -->
+        <div class="mt-6 text-center">
+            <?php if ($totalPages > 1): ?>
+                <div class="flex justify-center space-x-4">
+                    <?php
+                    for ($i = 1; $i <= $totalPages; $i++) {
+                        echo '<a href="?page=' . $i . '" class="px-4 py-2 text-sm bg-gray-200 rounded-full hover:bg-indigo-500 hover:text-white transition-colors ' . ($i === $page ? 'pagination-active' : '') . '">' . $i . '</a>';
+                    }
+                    ?>
+                </div>
+            <?php endif; ?>
+        </div>
+
     </div>
-
+    <?php include __DIR__.'/../../../public/footer.php' ?>
     <script>
-        function showPage(page) {
-            const page1 = document.getElementById('page-1');
-            const page2 = document.getElementById('page-2');
-            const paginationButtons = document.querySelectorAll('[onclick^="showPage"]');
-            
-            paginationButtons.forEach((button, index) => {
-                if (index + 1 === page) {
-                    button.classList.add('pagination-active');
-                    button.classList.remove('border');
-                } else {
-                    button.classList.remove('pagination-active');
-                    button.classList.add('border');
-                }
-            });
 
-            if (page === 1) {
-                page1.classList.remove('hidden');
-                page2.classList.add('hidden');
-            } else {
-                page2.classList.remove('hidden');
-                page1.classList.add('hidden');
-            }
-        }
     </script>
 </body>
 </html>

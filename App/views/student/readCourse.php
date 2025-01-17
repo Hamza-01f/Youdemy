@@ -1,7 +1,7 @@
 <?php
-require_once '../../../vendor/autoload.php';
-session_start();
 
+session_start();
+require_once '../../../vendor/autoload.php';
 $imageProfile = $_SESSION['user']['profile_image'];
 $name = $_SESSION['user']['username'];
 $Studentid = $_SESSION['user']['id'];
@@ -67,7 +67,7 @@ if (isset($_GET['readid']) && $_GET['action'] === 'read') {
                     <span class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Youdemy</span>
                 </div>
 
-                <!-- Navigation Links -->
+                <?php if($_SESSION['user']['role'] == 'student'): ?>
                 <div class="hidden md:flex items-center space-x-4">
                     <a href="Browse.php" class="nav-button nav-button-secondary flex items-center space-x-2">
                         <i class="fas fa-compass"></i>
@@ -77,10 +77,7 @@ if (isset($_GET['readid']) && $_GET['action'] === 'read') {
                         <i class="fas fa-book-open"></i>
                         <span>My Courses</span>
                     </a>
-                </div>
-
-                <!-- Profile Section -->
-                <div class="flex items-center space-x-6">
+                    <div class="flex items-center space-x-6">
                     <div class="flex items-center space-x-3">
                         <img src="<?php echo $imageProfile ?>" alt="Profile" class="w-10 h-10 rounded-full border-2 border-indigo-200 object-cover shadow-md">
                         <div class="hidden md:block">
@@ -93,19 +90,32 @@ if (isset($_GET['readid']) && $_GET['action'] === 'read') {
                         </a>
                     </div>
                 </div>
+                </div>
+                <?php else: ?>
+                    <div class="hidden md:flex items-center space-x-4">
+                    <a href="/App/views/teacher/seeCourses.php" class="nav-button nav-button-secondary flex items-center space-x-2">
+                        
+                        <span>back</span>
+                    </a>
+                    <a href="../LogOut.php" class="nav-button nav-button-secondary flex items-center space-x-2">
+                        
+                        <span>logOut</span>
+                    </a>
+                </div>
+                <?php endif; ?>
             </div>
         </div>
     </nav>
 
-    <!-- Course Header -->
+   
     <div class="relative">
-        <!-- Course Banner Image -->
+   
         <div class="h-64 md:h-80 w-full overflow-hidden relative">
             <img src="<?php echo $courses['image_url'] ?>" alt="Course Banner" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
         </div>
 
-        <!-- Course Info Overlay -->
+        <?php if($_SESSION['user']['role'] == 'student'): ?>
         <div class="absolute bottom-0 left-0 right-0">
             <div class="max-w-7xl mx-auto px-4 pb-8">
                 <div class="text-white">
@@ -127,14 +137,12 @@ if (isset($_GET['readid']) && $_GET['action'] === 'read') {
                 </div>
             </div>
         </div>
+        <?php endif; ?>
     </div>
 
-    <!-- Main Content -->
     <div class="max-w-7xl mx-auto px-4 py-12">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Course Content -->
             <div class="lg:col-span-2 space-y-8">
-                <!-- Video Section -->
                 <div class="bg-white rounded-2xl p-6 content-shadow hover:shadow-xl transition-shadow duration-300">
                     <h2 class="text-2xl font-bold mb-6 text-gray-800">Course Content</h2>
                     <div class="video-container mb-6">
@@ -148,13 +156,12 @@ if (isset($_GET['readid']) && $_GET['action'] === 'read') {
                     </div>
                 </div>
 
-                <!-- Description Section -->
+                
                 <div class="bg-white rounded-2xl p-6 content-shadow hover:shadow-xl transition-shadow duration-300">
                     <h2 class="text-2xl font-bold mb-6 text-gray-800">Course Description</h2>
                     <p class="text-gray-600 leading-relaxed"><?php echo nl2br($courses['description']) ?></p>
                 </div>
 
-                <!-- Course Tags -->
                 <div class="bg-white rounded-2xl p-6 content-shadow hover:shadow-xl transition-shadow duration-300">
                     <h2 class="text-2xl font-bold mb-6 text-gray-800">Course Tags</h2>
                     <div class="flex flex-wrap gap-3">
@@ -166,6 +173,7 @@ if (isset($_GET['readid']) && $_GET['action'] === 'read') {
             </div>
         </div>
     </div>
+    <?php include __DIR__.'/../../../public/footer.php' ?>
 </body>
 </html>
 

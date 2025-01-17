@@ -249,7 +249,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </div>
-
+    <?php include __DIR__.'/../../public/footer.php' ?>
     <script>
         // const usernameRegex = /^\w{4,20}$/;  
         // const emailRegex = /^[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/;  

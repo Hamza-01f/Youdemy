@@ -1,3 +1,22 @@
+<?php
+session_start();
+require_once __DIR__ . '/../../Models/Enrollment.php'; 
+
+use App\Models\Enrollment;
+
+$studentId = $_SESSION['user']['id']; 
+$enrollment = new Enrollment();
+
+$enrolledCoursesPerPage = 3;
+$currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$startLimit = ($currentPage - 1) * $enrolledCoursesPerPage;
+
+$totalEnrolledCourses = $enrollment->getEnrolledCoursesCount($studentId);
+$enrolledCourses = $enrollment->getEnrolledCourses($studentId, $enrolledCoursesPerPage, $startLimit);
+$nonEnrolledCourses = $enrollment->getNonEnrolledCourses($studentId);
+$enrolledPages = ceil($totalEnrolledCourses / $enrolledCoursesPerPage);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,168 +29,166 @@
         .gradient-bg {
             background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
         }
-        .progress-bar {
-            background: linear-gradient(90deg, #3B82F6 var(--progress), #E5E7EB var(--progress));
+        .gradient-bg-2 {
+            background: linear-gradient(135deg, #10B981 0%, #3B82F6 100%);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+        }
+        .enrolled-section {
+            background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%);
+        }
+        .non-enrolled-section {
+            background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%);
+        }
+        .nav-button {
+            transition: all 0.3s ease;
+        }
+        .nav-button:hover {
+            transform: translateY(-2px);
         }
     </style>
 </head>
 <body class="bg-gray-50">
-    <nav class="bg-white shadow-sm border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <div class="gradient-bg p-2 rounded-lg">
-                    <i class="fas fa-graduation-cap text-2xl text-white"></i>
+  
+    <nav class="bg-white shadow-lg border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="gradient-bg p-3 rounded-xl shadow-lg">
+                        <i class="fas fa-graduation-cap text-2xl text-white"></i>
+                    </div>
+                    <span class="text-2xl font-bold gradient-text">Youdemy</span>
                 </div>
-                <span class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Youdemy</span>
-            </div>
-            <a href="Browse.php" class="text-gray-900 hover:text-blue-600">Browse</a>
-            <div class="flex items-center space-x-4">
-                <a href="/../LogOut.php" class="px-6 py-2.5 text-indigo-600 font-medium hover:bg-indigo-50 rounded-full transition-colors">
-                    Log out
-                </a>
+                
+                <div class="flex items-center space-x-6">
+                    <a href="Browse.php" class="nav-button px-6 py-2.5 text-gray-700 hover:text-blue-600 font-medium rounded-xl hover:bg-blue-50 transition-all flex items-center space-x-2">
+                        <i class="fas fa-compass"></i>
+                        <span>Browse Courses</span>
+                    </a>
+                    <a href="../LogOut.php" class="nav-button px-6 py-2.5 gradient-bg text-white font-medium rounded-xl shadow-md hover:shadow-xl transition-all flex items-center space-x-2">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Log out</span>
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
 
-    <div class="gradient-bg text-white py-12">
-        <div class="max-w-7xl mx-auto px-4">
-            <h1 class="text-3xl font-bold mb-4">My Learning Dashboard</h1>
+    <div class="gradient-bg text-white py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <h1 class="text-4xl font-bold mb-6">My Learning Dashboard</h1>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white/10 rounded-xl p-6">
-                    <h3 class="text-lg mb-2">Active Courses</h3>
-                    <div class="text-3xl font-bold">4</div>
-                </div>
-                <div class="bg-white/10 rounded-xl p-6">
-                    <h3 class="text-lg mb-2">Hours Learned</h3>
-                    <div class="text-3xl font-bold">28.5</div>
-                </div>
-                <div class="bg-white/10 rounded-xl p-6">
-                    <h3 class="text-lg mb-2">Certificates Earned</h3>
-                    <div class="text-3xl font-bold">2</div>
+                <div class="bg-white/20 backdrop-blur-md rounded-2xl p-8 card-hover">
+                    <h3 class="text-xl mb-3">Enrolled Courses</h3>
+                    <div class="text-4xl font-bold"><?php echo count($enrolledCourses); ?></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="max-w-7xl mx-auto px-4 py-8">
-        <!-- Continue Learning Section -->
-        <div class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">Continue Learning</h2>
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="enrolled-section rounded-3xl p-8 mt-8 mb-12">
+            <h2 class="text-2xl font-bold mb-8 flex items-center">
+                <i class="fas fa-book-reader text-blue-600 mr-3"></i>
+                My Active Courses
+            </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Course Card 1 -->
-                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-                    <div class="relative">
-                        <img src="/api/placeholder/400/200" alt="Course" class="w-full h-48 object-cover">
-                        <div class="absolute bottom-0 left-0 right-0 h-1 progress-bar" style="--progress: 65%"></div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-lg mb-2">Advanced Web Development</h3>
-                        <div class="flex justify-between text-sm text-gray-600 mb-4">
-                            <span>65% complete</span>
-                            <span>12/20 lessons</span>
+                <?php if (!empty($enrolledCourses)): ?>
+                    <?php foreach ($enrolledCourses as $course): ?>
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+                            <div class="relative">
+                                <img src="<?php echo $course['image_url']; ?>" alt="Course" class="w-full h-48 object-cover">
+                                <div class="absolute top-4 right-4">
+                                    <span class="px-4 py-1 bg-blue-600 text-white rounded-full text-sm">
+                                        Active
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="font-bold text-xl mb-3"><?php echo $course['title']; ?></h3>
+                                <p class="text-gray-600 mb-4 line-clamp-2"><?php echo $course['description']; ?></p>
+                                <a href="readCourse.php?readid=<?php echo $course['id']; ?>" class="inline-block w-full px-6 py-3 text-center gradient-bg text-white rounded-xl hover:opacity-90 transition-opacity">
+                                    Continue Learning
+                                </a>
+                            </div>
                         </div>
-                        <button class="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                            Continue Learning
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Course Card 2 -->
-                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-                    <div class="relative">
-                        <img src="/api/placeholder/400/200" alt="Course" class="w-full h-48 object-cover">
-                        <div class="absolute bottom-0 left-0 right-0 h-1 progress-bar" style="--progress: 30%"></div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-lg mb-2">UI/UX Design Fundamentals</h3>
-                        <div class="flex justify-between text-sm text-gray-600 mb-4">
-                            <span>30% complete</span>
-                            <span>6/20 lessons</span>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="col-span-3 text-center py-12">
+                        <div class="text-gray-400 text-6xl mb-4">
+                            <i class="fas fa-book-open"></i>
                         </div>
-                        <button class="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                            Continue Learning
-                        </button>
+                        <h3 class="text-xl font-semibold text-gray-600 mb-2">No enrolled courses yet</h3>
+                        <p class="text-gray-500 mb-6">Start your learning journey by exploring our courses!</p>
+                        <a href="Browse.php" class="inline-block px-8 py-3 gradient-bg text-white rounded-xl hover:opacity-90 transition-opacity">
+                            Explore Courses
+                        </a>
                     </div>
-                </div>
-
-                <!-- Course Card 3 -->
-                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-                    <div class="relative">
-                        <img src="/api/placeholder/400/200" alt="Course" class="w-full h-48 object-cover">
-                        <div class="absolute bottom-0 left-0 right-0 h-1 progress-bar" style="--progress: 90%"></div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-lg mb-2">Data Science Mastery</h3>
-                        <div class="flex justify-between text-sm text-gray-600 mb-4">
-                            <span>90% complete</span>
-                            <span>18/20 lessons</span>
-                        </div>
-                        <button class="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                            Continue Learning
-                        </button>
-                    </div>
-                </div>
+                <?php endif; ?>
             </div>
+
+            <?php if ($enrolledPages > 1): ?>
+                <div class="mt-8 flex justify-center">
+                    <div class="inline-flex rounded-xl bg-white shadow-md p-2">
+                        <?php for ($i = 1; $i <= $enrolledPages; $i++): ?>
+                            <a href="?page=<?php echo $i; ?>" 
+                               class="px-4 py-2 rounded-lg <?php echo $currentPage === $i ? 'gradient-bg text-white' : 'text-gray-700 hover:bg-gray-100'; ?> transition-colors">
+                                <?php echo $i; ?>
+                            </a>
+                        <?php endfor; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
         </div>
 
-        <!-- My Courses Section -->
-        <div class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">My Courses</h2>
+        <!-- Non-Enrolled Courses Section -->
+        <div class="non-enrolled-section rounded-3xl p-8 mb-12">
+            <h2 class="text-2xl font-bold mb-8 flex items-center">
+                <i class="fas fa-compass text-green-600 mr-3"></i>
+                Recommended Courses
+            </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Enrolled Course Card 1 -->
-                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-                    <img src="/api/placeholder/400/200" alt="Course" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="font-bold text-lg mb-2">Machine Learning Basics</h3>
-                        <p class="text-gray-600 mb-4">Learn the fundamentals of machine learning.</p>
-                        <div class="flex justify-between text-sm text-gray-600 mb-4">
-                            <span>5/10 lessons</span>
-                            <span>50% complete</span>
+                <?php if (!empty($nonEnrolledCourses)): ?>
+                    <?php foreach ($nonEnrolledCourses as $course): ?>
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+                            <div class="relative">
+                                <img src="<?php echo $course['image_url']; ?>" alt="Course" class="w-full h-48 object-cover">
+                                <div class="absolute top-4 right-4">
+                                    <span class="px-4 py-1 bg-green-500 text-white rounded-full text-sm">
+                                        Available
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="font-bold text-xl mb-3"><?php echo $course['title']; ?></h3>
+                                <p class="text-gray-600 mb-4 line-clamp-2"><?php echo $course['description']; ?></p>
+                                <a href="enroll.php?id=<?php echo $course['id']; ?>" class="inline-block w-full px-6 py-3 text-center gradient-bg-2 text-white rounded-xl hover:opacity-90 transition-opacity">
+                                    Enroll Now
+                                </a>
+                            </div>
                         </div>
-                        <button class="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                            Resume Course
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Enrolled Course Card 2 -->
-                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-                    <img src="/api/placeholder/400/200" alt="Course" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="font-bold text-lg mb-2">Digital Marketing Essentials</h3>
-                        <p class="text-gray-600 mb-4">Get a strong foundation in digital marketing.</p>
-                        <div class="flex justify-between text-sm text-gray-600 mb-4">
-                            <span>8/10 lessons</span>
-                            <span>80% complete</span>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="col-span-3 text-center py-12">
+                        <div class="text-gray-400 text-6xl mb-4">
+                            <i class="fas fa-check-circle"></i>
                         </div>
-                        <button class="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                            Resume Course
-                        </button>
+                        <h3 class="text-xl font-semibold text-gray-600 mb-2">You're All Set!</h3>
+                        <p class="text-gray-500">You've enrolled in all available courses. Check back later for new content!</p>
                     </div>
-                </div>
-
-                <!-- Enrolled Course Card 3 -->
-                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-                    <img src="/api/placeholder/400/200" alt="Course" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="font-bold text-lg mb-2">Web Development Bootcamp</h3>
-                        <p class="text-gray-600 mb-4">Become a full-stack web developer.</p>
-                        <div class="flex justify-between text-sm text-gray-600 mb-4">
-                            <span>12/12 lessons</span>
-                            <span>Completed</span>
-                        </div>
-                        <button class="w-full py-2 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-                            View Certificate
-                        </button>
-                    </div>
-                </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>
-
-    <script>
-        
-    </script>
+    <?php include __DIR__.'/../../../public/footer.php' ?>
 </body>
 </html>

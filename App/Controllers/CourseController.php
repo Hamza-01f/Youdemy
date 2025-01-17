@@ -59,6 +59,9 @@ class CourseController {
         return Course::ReadCourse($id);
     }
     
+    public function getRelatedCourses($id){
+        return Course::getRelatedCourses($id);
+    }
 
     public function updateCourse($courseId, $title,$content, $description, $categoryId,  $courseImage, $tags) {
         // $courseModel = new Course();

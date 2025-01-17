@@ -74,11 +74,9 @@ $tag = $categoryTags->getTags();
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <button class="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-colors duration-200">
-                        <i class="fas fa-bell text-xl"></i>
-                    </button>
+
                     <div class="relative">
-                        <img src="/api/placeholder/32/32" alt="Profile" class="w-10 h-10 rounded-full border-2 border-blue-200 hover:border-blue-400 transition-colors duration-200">
+                        <img src="<?php echo $_SESSION['user']['profile_image']?>" alt="Profile" class="w-10 h-10 rounded-full border-2 border-blue-200 hover:border-blue-400 transition-colors duration-200">                
                         <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-white"></div>
                     </div>
                 </div>
@@ -178,7 +176,7 @@ $tag = $categoryTags->getTags();
                     <div>
                         <label class="block text-sm font-medium mb-2 text-gray-700">Course Image URL</label>
                         <div class="flex items-center space-x-2">
-                            <input type="url" name="courseImage" placeholder="course Image" 
+                            <input type="text" name="courseImage" placeholder="course Image" 
                                    class="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
                         </div>
                     </div>
@@ -197,7 +195,7 @@ $tag = $categoryTags->getTags();
 </form>
         </div>
     </div>
-
+    <?php include __DIR__.'/../../../public/footer.php' ?>
     <script>
        
         new TomSelect("#tags", {

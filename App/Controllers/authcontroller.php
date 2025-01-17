@@ -13,7 +13,7 @@ class authcontroller{
         $user = authontification::finduser($username, $password);
         if(password_verify($password, $user['password'])) {
            
-            if ($user['role'] == 'teacher' && $user['status'] == 'active') {
+            if ($user['role'] == 'teacher' && $user['status'] == 'active' && $user['validation'] == 'notaccepted') {
                 session_start();
                 $_SESSION['user'] = $user; 
                 header('Location: /App/views/teacher/ManageCourses.php');
@@ -29,7 +29,17 @@ class authcontroller{
                 header('Location: /App/views/Admin/accountValida.php');
                 exit();
             } else { 
-                echo 'Sorry you are Banned By Admin';
+                if($user['validation'] == 'accepted'){
+                    session_start();
+                    $_SESSION['user'] = $user;
+                    header('Location: /App/views/teacher/waitingForValidation.php');
+                    exit();
+                }else{
+                    session_start();
+                    $_SESSION['user'] = $user;
+                    header('Location: /App/views/Banned.php');
+                    exit();
+                }
             }
         }else{
           echo 'invalid password or username';

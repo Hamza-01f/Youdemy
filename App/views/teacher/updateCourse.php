@@ -210,7 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             </form>
         </div>
     </div>
-
+    <?php include __DIR__.'/../../../public/footer.php' ?>
     <script>
         new TomSelect("#tags", {
             create: false,
