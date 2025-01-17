@@ -30,7 +30,7 @@ class authcontroller{
                 header('Location: /App/views/student/Browse.php');
                 exit();          
             } else { 
-                if($user['validation'] == 'notaccepted'){
+                if($user['role'] == 'teacher' && $user['validation'] == 'notaccepted'){
                     session_start();
                     $_SESSION['user'] = $user;
                     header('Location: /App/views/teacher/waitingForValidation.php');

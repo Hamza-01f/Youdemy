@@ -33,10 +33,10 @@ class CourseController {
         
     }
 
-    public function getCourses() {
+    public function getCourses($id) {
         
         // $courseModel = new \App\Models\Course(); 
-        return Course::getAllCourses();  
+        return Course::getAllCourses($id);  
     }
     
 

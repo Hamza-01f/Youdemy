@@ -2,6 +2,7 @@
 session_start();
 
 $name = $_SESSION['user']['username'];
+$id = $_SESSION['user']['id'];
 
 require_once __DIR__.'/../../controllers/CourseController.php';
 require_once __DIR__.'/../../controllers/CategoryController.php';
@@ -12,7 +13,7 @@ use  App\Controllers\TagController;
 use  App\Controllers\CourseController;
 
 $courseController = new CourseController();
-$courses = $courseController->getCourses();
+$courses = $courseController->getCourses($id);
 
 
 if (isset($_GET['id']) && isset($_GET['action']) && $_GET['action'] === 'delete') {

@@ -99,13 +99,27 @@ class Course {
     }
     
 
-    public static function getAllCourses() {
-        $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("SELECT courses.id, courses.title, courses.description, courses.image_url, categories.name AS category_name, courses.status
-                              FROM courses
-                              JOIN categories ON courses.category_id = categories.id");
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    public static function getAllCourses($id) {
+        if($id == 9){
+            $db = Database::getInstance()->getConnection();
+            $stmt = $db->prepare("SELECT courses.id, courses.title, courses.description,courses.content,courses.created_at, courses.image_url, categories.name AS category_name, courses.status , users.profile_image, users.username
+                                  FROM courses
+                                  Join users on courses.teacher_id = users.id
+                                  JOIN categories ON courses.category_id = categories.id");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }else{
+            $db = Database::getInstance()->getConnection();
+            $stmt = $db->prepare("SELECT courses.id, courses.title, courses.description, courses.image_url, categories.name AS category_name, courses.status
+                                  FROM courses
+                                  JOIN categories ON courses.category_id = categories.id
+                                  where courses.teacher_id = :id
+                                  ");
+            $stmt->bindParam(':id',$id,PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
     }
 
     public static function getAllowedCourses() {

@@ -12,6 +12,7 @@ $requestedUsers = $userHandler->fetchRequestedUsers();
 $allUsers = $userHandler->fetchUsers();
 
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -246,5 +247,6 @@ $allUsers = $userHandler->fetchUsers();
         </div>
 
     </main>
+    <?php include __DIR__.'/../../../public/footer.php' ?>
 </body>
 </html>

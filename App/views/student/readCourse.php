@@ -91,17 +91,45 @@ if (isset($_GET['readid']) && $_GET['action'] === 'read') {
                     </div>
                 </div>
                 </div>
+                <?php elseif($_SESSION['user']['role'] == 'teacher'): ?>
+                        <div class="hidden md:flex items-center space-x-4">
+                        <a href="/App/views/teacher/seeCourses.php" class="nav-button nav-button-secondary flex items-center space-x-2">
+                            
+                            <span>back</span>
+                        </a>
+                        <a href="../LogOut.php" class="nav-button nav-button-secondary flex items-center space-x-2">
+                            
+                            <span>logOut</span>
+                        </a>
+                    </div>
                 <?php else: ?>
-                    <div class="hidden md:flex items-center space-x-4">
-                    <a href="/App/views/teacher/seeCourses.php" class="nav-button nav-button-secondary flex items-center space-x-2">
-                        
-                        <span>back</span>
-                    </a>
-                    <a href="../LogOut.php" class="nav-button nav-button-secondary flex items-center space-x-2">
-                        
-                        <span>logOut</span>
-                    </a>
-                </div>
+                    <div class="flex items-center space-x-6">
+                        <div class="nav-item flex items-center">
+                            <i class="fas fa-tags mr-2"></i>
+                            <a href="/App/views/Admin/tag.php" class="hover:text-blue-200">Tags</a>
+                        </div>
+                        <div class="nav-item flex items-center">
+                            <i class="fas fa-th-large mr-2"></i>
+                            <a href="/App/views/Admin/category.php" class="hover:text-blue-200">Categories</a>
+                        </div>
+                        <div class="nav-item flex items-center">
+                            <i class="fas fa-chart-bar mr-2"></i>
+                            <a href="/App/views/Admin/statistics.php" class="hover:text-blue-200">Statistics</a>
+                        </div>
+                        <div class="nav-item flex items-center">
+                            <i class="fas fa-search mr-2"></i>
+                            <a href="/App/views/Admin/seecourses.php" class="hover:text-blue-200">Browse</a>
+                        </div>
+                        <div class="nav-item flex items-center">
+                            <i class="fas fa-book-open mr-2"></i>
+                            <a href="/App/views/teacher/ManageCourses.php" class="hover:text-blue-200">Courses</a>
+                        </div>
+                        <div class="flex items-center space-x-4 ml-6 border-l pl-6">
+                            <a href="../LogOut.php" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg flex items-center action-button">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                            </a>
+                        </div>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
@@ -176,46 +204,3 @@ if (isset($_GET['readid']) && $_GET['action'] === 'read') {
     <?php include __DIR__.'/../../../public/footer.php' ?>
 </body>
 </html>
-
-
-<!-- <!?php if (filter_var($courses['content'], FILTER_VALIDATE_URL)): ?>
-                                <iframe width="560" height="315" src="<!?php echo $courses['description']  ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        <!?php else: ?>
-                           
-                            <p class="text-gray-600 leading-relaxed"><!?php nl2br($courses['description']) ?></p>
-                        <!?php endif; ?> -->
-
-
-            <!-- Sidebar -->
-            <!-- <div class="lg:col-span-1">
-                <div class="bg-white rounded-2xl p-6 content-shadow sticky top-24">
-                    <h3 class="text-xl font-bold mb-6">Course Progress</h3>
-                    <div class="space-y-6">
-                        <div>
-                            <div class="flex justify-between text-sm mb-2">
-                                <span class="text-gray-600">Overall Progress</span>
-                                <span class="font-medium">45%</span>
-                            </div>
-                            <div class="h-2 bg-gray-200 rounded-full">
-                                <div class="h-full w-[45%] bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full"></div>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="bg-gray-50 rounded-xl p-4">
-                                <div class="text-gray-500 text-sm mb-1">Time Spent</div>
-                                <div class="font-bold">2.5 hrs</div>
-                            </div>
-                            <div class="bg-gray-50 rounded-xl p-4">
-                                <div class="text-gray-500 text-sm mb-1">Sections</div>
-                                <div class="font-bold">4/8</div>
-                            </div>
-                        </div>
-
-                        <button class="w-full py-3 px-6 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors flex items-center justify-center space-x-2">
-                            <span>Next Section</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-            </div> -->
