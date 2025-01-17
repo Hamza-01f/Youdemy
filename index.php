@@ -12,6 +12,7 @@ $totalPages = ceil($totalCourses / $coursesPerPage);
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $startIndex = ($page - 1) * $coursesPerPage;
 $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
+
 ?>
 
 <!DOCTYPE html>

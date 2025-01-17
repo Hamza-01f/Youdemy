@@ -14,12 +14,12 @@ class authcontroller{
         if($user['role'] == 'admin'){
             session_start();
             $_SESSION['user'] = $user;
-            header('Location: /App/views/Admin/accountValida.php');
+            header('Location: /App/views/Admin/statistics.php');
             exit();
         }
         if(password_verify($password, $user['password'])) {
            
-            if ($user['role'] == 'teacher' && $user['status'] == 'active' && $user['validation'] == 'notaccepted') {
+            if ($user['role'] == 'teacher' && $user['status'] == 'active' && $user['validation'] == 'accepted') {
                 session_start();
                 $_SESSION['user'] = $user; 
                 header('Location: /App/views/teacher/ManageCourses.php');
@@ -30,7 +30,7 @@ class authcontroller{
                 header('Location: /App/views/student/Browse.php');
                 exit();          
             } else { 
-                if($user['validation'] == 'accepted'){
+                if($user['validation'] == 'notaccepted'){
                     session_start();
                     $_SESSION['user'] = $user;
                     header('Location: /App/views/teacher/waitingForValidation.php');

@@ -100,7 +100,7 @@
 
                 <div class="stat-card bg-gradient-to-br from-indigo-500 to-blue-600 p-6 rounded-2xl shadow-xl text-white">
                     <div class="flex justify-between items-center">
-                        <h3 class="text-xl font-semibold">Total Articles</h3>
+                        <h3 class="text-xl font-semibold">Total Courses</h3>
                         <i class="fas fa-newspaper text-3xl opacity-80"></i>
                     </div>
                     <p class="text-4xl font-bold mt-4">856</p>

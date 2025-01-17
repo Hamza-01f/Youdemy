@@ -77,7 +77,7 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <a href="/../LogOut.php" class="px-6 py-2.5 rounded-xl border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300">
+                    <a href="/App/views/LogOut.php" class="px-6 py-2.5 rounded-xl border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300">
                         <i class="fas fa-sign-out-alt mr-2"></i>Log Out
                     </a>
                     <a href="Statistics.php" class="px-6 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl hover:shadow-lg transition-all duration-300">

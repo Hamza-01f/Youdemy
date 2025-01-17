@@ -1,3 +1,14 @@
+<?php
+
+require_once __DIR__ . '/../../Controllers/approveRejectController.php';
+
+use App\Models\approve_reject;
+
+$userHandler = new approve_reject();
+
+$users = $userHandler->fetchUsers();
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -110,40 +121,51 @@
                     <thead class="bg-gradient-to-r from-blue-50 to-blue-100">
                         <tr>
                             <th class="px-6 py-3 text-left text-gray-700">Photo</th>
-                            <th class="px-6 py-3 text-left text-gray-700">Teacher</th>
+                            <th class="px-6 py-3 text-left text-gray-700">User</th>
                             <th class="px-6 py-3 text-left text-gray-700">Status</th>
+                            <th class="px-6 py-3 text-left text-gray-700">asked At</th>
                             <th class="px-6 py-3 text-left text-gray-700">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
-                        <tr class="table-row-animate">
-                            <td class="px-6 py-4">
-                                <img src="/api/placeholder/40/40" class="rounded-full border-2 border-blue-200" alt="Profile">
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex items-center">
-                                    <div>
-                                        <div class="font-medium">Marie Dubois</div>
-                                        <div class="text-sm text-gray-500">marie.dubois@email.com</div>
+                        <?php foreach ($users as $user): ?>
+                            <tr class="table-row-animate">
+                                <td class="px-6 py-4">
+                                    <img src="<?= $user['profile_image'] ?>" class="h-20 w-16 rounded-full border-2 border-blue-200" alt="Profile">
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center">
+                                        <div>
+                                            <div class="font-medium"><?= $user['username'] ?></div>
+                                            <div class="text-sm text-gray-500"><?= $user['email'] ?></div>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full flex items-center w-fit">
-                                    <i class="fas fa-clock mr-2"></i>Waiting
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full flex items-center w-fit">
+                                        <i class="fas fa-clock mr-2"></i>Waiting
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full flex items-center w-fit">
+                                    <i class="far fa-calendar-alt mr-2"></i><?= $user['created_at'] ?>
                                 </span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex space-x-2">
-                                    <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 flex items-center action-button">
-                                        <i class="fas fa-check mr-2"></i>Approve
-                                    </button>
-                                    <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 flex items-center action-button">
-                                        <i class="fas fa-times mr-2"></i>Reject
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex space-x-2">
+                                        <form method="POST" action="/App/Controllers/approveRejectController.php">
+                                            <input type="hidden" name="id" value="<?= $user['user_id'] ?>" />
+                                            <button name="approve" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 flex items-center action-button">
+                                                <i class="fas fa-check mr-2"></i>Approve
+                                            </button>
+                                            <button name="reject" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 flex items-center action-button">
+                                                <i class="fas fa-times mr-2"></i>Reject
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
