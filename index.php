@@ -1,7 +1,20 @@
 <?php
+
 require_once __DIR__.'/vendor/autoload.php';
 
+
+$id = null;
+$role = 'visitor';
+
+
 $courseController = new \App\Controllers\CourseController();
+$search = new \App\Controllers\CourseController();
+
+$searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
+
+if(!empty($searchTerm)){
+    $searching = $search->search($id,$role,$searchTerm);
+}
 
 $courses = $courseController->getAllowedCourses();
 
@@ -75,11 +88,14 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
         .search-input:focus {
             box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
         }
+        .searchingResults {
+         margin-top: 80px; 
+        }
     </style>
 </head>
 <body class="bg-gray-50">
    
-    <nav class="navbar-blur fixed w-full z-50 border-b border-gray-100">
+    <nav class="navbar-blur  w-full z-50 border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex justify-between h-20 items-center">
           
@@ -92,13 +108,16 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
                 
                
                 <div class="hidden md:flex items-center space-x-8">
-                    
-             
-                    <div class="relative">
-                        <input type="text" 
-                               placeholder="Search courses..." 
-                               class="w-64 pl-10 pr-4 py-2 rounded-full border-2 border-gray-200 focus:border-indigo-500 focus:outline-none search-input">
-                        <i class="fas fa-search absolute left-4 top-3 text-gray-400"></i>
+                    <div class="hidden md:flex items-center space-x-8">
+                        <div class="relative w-80">
+                        <form id="searchForm" action="" method="get" class="relative w-80">
+                                <input type="text" name="search" placeholder="Search for courses" 
+                                    class="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300 bg-white/80">
+                                <button type="submit" class="absolute left-4 top-4 text-indigo-500">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
 
@@ -115,6 +134,58 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
             </div>
         </div>
     </nav>
+
+    <div class="searchingResults px-6 max-w-7xl mx-auto mt-24 mb-8 hidden">
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const searchResults = document.getElementsByClassName('searchingResults')[0];
+
+                if (searchResults.querySelector('.course-card')) {
+                    searchResults.classList.remove('hidden'); 
+                }
+            });
+        </script>
+        
+        <?php if (!empty($searching)): ?>
+        
+            <div class="bg-green-200 backdrop-blur-sm p-8 rounded-2xl border border-gray-200 shadow-lg">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-semibold text-gray-800">Search Results</h2>
+                    <p class="text-gray-600">Found <?php echo count($searching); ?> courses matching your search</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <?php foreach ($searching as $course): ?>
+                        <div class="bg-white/80 card-gradient rounded-2xl custom-shadow overflow-hidden transform hover:-translate-y-2 transition-all duration-300 course-card">
+                            <div class="relative">
+                                <img src="<?php echo $course['image_url'] ?>" alt="<?php echo $course['title'] ?>" class="w-full h-48 object-cover">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold mb-2 text-gray-800"><?php echo $course['title'] ?></h3>
+                                <p class="text-gray-600 mb-4 line-clamp-2"><?php echo $course['description'] ?></p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-500">
+                                        <i class="far fa-calendar-alt mr-2"></i>
+                                        <?php echo date('M d, Y', strtotime($course['created_at'])) ?>
+                                    </span>
+                                    <a href="/App/views/student/readCourse.php?readid=<?php echo $course['id'] ?>&action=read" 
+                                    class="px-6 py-2.5 bg-gradient-to-r from-green-400 to-emerald-500 text-white rounded-xl hover:shadow-lg transition-all duration-300">
+                                        <i class="fas fa-book-reader mr-2"></i>Review
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        <?php else: ?>
+            <?php if (!empty($searchTerm)): ?>
+                <div class="text-center py-20 bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 shadow-lg course-card">
+                    <i class="fas fa-book-open text-6xl text-gray-300 mb-4 animate-float"></i>
+                    <p class="text-2xl text-gray-500">No results found for "<?php echo htmlspecialchars($searchTerm); ?>".</p>
+                </div>
+            <?php endif; ?>
+        <?php endif; ?>
+    </div>
 
 
     <div class="hero-bg min-h-[80vh] flex items-center justify-center text-white">

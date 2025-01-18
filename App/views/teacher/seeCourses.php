@@ -63,11 +63,15 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
         .custom-shadow {
             box-shadow: 0 10px 30px -5px rgba(79, 70, 229, 0.2);
         }
+
+        .searchingResults {
+         margin-top: 80px; 
+        }
+
     </style>
 </head>
 <body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
-    <!-- Enhanced Navigation -->
-    <nav class="glass-effect fixed w-full z-50 border-b border-gray-100">
+    <nav class="glass-effect w-full z-50 border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex justify-between h-20 items-center">
                 <div class="flex items-center space-x-4">
@@ -109,38 +113,49 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
         </div>
     </nav>
 
-    <div class="searchingResults">
+    <div class="searchingResults px-6 max-w-7xl mx-auto mt-24 mb-8 hidden">
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const searchResults = document.getElementsByClassName('searchingResults')[0];
+
+                if (searchResults.querySelector('.course-card')) {
+                    searchResults.classList.remove('hidden'); 
+                }
+            });
+        </script>
         <?php if (!empty($searching)): ?>
-            <div class=" grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <?php foreach ($searching as $course): ?>
-                    <div class=" card-gradient rounded-2xl custom-shadow overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
-                        <div class="relative">
-                            <img src="<?php echo $course['image_url'] ?>" alt="<?php echo $course['title'] ?>" class="w-full h-48 object-cover">
-                            <div class="absolute top-4 right-4">
+            <div class="bg-green-200 backdrop-blur-sm p-8 rounded-2xl border border-gray-200 shadow-lg">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-semibold text-gray-800">Search Results</h2>
+                    <p class="text-gray-600">Found <?php echo count($searching); ?> courses matching your search</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <?php foreach ($searching as $course): ?>
+                        <div class="bg-white/80 card-gradient rounded-2xl custom-shadow overflow-hidden transform hover:-translate-y-2 transition-all duration-300 course-card">
+                            <div class="relative">
+                                <img src="<?php echo $course['image_url'] ?>" alt="<?php echo $course['title'] ?>" class="w-full h-48 object-cover">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold mb-2 text-gray-800"><?php echo $course['title'] ?></h3>
+                                <p class="text-gray-600 mb-4 line-clamp-2"><?php echo $course['description'] ?></p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-500">
+                                        <i class="far fa-calendar-alt mr-2"></i>
+                                        <?php echo date('M d, Y', strtotime($course['created_at'])) ?>
+                                    </span>
+                                    <a href="/App/views/student/readCourse.php?readid=<?php echo $course['id'] ?>&action=read" 
+                                    class="px-6 py-2.5 bg-gradient-to-r from-green-400 to-emerald-500 text-white rounded-xl hover:shadow-lg transition-all duration-300">
+                                        <i class="fas fa-book-reader mr-2"></i>Review
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2 text-gray-800"><?php echo $course['title'] ?></h3>
-                            <p class="text-gray-600 mb-4 line-clamp-2"><?php echo $course['description'] ?></p>
-                            <div class="flex items-center mb-6">
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-500">
-                                    <i class="far fa-calendar-alt mr-2"></i>
-                                    <?php echo date('M d, Y', strtotime($course['created_at'])) ?>
-                                </span>
-                                <a href="/App/views/student/readCourse.php?readid=<?php echo $course['id'] ?>&action=read" 
-                                class="px-6 py-2.5 bg-gradient-to-r from-green-400 to-emerald-500 text-white rounded-xl hover:shadow-lg transition-all duration-300">
-                                    <i class="fas fa-book-reader mr-2"></i>Review
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </div>
             </div>
         <?php else: ?>
             <?php if (!empty($searchTerm)): ?>
-                <div class="text-center py-20 bg-white rounded-2xl custom-shadow">
+                <div class="text-center py-20 bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 shadow-lg course-card">
                     <i class="fas fa-book-open text-6xl text-gray-300 mb-4 animate-float"></i>
                     <p class="text-2xl text-gray-500">No results found for "<?php echo htmlspecialchars($searchTerm); ?>".</p>
                 </div>

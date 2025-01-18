@@ -86,8 +86,6 @@ class CourseController {
         $searchResults = Course::search($id, $role, $searchTerm);
         if ($searchResults) {
             return $searchResults;
-        } else {
-            return 'No result Found';
-        }
+        } 
     }
 }

@@ -75,11 +75,15 @@ if (isset($_GET['enrollid']) && $_GET['action'] === 'enroll') {
         .nav-link:hover::after {
             width: 100%;
         }
+
+        .searchingResults {
+         margin-top: 80px; 
+        }
+
     </style>
 </head>
 <body class="bg-gray-50">
-    <!-- Navigation -->
-    <nav class="bg-white/80 backdrop-blur-md fixed w-full z-50 border-b border-gray-100">
+    <nav class="bg-white/80 backdrop-blur-md w-full z-50 border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between h-20 items-center">
                 <div class="flex items-center space-x-2">
@@ -112,6 +116,9 @@ if (isset($_GET['enrollid']) && $_GET['action'] === 'enroll') {
                             <p class="font-medium text-gray-900"><?php echo $_SESSION['user']['username']; ?></p>
                             <p class="text-sm text-gray-500">Student</p>
                         </div>
+                        <a href="MesCours.php" class="px-4 py-2 bg-green-400 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                            <i class="fas fa-book-open mr-2"></i>my courses
+                        </a>
                         <a href="../LogOut.php" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
                             <i class="fas fa-sign-out-alt mr-2"></i>Logout
                         </a>
@@ -121,44 +128,61 @@ if (isset($_GET['enrollid']) && $_GET['action'] === 'enroll') {
         </div>
     </nav>
 
-    <div class="searchingResults">
+    <div class="searchingResults px-6 max-w-7xl mx-auto mt-24 mb-8 hidden">
+          <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const searchResults = document.getElementsByClassName('searchingResults')[0];
+
+                    if (searchResults.querySelector('.course-card')) {
+                        searchResults.classList.remove('hidden'); 
+                    }
+                });
+         </script>
         <?php if (!empty($searching)): ?>
-            <div class=" grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <?php foreach ($searching as $course): ?>
-                    <div class=" card-gradient rounded-2xl custom-shadow overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
-                        <div class="relative">
-                            <img src="<?php echo $course['image_url'] ?>" alt="<?php echo $course['title'] ?>" class="w-full h-48 object-cover">
-                            <div class="absolute top-4 right-4">
+            <div class="bg-green-200  backdrop-blur-sm p-8 rounded-2xl border border-gray-200 shadow-lg">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-semibold text-gray-800">Search Results</h2>
+                    <p class="text-gray-600">Found <?php echo count($searching); ?> courses matching your search</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <?php foreach ($searching as $course): ?>
+                        <div class="bg-white/80 card-gradient rounded-2xl custom-shadow overflow-hidden transform hover:-translate-y-2 transition-all duration-300 course-card">
+                            <div class="relative">
+                                <img src="<?php echo $course['image_url'] ?>" alt="<?php echo $course['title'] ?>" class="w-full h-48 object-cover">
+                                <div class="absolute top-4 right-4">
+                                </div>
                             </div>
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2 text-gray-800"><?php echo $course['title'] ?></h3>
-                            <p class="text-gray-600 mb-4 line-clamp-2"><?php echo $course['description'] ?></p>
-                            <div class="flex items-center mb-6">
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-500">
-                                    <i class="far fa-calendar-alt mr-2"></i>
-                                    <?php echo date('M d, Y', strtotime($course['created_at'])) ?>
-                                </span>
-                            <?php $isEnrolled = $enrolling->checkEnrollment($Studentid, $course['id']); ?>
-                              <?php if($isEnrolled): ?>
-                                    <a href="readCourse.php?readid='.$course['id'].'&action=read" class="px-6 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors shadow-md hover:shadow-lg">
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold mb-2 text-gray-800"><?php echo $course['title'] ?></h3>
+                                <p class="text-gray-600 mb-4 line-clamp-2"><?php echo $course['description'] ?></p>
+                                <div class="flex items-center mb-6">
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-500">
+                                        <i class="far fa-calendar-alt mr-2"></i>
+                                        <?php echo date('M d, Y', strtotime($course['created_at'])) ?>
+                                    </span>
+                                    <?php $isEnrolled = $enrolling->checkEnrollment($Studentid, $course['id']); ?>
+                                    <?php if($isEnrolled): ?>
+                                        <a href="readCourse.php?readid='.$course['id'].'&action=read" 
+                                        class="px-6 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors shadow-md hover:shadow-lg">
                                             <i class="fas fa-book-reader mr-2"></i>Read
-                                    </a>
-                              <?php else: ?>
-                                    <a href="?enrollid='.$course['id'].'&action=enroll" class="px-6 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors shadow-md hover:shadow-lg">
+                                        </a>
+                                    <?php else: ?>
+                                        <a href="?enrollid='.$course['id'].'&action=enroll" 
+                                        class="px-6 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors shadow-md hover:shadow-lg">
                                             <i class="fas fa-user-plus mr-2"></i>Enroll
-                                    </a>
-                              <?php endif; ?>
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </div>
             </div>
         <?php else: ?>
             <?php if (!empty($searchTerm)): ?>
-                <div class="text-center py-20 bg-white rounded-2xl custom-shadow">
+                <div class="text-center py-20 bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 shadow-lg course-card">
                     <i class="fas fa-book-open text-6xl text-gray-300 mb-4 animate-float"></i>
                     <p class="text-2xl text-gray-500">No results found for "<?php echo htmlspecialchars($searchTerm); ?>".</p>
                 </div>

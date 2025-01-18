@@ -214,24 +214,66 @@ class Course {
         $db = Database::getInstance()->getConnection();
         
         if ($role == 'admin') {
+
             $stmt = $db->prepare("SELECT * FROM courses WHERE title LIKE :searchTerm");
-            $stmt->bindParam(':searchTerm', $searchTerm);
-            $stmt->execute();
             
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $searchTermWithWildcard = "%" . $searchTerm . "%";
+    
+            $stmt->bindParam(':searchTerm', $searchTermWithWildcard, PDO::PARAM_STR);
+            
+
+            $stmt->execute();
+
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (!empty($results)) {
+                return $results;
+            } else {
+                return [];
+            }
         }else if($role == 'teacher'){
             $stmt = $db->prepare("SELECT * FROM courses where title like :searchTerm and teacher_id = :id");
-            $stmt->bindParam(':searchTerm',$searchTerm);
-            $stmt->bindParam(':id',$id);
+
+            $searchTermWithWildcard = "%" . $searchTerm . "%";
+
+            $stmt->bindParam(':searchTerm', $searchTermWithWildcard, PDO::PARAM_STR);
+            $stmt->bindParam(':id',$id,PDO::PARAM_INT);
             $stmt->execute();
 
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if(!empty($result)){
+               return $result;
+            }else{
+               return [];
+            }
         }else if($role == 'student'){
             $stmt = $db->prepare("SELECT * FROM courses where title like :searchTerm and status = 'active' ");
-            $stmt->bindParam(':searchTerm',$searchTerm);
+
+            $searchTermWithWildcard = "%" . $searchTerm . "%";
+
+            $stmt->bindParam(':searchTerm', $searchTermWithWildcard, PDO::PARAM_STR);
             $stmt->execute();
 
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if(!empty($result)){
+               return $result;
+            }else{
+               return [];
+            }
+        }else{
+
+            $stmt = $db->prepare("SELECT * FROM courses where title like :searchTerm and status = 'active' ");
+            $searchTermWithWildcard = "%" . $searchTerm . "%";
+            $stmt->bindParam(':searchTerm', $searchTermWithWildcard, PDO::PARAM_STR);
+            $stmt->execute();
+
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if(!empty($result)){
+               return $result;
+            }else{
+               return [];
+            }
         }
     }
 
