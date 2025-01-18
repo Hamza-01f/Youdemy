@@ -64,7 +64,7 @@ if(isset($_POST["submit"]) &&  $_SERVER['REQUEST_METHOD'] == "POST")
 </head>
 
 <body class="font-poppins">
-    <div class="min-h-screen animated-gradient flex items-center justify-center p-4">
+    <div class="min-h-screen animated-gradient flex items-center justify-center ">
     
         <div class="max-w-md w-full glass-effect rounded-2xl shadow-2xl p-8 floating">
       

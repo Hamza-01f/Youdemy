@@ -106,10 +106,6 @@ if (isset($_GET['enrollid']) && $_GET['action'] === 'enroll') {
                 </div>
 
                 <div class="flex items-center space-x-6">
-                    <button class="relative">
-                        <i class="fas fa-bell text-xl text-gray-600 hover:text-indigo-600 transition-colors"></i>
-                        <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">3</span>
-                    </button>
                     <div class="flex items-center space-x-3">
                         <img src="<?php echo $_SESSION['user']['profile_image']; ?>" alt="Profile" class="w-10 h-10 rounded-full border-2 border-indigo-200">
                         <div class="hidden md:block">
@@ -129,15 +125,6 @@ if (isset($_GET['enrollid']) && $_GET['action'] === 'enroll') {
     </nav>
 
     <div class="searchingResults px-6 max-w-7xl mx-auto mt-24 mb-8 hidden">
-          <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    const searchResults = document.getElementsByClassName('searchingResults')[0];
-
-                    if (searchResults.querySelector('.course-card')) {
-                        searchResults.classList.remove('hidden'); 
-                    }
-                });
-         </script>
         <?php if (!empty($searching)): ?>
             <div class="bg-green-200  backdrop-blur-sm p-8 rounded-2xl border border-gray-200 shadow-lg">
                 <div class="mb-6">
@@ -164,12 +151,12 @@ if (isset($_GET['enrollid']) && $_GET['action'] === 'enroll') {
                                     </span>
                                     <?php $isEnrolled = $enrolling->checkEnrollment($Studentid, $course['id']); ?>
                                     <?php if($isEnrolled): ?>
-                                        <a href="readCourse.php?readid='.$course['id'].'&action=read" 
+                                        <a href="readCourse.php?readid=<?php echo $course['id']; ?>&action=read" 
                                         class="px-6 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors shadow-md hover:shadow-lg">
                                             <i class="fas fa-book-reader mr-2"></i>Read
                                         </a>
                                     <?php else: ?>
-                                        <a href="?enrollid='.$course['id'].'&action=enroll" 
+                                        <a href="enroll.php?enrollid=<?php echo $course['id']; ?>&action=enroll" 
                                         class="px-6 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors shadow-md hover:shadow-lg">
                                             <i class="fas fa-user-plus mr-2"></i>Enroll
                                         </a>
@@ -286,8 +273,6 @@ if (isset($_GET['enrollid']) && $_GET['action'] === 'enroll') {
 
     </div>
     <?php include __DIR__.'/../../../public/footer.php' ?>
-    <script>
-
-    </script>
+    <script src="/../../../public/script.js"></script>
 </body>
 </html>

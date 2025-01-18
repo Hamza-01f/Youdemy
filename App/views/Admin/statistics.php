@@ -116,10 +116,10 @@ $stats = $statisticsModel->getGeneralStats();
                     <canvas id="generalStatsChart" class="w-full"></canvas>
                 </div>
 
-                <div class="chart-container bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+                <!-- <div class="chart-container bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
                     <h2 class="text-2xl font-semibold mb-4 text-gray-800">Courses by Category</h2>
                     <canvas id="coursesByCategoryChart" class="w-full"></canvas>
-                </div>
+                </div> -->
             </div>
 
         </div>
@@ -167,31 +167,31 @@ $stats = $statisticsModel->getGeneralStats();
         }
     });
 
-    const coursesByCategoryData = <?= isset($stats['coursesByCategory']) ? json_encode($stats['coursesByCategory']) : '[]' ?>;
-    const courseCategories = coursesByCategoryData.map(item => item.category);
-    const courseCounts = coursesByCategoryData.map(item => item.count);
+    // const coursesByCategoryData = <!?= isset($stats['coursesByCategory']) ? json_encode($stats['coursesByCategory']) : '[]' ?>;
+    // const courseCategories = coursesByCategoryData.map(item => item.category);
+    // const courseCounts = coursesByCategoryData.map(item => item.count);
 
     
-    new Chart('coursesByCategoryChart', {
-        type: 'bar',
-        data: {
-            labels: courseCategories,
-            datasets: [{
-                label: 'Courses by Category',
-                data: courseCounts,
-                backgroundColor: '#4F46E5',
-                borderRadius: 8
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
+    // new Chart('coursesByCategoryChart', {
+    //     type: 'bar',
+    //     data: {
+    //         labels: courseCategories,
+    //         datasets: [{
+    //             label: 'Courses by Category',
+    //             data: courseCounts,
+    //             backgroundColor: '#4F46E5',
+    //             borderRadius: 8
+    //         }]
+    //     },
+    //     options: {
+    //         responsive: true,
+    //         scales: {
+    //             y: {
+    //                 beginAtZero: true
+    //             }
+    //         }
+    //     }
+    // });
 </script>
 
 </body>

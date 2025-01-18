@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__.'/../controllers/TagController.php';
+require_once __DIR__.'/../../controllers/TagController.php';
 
 use App\Controllers\TagController;
 
