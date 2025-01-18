@@ -3,15 +3,27 @@ require_once '../../../vendor/autoload.php';
 session_start();
 
 $Studentid = $_SESSION['user']['id'];
+$role = $_SESSION['user']['role'];
 
 $courseController = new \App\Controllers\CourseController();
 $enrolling = new App\Controllers\EnrollmentController();
+$search = new \App\Controllers\CourseController();
+
+$searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
+
+if(!empty($searchTerm)){
+    $searching = $search->search($Studentid,$role,$searchTerm);
+}else{
+    $searching = [];
+}
 
 $courses = $courseController->getAllowedCourses();
 
 $coursesPerPage = 3;
 $totalCourses = count($courses);
 $totalPages = ceil($totalCourses / $coursesPerPage);
+
+
 
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $startIndex = ($page - 1) * $coursesPerPage;
@@ -77,14 +89,15 @@ if (isset($_GET['enrollid']) && $_GET['action'] === 'enroll') {
                     <span class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Youdemy</span>
                 </div>
 
-                <!-- Navigation Links -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="MesCours.php" class="nav-link text-gray-600 hover:text-indigo-600 font-medium">My Courses</a>
-                    <div class="relative w-64">
-                        <input type="text" 
-                               placeholder="Search courses..." 
-                               class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
-                        <i class="fas fa-search absolute left-4 top-3 text-gray-400"></i>
+                    <div class="relative w-80">
+                       <form id="searchForm" action="" method="get" class="relative w-80">
+                            <input type="text" name="search" placeholder="Search for courses" 
+                                class="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300 bg-white/80">
+                            <button type="submit" class="absolute left-4 top-4 text-indigo-500">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
                     </div>
                 </div>
 
@@ -107,6 +120,51 @@ if (isset($_GET['enrollid']) && $_GET['action'] === 'enroll') {
             </div>
         </div>
     </nav>
+
+    <div class="searchingResults">
+        <?php if (!empty($searching)): ?>
+            <div class=" grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <?php foreach ($searching as $course): ?>
+                    <div class=" card-gradient rounded-2xl custom-shadow overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
+                        <div class="relative">
+                            <img src="<?php echo $course['image_url'] ?>" alt="<?php echo $course['title'] ?>" class="w-full h-48 object-cover">
+                            <div class="absolute top-4 right-4">
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-gray-800"><?php echo $course['title'] ?></h3>
+                            <p class="text-gray-600 mb-4 line-clamp-2"><?php echo $course['description'] ?></p>
+                            <div class="flex items-center mb-6">
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-500">
+                                    <i class="far fa-calendar-alt mr-2"></i>
+                                    <?php echo date('M d, Y', strtotime($course['created_at'])) ?>
+                                </span>
+                            <?php $isEnrolled = $enrolling->checkEnrollment($Studentid, $course['id']); ?>
+                              <?php if($isEnrolled): ?>
+                                    <a href="readCourse.php?readid='.$course['id'].'&action=read" class="px-6 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors shadow-md hover:shadow-lg">
+                                            <i class="fas fa-book-reader mr-2"></i>Read
+                                    </a>
+                              <?php else: ?>
+                                    <a href="?enrollid='.$course['id'].'&action=enroll" class="px-6 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors shadow-md hover:shadow-lg">
+                                            <i class="fas fa-user-plus mr-2"></i>Enroll
+                                    </a>
+                              <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <?php if (!empty($searchTerm)): ?>
+                <div class="text-center py-20 bg-white rounded-2xl custom-shadow">
+                    <i class="fas fa-book-open text-6xl text-gray-300 mb-4 animate-float"></i>
+                    <p class="text-2xl text-gray-500">No results found for "<?php echo htmlspecialchars($searchTerm); ?>".</p>
+                </div>
+            <?php endif; ?>
+        <?php endif; ?>
+    </div>
 
     <div class="gradient-bg pt-32 pb-20 text-white">
         <div class="max-w-7xl mx-auto px-4">
@@ -190,7 +248,6 @@ if (isset($_GET['enrollid']) && $_GET['action'] === 'enroll') {
             ?>
         </div>
 
-        <!-- Pagination Buttons for Pages -->
         <div class="mt-6 text-center">
             <?php if ($totalPages > 1): ?>
                 <div class="flex justify-center space-x-4">
