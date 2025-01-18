@@ -27,30 +27,7 @@ if (isset($_GET['delete_id'])) {
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/f01941449c.js" crossorigin="anonymous"></script>
     <title>Categories Dashboard</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        
-        * {
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .card-hover {
-            transition: all 0.3s ease;
-        }
-
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-
-        .nav-item {
-            transition: all 0.3s ease;
-        }
-
-        .nav-item:hover {
-            transform: translateX(5px);
-        }
-    </style>
+    <link rel="stylesheet" href="/../../../public/style.css">
 </head>
 
 <body class="bg-gradient-to-br from-gray-50 to-gray-100">
@@ -88,23 +65,17 @@ if (isset($_GET['delete_id'])) {
             </div>
         </div>
 
-        <!-- Main Content -->
+
         <div class="flex-1 flex flex-col bg-gray-50">
-            <!-- Enhanced Header -->
+         
             <header class="bg-white shadow-md px-8 py-6">
                 <div class="flex justify-between items-center">
                     <h1 class="text-2xl font-bold text-gray-800">Category Management</h1>
-                    <div class="flex items-center space-x-4">
-                        <button class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition duration-300 flex items-center">
-                            <i class="fas fa-plus mr-2"></i>
-                            Add New Category
-                        </button>
-                    </div>
                 </div>
             </header>
 
             <main class="flex-1 p-8 overflow-y-auto">
-                <!-- Success Message -->
+          
                 <?php if (!empty($message)): ?>
                 <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded-md animate-fade-in">
                     <div class="flex items-center">

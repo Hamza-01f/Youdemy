@@ -35,39 +35,7 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
     <title>Youdemy - Student Dashboard</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-        }
-        
-        .custom-gradient {
-            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #EC4899 100%);
-        }
-        
-        .card-gradient {
-            background: linear-gradient(135deg, #ffffff 0%, #f3f4f6 100%);
-        }
-        
-        .animate-float {
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-        
-        .custom-shadow {
-            box-shadow: 0 10px 30px -5px rgba(79, 70, 229, 0.2);
-        }
-
-        .searchingResults {
-         margin-top: 80px; 
-        }
-
-    </style>
+    <link rel="stylesheet" href="/../../../public/style.css">
 </head>
 <body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
     <nav class="glass-effect w-full z-50 border-b border-gray-100">
@@ -122,15 +90,6 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
     </nav>
 
     <div class="searchingResults px-6 max-w-7xl mx-auto mt-24 mb-8 hidden">
-         <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    const searchResults = document.getElementsByClassName('searchingResults')[0];
-
-                    if (searchResults.querySelector('.course-card')) {
-                        searchResults.classList.remove('hidden'); 
-                    }
-                });
-         </script>
         <?php if (!empty($searching)): ?>
             <div class="bg-green-200  backdrop-blur-sm p-8 rounded-2xl border border-gray-200 shadow-lg">
                 <div class="mb-6">
@@ -241,12 +200,6 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
         </div>
     </div>
     <?php include __DIR__.'/../../../public/footer.php' ?>
-    <script>
-        function showPage(page) {
-            const url = new URL(window.location.href);
-            url.searchParams.set('page', page);
-            window.location.href = url;
-        }
-    </script>
+    <script src="/../../../public/script.js"></script>
 </body>
 </html>

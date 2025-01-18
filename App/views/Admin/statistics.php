@@ -22,43 +22,10 @@ $stats = $statisticsModel->getGeneralStats();
     <script src="https://kit.fontawesome.com/f01941449c.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/../../../public/style.css">
     <title>Youdemy Admin</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        
-        * {
-            font-family: 'Poppins', sans-serif;
-        }
 
-        .glassmorphism {
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .nav-item {
-            transition: all 0.3s ease;
-        }
-
-        .nav-item:hover {
-            transform: translateX(10px);
-        }
-
-        .stat-card {
-            transition: all 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .chart-container {
-            transition: all 0.3s ease;
-        }
-
-        .chart-container:hover {
-            transform: scale(1.02);
-        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 min-h-screen">

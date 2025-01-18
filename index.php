@@ -36,65 +36,9 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
     <title>Youdemy - Transform Your Future</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        
-        * {
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-bg {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
-
-        .card-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .card-hover:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar-blur {
-            backdrop-filter: blur(10px);
-            background-color: rgba(255, 255, 255, 0.9);
-        }
-
-        .category-pill {
-            background: rgba(79, 70, 229, 0.1);
-            border: 1px solid rgba(79, 70, 229, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .category-pill:hover {
-            background: rgba(79, 70, 229, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .search-input {
-            transition: all 0.3s ease;
-        }
-
-        .search-input:focus {
-            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
-        }
-        .searchingResults {
-         margin-top: 80px; 
-        }
-    </style>
+    <link rel="stylesheet" href="/public/style.css">
 </head>
 <body class="bg-gray-50">
-   
     <nav class="navbar-blur  w-full z-50 border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex justify-between h-20 items-center">
@@ -135,17 +79,7 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
         </div>
     </nav>
 
-    <div class="searchingResults px-6 max-w-7xl mx-auto mt-24 mb-8 hidden">
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const searchResults = document.getElementsByClassName('searchingResults')[0];
-
-                if (searchResults.querySelector('.course-card')) {
-                    searchResults.classList.remove('hidden'); 
-                }
-            });
-        </script>
-        
+    <div class="searchingResults px-6 max-w-7xl mx-auto mt-24 mb-8 hidden"> 
         <?php if (!empty($searching)): ?>
         
             <div class="bg-green-200 backdrop-blur-sm p-8 rounded-2xl border border-gray-200 shadow-lg">
@@ -285,20 +219,6 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
         </div>
     </div>
     <?php include __DIR__.'/public/footer.php' ?>
-    <script>
-        function showPage(page) {
-            const url = new URL(window.location.href);
-            url.searchParams.set('page', page);
-            window.location.href = url;
-        }
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
+    <script src="/public/script.js"></script>
 </body>
 </html>

@@ -1,35 +1,3 @@
-<!--p 
-
-session_start();
-
-if (!isset($_SESSION['user'])) {
-    header('Location: /app/view/AdmineDashboard/users/logIn.php');
-    exit();
-}
-
-require_once __DIR__ . '/../../../controllers/CategoriesController.php';
-
-use App\Controllers\CategoriesController;
-
-$id = '';
-
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-    $category = CategoriesController::edit($id); 
-
-} else {
-    header("Location: category.php");
-    exit();
-}
-
-if (isset($_POST['updateCategory']) && isset($_POST['name_Category']) && $_SERVER["REQUEST_METHOD"] == "POST") {
-    $newCategory = $_POST['name_Category'];
-    CategoriesController::update($id, $newCategory); 
-    header("Location: category.php");
-}
-
-?-->
-
 <?php
 require_once __DIR__.'/../controllers/CategoryController.php';
 

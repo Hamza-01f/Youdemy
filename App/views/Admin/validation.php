@@ -21,58 +21,7 @@ $allUsers = $userHandler->fetchUsers();
     <title>Youdemy Admin - Dashboard</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        
-        * {
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .gradient-bg {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-        }
-
-        .nav-item {
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-item:hover {
-            transform: translateY(-2px);
-        }
-
-        .nav-item::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -2px;
-            left: 0;
-            background-color: #60a5fa;
-            transition: width 0.3s ease;
-        }
-
-        .nav-item:hover::after {
-            width: 100%;
-        }
-
-        .action-button {
-            transition: all 0.3s ease;
-        }
-
-        .action-button:hover {
-            transform: scale(1.05);
-        }
-
-        .table-row-animate {
-            transition: all 0.2s ease;
-        }
-
-        .table-row-animate:hover {
-            background-color: #f8fafc;
-            transform: translateX(5px);
-        }
-    </style>
+    <link rel="stylesheet" href="/../../../public/style.css">
 </head>
 <body class="bg-gray-50">
     <nav class="gradient-bg text-white p-4 shadow-lg">
@@ -113,7 +62,6 @@ $allUsers = $userHandler->fetchUsers();
 
     <main class="container mx-auto p-6 space-y-6">
         
-        <!-- Table 1: Requested Teachers Validation -->
         <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold text-gray-800 flex items-center">
