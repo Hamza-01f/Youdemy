@@ -9,12 +9,10 @@ $enrolling = new App\Controllers\EnrollmentController();
 
 $courses = $courseController->getAllowedCourses();
 
-// Pagination setup: Show 3 courses per page
 $coursesPerPage = 3;
 $totalCourses = count($courses);
 $totalPages = ceil($totalCourses / $coursesPerPage);
 
-// Determine the current page
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $startIndex = ($page - 1) * $coursesPerPage;
 $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);

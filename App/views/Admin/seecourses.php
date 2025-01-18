@@ -9,11 +9,9 @@ $role = $_SESSION['user']['role'];
 $courseController = new \App\Controllers\CourseController();
 $search = new \App\Controllers\CourseController();
 
-// Handle search term from the URL
 $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
 
 if (!empty($searchTerm)) {
-    // Only perform search if there is a search term
     $searching = $search->search($id, $role, $searchTerm);
 } else {
     $searching = [];
@@ -223,7 +221,7 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
             <?php endif; ?>
         </div>
     </div>
-
+    <?php include __DIR__.'/../../../public/footer.php' ?>
     <script>
         function showPage(page) {
             const url = new URL(window.location.href);

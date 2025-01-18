@@ -219,6 +219,13 @@ class Course {
             $stmt->execute();
             
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }else if($role == 'teacher'){
+            $stmt = $db->prepare("SELECT * FROM courses where title like :searchTerm and teacher_id = :id");
+            $stmt->bindParam(':searchTerm',$searchTerm);
+            $stmt->bindParam(':id',$id);
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
     }
 
