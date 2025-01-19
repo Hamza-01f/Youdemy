@@ -3,20 +3,51 @@
 namespace App\Models;
 
 require_once __DIR__.'/User.php';
-
+require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__.'/../Config/Database.php';
 
-
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 use App\Config\Database;
 use App\Models\User;
 use PDO;
 
-class Admin extends User {
+Interface InformUser{
+   public function sendMail($userEmail,$subject,$body);
+}
+
+class Admin extends User implements InformUser {
 
     private $db ;
     public function __construct(string $username, string $email, string $password, string $role, string $bio, string $imageUrl){
            parent::__construct($username,$email,$password,$role,$bio,$imageUrl);
            $this->db =Database::getInstance()->getConnection(); 
+    }
+
+
+    public function sendMail($userEmail,$subject,$body){
+
+        $mail = new PHPMailer(true);
+        try{
+          $mail->isSMTP();                                            
+          $mail->Host       = 'smtp.gmail.com';                         
+          $mail->SMTPAuth   = true;                                   
+          $mail->Username   = '';                  
+          $mail->Password   = '';                      
+          $mail->SMTPSecure = 'ssl';           
+          $mail->Port       = 465;
+  
+          $mail->setFrom('', 'Youdemy Admin');
+          $mail->addAddress($userEmail); 
+  
+          $mail->isHTML(true);
+          $mail->Subject = $subject;
+          $mail->Body    = $body;
+  
+          $mail->send();
+        }catch(EXception $se){
+          error_log("Mailer Error: {$mail->ErrorInfo}");
+        }
     }
 
     public function save(): bool{
@@ -40,13 +71,87 @@ class Admin extends User {
         ]);
     }
 
+    public function approveUser($userId) {
+        $updateQuery = "UPDATE users SET validation = 'accepted' WHERE id = ?";
+        $stmt = $this->db->prepare($updateQuery);
+        $stmt->execute([$userId]);
+    
+        $emailquey = "SELECT email FROM users WHERE id = ?";
+        $stmt = $this->db->prepare($emailquey);
+        $stmt->execute([$userId]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        if ($user) {
+            $subject = 'Your Teacher Account Has Been Approved';
+            $body = 'Dear ' . $user['email'] . ', ';
+            $body .= 'Your request to become a teacher on Youdemy has been approved!';
+            $body .= 'Thank you for your patience and we look forward to seeing you teach.';
+            $body .= 'Best regards,<br>The Youdemy Team';
+    
+            $this->sendMail($user['email'], $subject, $body);
+        } else {
+            error_log("No user found with ID: " . $userId);
+        }
+    
+        $deleteQuery = "DELETE FROM asked_users WHERE user_id = ?";
+        $stmt = $this->db->prepare($deleteQuery);
+        $stmt->execute([$userId]);
+    }
+    
+    public function rejectUser($userId) {
+        $deleteQuery = "DELETE FROM asked_users WHERE user_id = ?";
+        $stmt = $this->db->prepare($deleteQuery);
+        $stmt->execute([$userId]);
+    
+        $emailquey = "SELECT email FROM users WHERE id = ?";
+        $stmt = $this->db->prepare($emailquey);
+        $stmt->execute([$userId]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        if ($user) {
+            $subject = 'Your Teacher Account Has Been Rejected';
+            $body = 'Dear ' . $user['email'] . ', ';
+            $body .= 'We are sorry to inform you that Your request to become a teacher on Youdemy has been rejected!';
+            $body .= 'Thank you for your patience and we wish you good luck.';
+            $body .= 'Best regards,<br>The Youdemy Team';
+    
+            $this->sendMail($user['email'], $subject, $body);
+        } else {
+            error_log("No user found with ID: " . $userId);
+        }
+    
+    }
+
+    public function blockUser($userId) {
+      
+        $updateQuery = "UPDATE users SET status = 'suspended' WHERE id = ?";
+        $stmt = $this->db->prepare($updateQuery);
+        $stmt->execute([$userId]);
+    }
+
+    public function unblockUser($userId) {
+    
+        $updateQuery = "UPDATE users SET status = 'active' WHERE id = ?";
+        $stmt = $this->db->prepare($updateQuery);
+        $stmt->execute([$userId]);
+    }
+
+    public function deleteUser($userId) {
+      
+        $deleteQuery = "DELETE FROM users WHERE id = ?";
+        $stmt = $this->db->prepare($deleteQuery);
+        $stmt->execute([$userId]);
+
+        
+    }
+
     private function adminExists(): bool {
         $db = Database::getInstance()->getConnection();
         $query = "SELECT COUNT(*) FROM users WHERE role = 'admin' AND email = :email";
     
         $stmt = $db->prepare($query);
-        $email = $this->getEmail(); // Assign to a variable
-        $stmt->bindParam(':email', $email, \PDO::PARAM_STR); // Pass the variable
+        $email = $this->getEmail(); 
+        $stmt->bindParam(':email', $email, \PDO::PARAM_STR); 
     
         $stmt->execute();
         $result = $stmt->fetchColumn();
@@ -71,6 +176,6 @@ class Admin extends User {
     
 }
 
-$admin = new Admin('hamza', 'hamza.boumanjel@gmail.com', '000000', 'admin', 'I am the admin of this website', '/public/Images/admin1.jpg');
+$admin = new Admin('hamza', '', '000000', 'admin', 'I am the admin of this website', '/public/Images/admin1.jpg');
 $admin->save();
 ?>

@@ -36,10 +36,14 @@
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between h-20 items-center">
                 <div class="flex items-center space-x-3">
-                    <div class="gradient-bg p-2.5 rounded-xl">
-                        <i class="fas fa-graduation-cap text-2xl text-white"></i>
+                <a href="../index.php" class="flex items-center space-x-4 group">
+                    <div class="bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 p-2.5 rounded-xl shadow-lg group-hover:shadow-2xl transition-all duration-300">
+                        <i class="fas fa-graduation-cap text-2xl text-white logo-spin"></i>
                     </div>
-                    <span class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Youdemy</span>
+                    <span class="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent">
+                        Youdemy
+                    </span>
+                </a>
                 </div>
 
                 <div class="flex items-center">

@@ -23,6 +23,7 @@ class Student extends User {
             $this->getImageUrl()
         ]);
     }
+
 }
 
 ?>

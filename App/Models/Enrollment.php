@@ -9,6 +9,7 @@ use App\Config\Database;
 class Enrollment {
 
     public function createEnrollment($studentId, $courseId) {
+        
         $db = Database::getInstance()->getConnection();
 
         $stmt = $db->prepare("SELECT * FROM enrollments WHERE student_id = :student_id AND course_id = :course_id");
@@ -24,6 +25,11 @@ class Enrollment {
                 ':course_id' => $courseId,
             ]);
         }
+    }
+
+
+    public function InformStudent(){
+        
     }
 
     public function isEnrolled($studentId, $courseId) {

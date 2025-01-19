@@ -42,12 +42,14 @@ if (!isset($_SESSION['user'])) {
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
-                    <div class="gradient-bg p-2 rounded-lg">
-                        <i class="fas fa-graduation-cap text-2xl text-white"></i>
+                <a href="../index.php" class="flex items-center space-x-4 group">
+                    <div class="bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 p-2.5 rounded-xl shadow-lg group-hover:shadow-2xl transition-all duration-300">
+                        <i class="fas fa-graduation-cap text-2xl text-white logo-spin"></i>
                     </div>
-                    <span class="ml-3 text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    <span class="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent">
                         Youdemy
                     </span>
+                </a>
                 </div>
                 <div class="flex items-center">
                     <a href="../LogOut.php" 

@@ -32,10 +32,14 @@ $stats = $statisticsModel->getGeneralStats();
     <!-- Top Navigation -->
     <nav class="bg-gradient-to-r from-indigo-900 to-purple-900 text-white p-4 shadow-lg fixed w-full z-10 top-0 left-0">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <i class="fas fa-code text-2xl text-pink-500"></i>
-                <h1 class="text-2xl font-extrabold bg-gradient-to-r from-pink-500 to-purple-500 text-transparent bg-clip-text">Youdemy Admin</h1>
-            </div>
+               <a href="../index.php" class="flex items-center space-x-4 group">
+                    <div class="bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 p-2.5 rounded-xl shadow-lg group-hover:shadow-2xl transition-all duration-300">
+                        <i class="fas fa-graduation-cap text-2xl text-white logo-spin"></i>
+                    </div>
+                    <span class="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent">
+                        Youdemy
+                    </span>
+                </a>
             <a href="../LogOut.php" class="flex items-center space-x-2 bg-gradient-to-r from-pink-600 to-purple-600 px-6 py-2 rounded-full hover:from-pink-700 hover:to-purple-700 transition-all duration-300 shadow-md">
                 <i class="fas fa-sign-out-alt"></i>
                 <span>Logout</span>

@@ -171,10 +171,10 @@ if (isset($_GET['readid']) && $_GET['action'] === 'read') {
                     <h2 class="text-2xl font-bold mb-6 text-gray-800">Course Content</h2>
                     <div class="video-container mb-6">
                         <?php
-                            if (filter_var($courses['content'], FILTER_VALIDATE_URL)) {
-                                echo '<iframe src="' . $courses['content'] . '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+                            if (filter_var($courses['description'], FILTER_VALIDATE_URL)) {
+                                echo '<iframe src="' . $courses['description'] . '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
                             } else {
-                                echo '<p class="text-gray-600 leading-relaxed">' . nl2br($courses['content']) . '</p>';
+                                echo '<p class="text-gray-600 leading-relaxed">' . nl2br($courses['description']) . '</p>';
                             }
                         ?>
                     </div>
@@ -196,7 +196,7 @@ if (isset($_GET['readid']) && $_GET['action'] === 'read') {
                 
                 <div class="bg-white rounded-2xl p-6 content-shadow hover:shadow-xl transition-shadow duration-300">
                     <h2 class="text-2xl font-bold mb-6 text-gray-800">Course Description</h2>
-                    <p class="text-gray-600 leading-relaxed"><?php echo nl2br($courses['description']) ?></p>
+                    <p class="text-gray-600 leading-relaxed"><?php echo nl2br($courses['content']) ?></p>
                 </div>
 
                 <div class="bg-white rounded-2xl p-6 content-shadow hover:shadow-xl transition-shadow duration-300">

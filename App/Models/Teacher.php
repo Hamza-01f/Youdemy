@@ -7,15 +7,12 @@ use App\Config\Database;
 use App\Models\User;
 use PDO;
 
-interface StatisticsInterface {
-    public function getAllStats($teacherId);
-}
-
-class Teacher extends User implements StatisticsInterface {
+class Teacher extends User {
 
     private $db;
 
-    public function __construct(){
+    public function __construct(string $username, string $email, string $password, string $role, string $bio, string $imageUrl) {
+        parent::__construct($username, $email, $password, $role, $bio, $imageUrl);  
         $this->db = Database::getInstance()->getConnection();
     }
 
@@ -49,7 +46,7 @@ class Teacher extends User implements StatisticsInterface {
         return false;
     }
 
-    public function getAllStats($teacherId) {
+    public static function getAllStats($teacherId) {
         $statistics = [];
         
         $queries = [
@@ -82,7 +79,7 @@ class Teacher extends User implements StatisticsInterface {
         ];
         
         foreach ($queries as $key => $query) {
-            $stmt = $this->db->prepare($query);
+            $stmt = Database::getInstance()->getConnection()->prepare($query);
             $stmt->bindParam(':teacher_id', $teacherId, PDO::PARAM_INT);
             $stmt->execute();
             

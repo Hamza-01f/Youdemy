@@ -42,12 +42,14 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex justify-between h-20 items-center">
                 <div class="flex items-center space-x-4">
-                    <div class="custom-gradient p-3 rounded-2xl animate-float">
-                        <i class="fas fa-graduation-cap text-2xl text-white"></i>
+                <a href="../index.php" class="flex items-center space-x-4 group">
+                    <div class="bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 p-2.5 rounded-xl shadow-lg group-hover:shadow-2xl transition-all duration-300">
+                        <i class="fas fa-graduation-cap text-2xl text-white logo-spin"></i>
                     </div>
-                    <span class="text-3xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent">
+                    <span class="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent">
                         Youdemy
                     </span>
+                </a>
                 </div>
                 
                 <div class="hidden md:flex items-center space-x-8">
@@ -106,7 +108,7 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
                             </div>
                             <div class="p-6">
                                 <h3 class="text-xl font-bold mb-2 text-gray-800"><?php echo $course['title'] ?></h3>
-                                <p class="text-gray-600 mb-4 line-clamp-2"><?php echo $course['description'] ?></p>
+                                <p class="text-gray-600 mb-4 line-clamp-2"><?php echo $course['content'] ?></p>
                                 <div class="flex items-center mb-6">
                                 </div>
                                 <div class="flex justify-between items-center">
@@ -170,7 +172,7 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
                         </div>
                         <div class="p-6">
                             <h3 class="text-xl font-bold mb-2 text-gray-800"><?php echo $course['title'] ?></h3>
-                            <p class="text-gray-600 mb-4 line-clamp-2"><?php echo $course['description'] ?></p>
+                            <p class="text-gray-600 mb-4 line-clamp-2"><?php echo $course['content'] ?></p>
                             <div class="flex items-center mb-6">
                                 <img src="<?php echo $course['profile_image'] ?>" alt="Instructor" class="w-12 h-12 rounded-xl border-2 border-indigo-200">
                                 <div class="ml-3">

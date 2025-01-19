@@ -1,4 +1,4 @@
-<?php
+<?php 
 session_start();
 ?>
 <!DOCTYPE html>
@@ -11,50 +11,34 @@ session_start();
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/f01941449c.js" crossorigin="anonymous"></script>
-
-    <style>
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .animated-gradient {
-            background: linear-gradient(-45deg, #FF6B6B, #FF8E53, #FF62A5, #FF7EB3);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-        }
-        
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .floating {
-            animation: floating 3s ease-in-out infinite;
-        }
-
-        @keyframes floating {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        .input-icon {
-            transition: all 0.3s ease;
-        }
-
-        .form-input:focus + .input-icon {
-            color: #FF62A5;
-        }
-    </style>
+    <link rel="stylesheet" href="/../../public/style.css">
 </head>
 
 <body class="font-poppins">
-    <div class="min-h-screen animated-gradient flex items-center justify-center p-4">
+    <!-- Navigation Bar -->
+    <nav class="navbar-glass fixed w-full top-0 z-50 px-6 py-4 flex justify-between items-center shadow-lg">
+                <a href="../index.php" class="flex items-center space-x-4 group">
+                    <div class="bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 p-2.5 rounded-xl shadow-lg group-hover:shadow-2xl transition-all duration-300">
+                        <i class="fas fa-graduation-cap text-2xl text-white logo-spin"></i>
+                    </div>
+                    <span class="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent">
+                        Youdemy
+                    </span>
+                </a>
+        <div class="flex items-center space-x-6">
+            <a href="/../../index.php" class="nav-link text-gray-700 hover:text-pink-500 transition-colors duration-300">
+                Home
+            </a>
+            <a href="logIn.php" class="px-6 py-2 rounded-xl text-white font-semibold
+                bg-gradient-to-r from-pink-500 via-orange-400 to-red-500
+                hover:opacity-90 transform transition-all duration-300 hover:scale-105">
+                Log In
+            </a>
+        </div>
+    </nav>
+
+    <div class="min-h-screen animated-gradient flex items-center justify-center p-4 pt-20">
         <div class="max-w-xl w-full glass-effect rounded-2xl shadow-2xl p-8 floating">
-        
             <div class="text-center mb-8">
                 <h2 class="text-4xl font-bold bg-gradient-to-r from-pink-500 via-orange-400 to-red-500 bg-clip-text text-transparent">
                     Join Our Courses
@@ -62,7 +46,8 @@ session_start();
                 <p class="mt-2 text-gray-600">Start your journey of endless knowledge</p>
             </div>
 
-            <form method="POST"  class="form space-y-6" action="/App/Controllers/userController.php"  onsubmit="return validateForm(this)">
+            <form method="POST" class="form space-y-6" action="/App/Controllers/userController.php" onsubmit="return validateForm(this)">
+                <!-- Rest of the form remains exactly the same as in the original -->
                 <div class="relative">
                     <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
                     <div class="relative">
@@ -152,7 +137,6 @@ session_start();
                     <p id="profilePictureError" class="text-sm text-red-600 mt-1"></p>
                 </div>
 
-                <!-- Role selection dropdown -->
                 <div class="relative">
                    <label for="bio" class="block text-sm font-medium text-gray-700 mb-1">Bio</label>
                   <div class="relative">
@@ -213,42 +197,8 @@ session_start();
             </div>
         </div>
     </div>
+
     <script>
-        // const usernameRegex = /^\w{4,20}$/;  
-        // const emailRegex = /^[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/;  
-        // const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{6,20}$/; 
-        // const urlRegex = /^https:\/\/.*\.(jpg|jpeg|png|gif)$/;
-
-        // function validateForm(form) {
-        //     let isValid = true;
-
-        //     const errorMessages = form.querySelectorAll('.text-red-600');
-        //     errorMessages.forEach(error => error.textContent = '');
-
-        //     const inputs = form.querySelectorAll('input, textarea, select');
-        //     inputs.forEach(input => {
-        //         let errorMessageElement = document.getElementById(input.id + 'Error');
-        //         if (!input.value) {
-        //             errorMessageElement.textContent = 'This field is required';
-        //             isValid = false;
-        //         } else if (input.name === 'username' && !usernameRegex.test(input.value)) {
-        //             errorMessageElement.textContent = 'Username must be 4-20 characters and can include letters, numbers, and underscores.';
-        //             isValid = false;
-        //         } else if (input.name === 'email' && !emailRegex.test(input.value)) {
-        //             errorMessageElement.textContent = 'Please enter a valid email address.';
-        //             isValid = false;
-        //         } else if (input.name === 'password' && !passwordRegex.test(input.value)) {
-        //             errorMessageElement.textContent = 'Password must be 6-20 characters long, with at least one number, one lowercase letter, and one uppercase letter.';
-        //             isValid = false;
-        //         } else if (input.name === 'photo' && !urlRegex.test(input.value)) {
-        //             errorMessageElement.textContent = 'Please enter a valid image URL (PNG, JPG, JPEG, GIF only).';
-        //             isValid = false;
-        //         }
-        //     });
-
-        //     return isValid;
-        // }
-
         function previewImage(input) {
             const preview = document.getElementById('image-preview');
             const fileURL = input.value;

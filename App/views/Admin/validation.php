@@ -1,15 +1,15 @@
 <?php
 
 require_once __DIR__ . '/../../Controllers/approveRejectController.php';
-require_once __DIR__ . '/../../Models/approveReject.php';
+require_once __DIR__ . '/../../Models/User.php';
 
-use App\Models\approve_reject;
+use App\Models\User;
 
-$userHandler = new approve_reject();
 
-$requestedUsers = $userHandler->fetchRequestedUsers();
 
-$allUsers = $userHandler->fetchUsers();
+$requestedUsers = User::fetchRequestedUsers();
+
+$allUsers = User::fetchUsers();
 
 ?>
 
@@ -27,8 +27,14 @@ $allUsers = $userHandler->fetchUsers();
     <nav class="gradient-bg text-white p-4 shadow-lg">
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-2">
-                <i class="fas fa-graduation-cap text-3xl"></i>
-                <h1 class="text-2xl font-bold">Youdemy Admin</h1>
+               <a href="../index.php" class="flex items-center space-x-4 group">
+                    <div class="bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 p-2.5 rounded-xl shadow-lg group-hover:shadow-2xl transition-all duration-300">
+                        <i class="fas fa-graduation-cap text-2xl text-white logo-spin"></i>
+                    </div>
+                    <span class="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent">
+                        Youdemy
+                    </span>
+                </a>
             </div>
             <div class="flex items-center space-x-6">
                 <div class="nav-item flex items-center">

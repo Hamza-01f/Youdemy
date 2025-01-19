@@ -45,14 +45,14 @@ $tag = $categoryTags->getTags();
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex justify-between h-20 items-center">
                 <div class="flex items-center space-x-8">
-                    <a href="#" class="flex items-center space-x-3 group">
-                        <div class="animated-gradient p-3 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300">
-                            <i class="fas fa-graduation-cap text-2xl text-white"></i>
-                        </div>
-                        <span class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                            Youdemy
-                        </span>
-                    </a>
+                <a href="../index.php" class="flex items-center space-x-4 group">
+                    <div class="bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 p-2.5 rounded-xl shadow-lg group-hover:shadow-2xl transition-all duration-300">
+                        <i class="fas fa-graduation-cap text-2xl text-white logo-spin"></i>
+                    </div>
+                    <span class="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent">
+                        Youdemy
+                    </span>
+                </a>
                     <div class="hidden md:flex space-x-6">
                         <a href="ManageCourses.php" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-all duration-300">
                             <i class="fas fa-tasks mr-2"></i>Manage Courses

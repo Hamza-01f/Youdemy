@@ -23,12 +23,12 @@ class Course {
 
     public function __construct($title, $description, $content,  $imageUrl, $teacherId, $categoryId, $tags = []) {
         $this->title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8'); 
-        $this->description = htmlspecialchars($description, ENT_QUOTES, 'UTF-8'); 
-        $this->content = htmlspecialchars($content, ENT_QUOTES, 'UTF-8'); 
-        $this->imageUrl = filter_var($imageUrl, FILTER_SANITIZE_URL); 
-        $this->teacherId = (int)$teacherId; 
-        $this->categoryId = (int)$categoryId; 
-        $this->tags = $tags; 
+        $this->description = htmlspecialchars($description, ENT_QUOTES, 'UTF-8'); // Sanitize description to prevent XSS
+        $this->content = htmlspecialchars($content, ENT_QUOTES, 'UTF-8'); // Sanitize content to prevent XSS
+        $this->imageUrl = filter_var($imageUrl, FILTER_SANITIZE_URL); // Sanitize image URL
+        $this->teacherId = (int)$teacherId; // Type cast teacherId to an integer
+        $this->categoryId = (int)$categoryId; // Type cast categoryId to an integer
+        $this->tags = $tags; // Assume tags are sanitized elsewhere if necessary
         $this->db = Database::getInstance()->getConnection();
     }
 
@@ -125,7 +125,7 @@ class Course {
 
     public static function getAllowedCourses() {
         $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("SELECT courses.id, courses.title,courses.created_at ,courses.image_url, courses.description, categories.name AS category_name, courses.status,users.username,users.profile_image
+        $stmt = $db->prepare("SELECT courses.id, courses.title,courses.created_at ,courses.content ,courses.image_url, courses.description, categories.name AS category_name, courses.status,users.username,users.profile_image
                               FROM courses
                               JOIN categories ON courses.category_id = categories.id
                               Join users on courses.teacher_id = users.id
@@ -174,7 +174,7 @@ class Course {
 
     public static function getRelatedCourses($id){
         $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare("SELECT courses.id, courses.title,courses.created_at ,courses.image_url, courses.description, categories.name AS category_name, courses.status,users.username,users.profile_image
+        $stmt = $db->prepare("SELECT courses.id, courses.title,courses.created_at ,courses.content , courses.image_url, courses.description, categories.name AS category_name, courses.status,users.username,users.profile_image
                               FROM courses
                               JOIN categories ON courses.category_id = categories.id
                               Join users on courses.teacher_id = users.id

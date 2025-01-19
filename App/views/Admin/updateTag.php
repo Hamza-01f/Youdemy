@@ -42,22 +42,27 @@ if (isset($_GET['id'])) {
         <!-- Sidebar -->
         <div class="w-64 bg-gray-800 text-white flex-none">
             <nav class="flex-1 p-4 space-y-2">
-                <a href="/app/view/AdmineDashboard/AdmineDashboard.php" class="flex items-center p-3 text-gray-200 hover:bg-gray-700 rounded-md">
+                <a href="../index.php" class="flex items-center space-x-4 group">
+                    <div class="bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 p-2.5 rounded-xl shadow-lg group-hover:shadow-2xl transition-all duration-300">
+                        <i class="fas fa-graduation-cap text-2xl text-white logo-spin"></i>
+                    </div>
+                    <span class="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent">
+                        Youdemy
+                    </span>
+                </a>
+                <a href="/App/views/Admin/statistics.php" class="flex items-center p-3 text-gray-200 hover:bg-gray-700 rounded-md">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                     Dashboard
                 </a>
-                <a href="/app/view/AdmineDashboard/dashboard.php" class="flex items-center p-3 text-gray-200 hover:bg-gray-700 rounded-md">
+                <a href="/App/views/Admin/validation.php" class="flex items-center p-3 text-gray-200 hover:bg-gray-700 rounded-md">
                     <i class="fas fa-users h-6 w-6 mr-2"></i> Users
                 </a>
-                <a href="/app/view/AdmineDashboard/articles/ManageArticles.php" class="flex items-center p-3 text-gray-200 hover:bg-gray-700 rounded-md">
-                    <i class="fas fa-newspaper h-6 w-6 mr-2"></i> Articles
-                </a>
-                <a href="/app/view/AdmineDashboard/categories/category.php" class="flex items-center p-3 text-gray-200 hover:bg-gray-700 rounded-md">
+                <a href="/App/views/Admin/category.php" class="flex items-center p-3 text-gray-200 hover:bg-gray-700 rounded-md">
                     <i class="fas fa-th h-6 w-6 mr-2"></i> Categories
                 </a>
-                <a href="/app/view/AdmineDashboard/AdmineDashboard.php" class="flex items-center p-3 text-gray-200 hover:bg-gray-700 rounded-md">
+                <a href="/App/views/Admin/tag.php" class="flex items-center p-3 text-gray-200 hover:bg-gray-700 rounded-md">
                     <i class="fas fa-tag h-6 w-6 mr-2"></i> Tags
                 </a>
                 <div class="nav-item flex items-center">

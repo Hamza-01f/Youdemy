@@ -50,7 +50,7 @@ class CourseController {
     }
     
     public function deleteCourse($courseId) {
-
+        // $courseModel = new \App\Models\Course();
         Course::deleteCourse($courseId);
     }
 

@@ -43,9 +43,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateTag'])) {
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
         <div class="flex flex-col w-64 bg-gradient-to-b from-indigo-700 to-indigo-600 text-white shadow-lg">
-            <div class="flex items-center justify-center h-16 bg-indigo-800">
-                <span class="text-2xl font-bold uppercase">DivoBlog</span>
-            </div>
+                <a href="../index.php" class="flex items-center space-x-4 group">
+                    <div class="bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 p-2.5 rounded-xl shadow-lg group-hover:shadow-2xl transition-all duration-300">
+                        <i class="fas fa-graduation-cap text-2xl text-white logo-spin"></i>
+                    </div>
+                    <span class="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent">
+                        Youdemy
+                    </span>
+                </a>
             <div class="flex flex-col flex-1 overflow-y-auto">
                 <nav class="flex-1 p-4 space-y-2">
                     <a href="category.php" class="flex items-center p-3 text-gray-100 hover:bg-indigo-500 rounded-md">

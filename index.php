@@ -43,12 +43,14 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex justify-between h-20 items-center">
           
-                <div class="flex items-center space-x-4">
-                    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 p-2.5 rounded-xl shadow-lg">
-                        <i class="fas fa-graduation-cap text-2xl text-white"></i>
+                <a href="../index.php" class="flex items-center space-x-4 group">
+                    <div class="bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 p-2.5 rounded-xl shadow-lg group-hover:shadow-2xl transition-all duration-300">
+                        <i class="fas fa-graduation-cap text-2xl text-white logo-spin"></i>
                     </div>
-                    <span class="text-2xl font-bold gradient-text">Youdemy</span>
-                </div>
+                    <span class="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent">
+                        Youdemy
+                    </span>
+                </a>
                 
                
                 <div class="hidden md:flex items-center space-x-8">
@@ -95,15 +97,15 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
                             </div>
                             <div class="p-6">
                                 <h3 class="text-xl font-bold mb-2 text-gray-800"><?php echo $course['title'] ?></h3>
-                                <p class="text-gray-600 mb-4 line-clamp-2"><?php echo $course['description'] ?></p>
+                                <p class="text-gray-600 mb-4 line-clamp-2"><?php echo $course['content'] ?></p>
                                 <div class="flex justify-between items-center">
                                     <span class="text-sm text-gray-500">
                                         <i class="far fa-calendar-alt mr-2"></i>
                                         <?php echo date('M d, Y', strtotime($course['created_at'])) ?>
                                     </span>
-                                    <a href="/App/views/student/readCourse.php?readid=<?php echo $course['id'] ?>&action=read" 
-                                    class="px-6 py-2.5 bg-gradient-to-r from-green-400 to-emerald-500 text-white rounded-xl hover:shadow-lg transition-all duration-300">
-                                        <i class="fas fa-book-reader mr-2"></i>Review
+                                    <a href="/App/views/logIn.php" 
+                                     class="px-6 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors">
+                                     Enroll Now
                                     </a>
                                 </div>
                             </div>
@@ -183,7 +185,7 @@ $currentPageCourses = array_slice($courses, $startIndex, $coursesPerPage);
                                 <?= $course['title'] ?>
                             </h3>
                             <p class="text-gray-600 mb-6 line-clamp-2">
-                                <?= $course['description'] ?>
+                                <?= $course['content'] ?>
                             </p>
            
                             <div class="flex items-center mb-6">

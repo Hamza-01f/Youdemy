@@ -19,7 +19,7 @@ $user = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   
     if (isset($_POST['csrf_token']) && $_POST['csrf_token'] === $_SESSION['csrf_token']) {
-        
+
         $username = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8');
         $email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
         $password = $_POST['password'];  // Password doesn't need htmlspecialchars
@@ -31,14 +31,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = new Student($username, $email, $password, $role, $bio, $imageUrl);
         } elseif ($role === 'teacher') {
             $user = new Teacher($username, $email, $password, $role, $bio, $imageUrl);
+
         }
 
         if ($user instanceof User) {
             $user->setPassword($password); // Password should be hashed before saving
             if ($user->save()) {
-                if($role == 'student'){
                     header('Location: /App/views/logIn.php');
-                }
             }
         } else {
             echo "Invalid user role selected.";

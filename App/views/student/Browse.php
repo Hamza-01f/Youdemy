@@ -141,7 +141,7 @@ if (isset($_GET['enrollid']) && $_GET['action'] === 'enroll') {
                             </div>
                             <div class="p-6">
                                 <h3 class="text-xl font-bold mb-2 text-gray-800"><?php echo $course['title'] ?></h3>
-                                <p class="text-gray-600 mb-4 line-clamp-2"><?php echo $course['description'] ?></p>
+                                <p class="text-gray-600 mb-4 line-clamp-2"><?php echo $course['content'] ?></p>
                                 <div class="flex items-center mb-6">
                                 </div>
                                 <div class="flex justify-between items-center">
@@ -226,7 +226,7 @@ if (isset($_GET['enrollid']) && $_GET['action'] === 'enroll') {
                             </div>
                             <div class="p-6">
                                 <h3 class="text-xl font-semibold mb-2">'.$course['title'].'</h3>
-                                <p class="text-gray-600 mb-4">'.$course['description'].'</p>
+                                <p class="text-gray-600 mb-4">'.$course['content'].'</p>
                                 <div class="flex items-center mb-6">
                                     <img src="'.$course['profile_image'].'" alt="Instructor" class="w-10 h-10 rounded-full border-2 border-indigo-100">
                                     <div class="ml-3">

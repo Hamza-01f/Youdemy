@@ -1,10 +1,10 @@
 <?php
 
-require_once __DIR__ . '/../Models/approveReject.php';
+require_once __DIR__ . '/../Models/Admin.php';
 
-use App\Models\approve_reject;
+use App\Models\Admin;
 
-$userHandler = new approve_reject();
+$userHandler = new Admin('hamza', 'hamza.boumanjel@gmail.com', '000000', 'admin', 'I am the admin of this website', '/public/Images/admin1.jpg');
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

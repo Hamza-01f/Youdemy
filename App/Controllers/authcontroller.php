@@ -2,15 +2,15 @@
 
 namespace App\Controllers;
 
-require_once __DIR__ . '/../models/authontification.php';
+require_once __DIR__ . '/../Models/User.php';
 
-use App\models\authontification;
+use App\models\User;
 
 class authcontroller{
    
     public static function logIn($username, $password) {
        
-        $user = authontification::finduser($username, $password);
+        $user = User::finduser($username, $password);
         if($user['role'] == 'admin'){
             session_start();
             $_SESSION['user'] = $user;

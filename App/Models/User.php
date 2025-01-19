@@ -2,6 +2,11 @@
 
 namespace App\Models;
 
+require_once __DIR__ . '/../Config/Database.php';
+
+use App\Config\Database;
+use PDO;
+
 abstract class User {
     protected string $username;
     protected string $email;
@@ -9,6 +14,7 @@ abstract class User {
     protected string $role;
     protected string $bio;
     protected string $imageUrl;
+
 
     public function __construct(string $username, string $email, string $password, string $role, string $bio, string $imageUrl) {
         $this->username = $username;
@@ -69,5 +75,30 @@ abstract class User {
     public function setImageUrl(string $imageUrl): void {
         $this->imageUrl = $imageUrl;
     }
+
+    public static function finduser($username, $password) {
+        Database::getInstance();
+        $stmt = Database::getConnection()->prepare("SELECT * FROM users WHERE username = :username LIMIT 1");
+        $stmt->bindParam(':username', $username, \PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    public static function fetchUsers() {
+        Database::getInstance();
+        $query = "SELECT * FROM users where role != 'admin'";
+        $stmt = Database::getConnection()->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function fetchRequestedUsers() {
+        Database::getInstance();
+        $query = "SELECT * FROM asked_users";
+        $stmt = Database::getConnection()->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
 ?>
