@@ -148,7 +148,6 @@ if(isset($_POST["submit"]) &&  $_SERVER['REQUEST_METHOD'] == "POST")
             </div>
         </div>
     </div>
-    <?php include __DIR__.'/../../public/footer.php' ?>
     <script>
         function togglePassword() {
             const passwordInput = document.getElementById('password');

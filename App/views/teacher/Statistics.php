@@ -1,13 +1,13 @@
 <?php
 
 require_once __DIR__.'/../../../vendor/autoload.php';
-use App\Models\Statistics;
+use App\Models\Teacher;
 
 session_start();
 $teacherId = $_SESSION['user']['id']; 
 
 
-$statistics = new Statistics();
+$statistics = new Teacher();
 
 
 $statisticsData = $statistics->getAllStats($teacherId);
@@ -16,9 +16,6 @@ $activeCourses = $statisticsData['activeCourses'];
 $enrolledStudents = $statisticsData['enrolledStudents'];
 $enrollmentTrend = $statisticsData['enrollmentTrend'];
 $coursePerformance = $statisticsData['coursePerformance'];
-
-
-
 
 ?>
 <!DOCTYPE html>

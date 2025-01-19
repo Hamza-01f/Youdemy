@@ -35,23 +35,22 @@ class CourseController {
 
     public function getCourses($id) {
         
-        // $courseModel = new \App\Models\Course(); 
         return Course::getAllCourses($id);  
     }
     
 
     public function getAllowedCourses() {
-        // $courseModel = new \App\Models\Course();
+
         return Course::getAllowedCourses();
     }
 
     public function getCourseById($id) {
-        // $courseModel = new \App\Models\Course();
+
         return Course::getSpecificCourse($id);
     }
     
     public function deleteCourse($courseId) {
-        // $courseModel = new \App\Models\Course();
+
         Course::deleteCourse($courseId);
     }
 

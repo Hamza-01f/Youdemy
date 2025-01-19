@@ -29,65 +29,7 @@ $tag = $categoryTags->getTags();
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.1/dist/css/tom-select.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.1/dist/js/tom-select.complete.min.js"></script>
-    <style>
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .animated-gradient {
-            background: linear-gradient(-45deg, #4F46E5, #7C3AED, #2563EB, #4338CA);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-        }
-
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-        }
-
-        .card-hover {
-            transition: all 0.3s ease;
-        }
-
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .input-focus {
-            transition: all 0.3s ease;
-        }
-
-        .input-focus:focus {
-            transform: scale(1.01);
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        .floating {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f5f9;
-            border-radius: 4px;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #94a3b8;
-            border-radius: 4px;
-        }
-    </style>
+     <link rel="stylesheet" href="/../../../public/style.css">
 </head>
 <body class="bg-gray-50">
     <!-- Animated Background -->
@@ -149,7 +91,7 @@ $tag = $categoryTags->getTags();
             </div>
 
             <!-- Form -->
-            <form action="/../../../router.php" method="POST" class="space-y-8">
+            <form action="/../../../router.php" method="POST" class="space-y-8" id="createCourseForm" onsubmit="return validateForm()">
                 <input type="hidden" name="action" value="save_course">
                 <input type="hidden" name="author" value="<?php echo $userId ?>">
 
@@ -167,54 +109,56 @@ $tag = $categoryTags->getTags();
 
                             <div class="space-y-6">
                                 <div>
-                                    <label class="block text-sm font-medium mb-2 text-gray-700">Course Title</label>
-                                    <input type="text" name="title" placeholder="Enter an engaging title for your course" 
-                                           class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300 input-focus">
+                                    <label class="block text-sm font-medium mb-2 text-gray-700" for="title">Course Title</label>
+                                    <input type="text" id="title" name="title" placeholder="Enter an engaging title for your course" 
+                                        class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300 input-focus" >
+                                    <span id="titleError" class="text-red-500 text-sm hidden">Title is required</span>
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium mb-2 text-gray-700">Course Description</label>
-                                    <textarea rows="4" name="description" placeholder="Describe what students will learn from your course" 
-                                              class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300 input-focus custom-scrollbar"></textarea>
+                                    <label class="block text-sm font-medium mb-2 text-gray-700" for="description">Course Description</label>
+                                    <textarea rows="4" id="description" name="description" placeholder="Describe what students will learn from your course" 
+                                            class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300 input-focus custom-scrollbar" ></textarea>
+                                    <span id="descriptionError" class="text-red-500 text-sm hidden">Description is required</span>
                                 </div>
 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <label class="block text-sm font-medium mb-2 text-gray-700">Content Type</label>
-                                        <select name="content_type" id="content_type" 
-                                                class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300">
+                                        <label class="block text-sm font-medium mb-2 text-gray-700" for="content_type">Content Type</label>
+                                        <select name="content_type" id="content_type" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300" >
                                             <option value="document">Document</option>
                                             <option value="video">Video</option>
                                         </select>
+                                        <span id="contentTypeError" class="text-red-500 text-sm hidden">Content Type is required</span>
                                     </div>
 
                                     <div>
-                                        <label class="block text-sm font-medium mb-2 text-gray-700">Category</label>
-                                        <select name="category_id" 
-                                                class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300">
-                                            <option>Select category</option>
+                                        <label class="block text-sm font-medium mb-2 text-gray-700" for="category_id">Category</label>
+                                        <select name="category_id" id="category_id" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300">
+                                            <option value="">Select category</option>
                                             <?php foreach ($categories as $category): ?>
                                                 <option value="<?= $category['id'] ?>"><?= htmlspecialchars($category['name']) ?></option>
                                             <?php endforeach; ?>
                                         </select>
+                                        <span id="categoryError" class="text-red-500 text-sm hidden">Category is required</span>
                                     </div>
                                 </div>
 
                                 <div id="documentContent">
-                                    <label class="block text-sm font-medium mb-2 text-gray-700">Course Content</label>
-                                    <textarea rows="6" name="document" placeholder="Enter your course content here" 
-                                              class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300 input-focus custom-scrollbar"></textarea>
+                                    <label class="block text-sm font-medium mb-2 text-gray-700" for="document">Course Content</label>
+                                    <textarea rows="6" id="document" name="document" placeholder="Enter your course content here" 
+                                            class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300 input-focus custom-scrollbar"></textarea>
                                 </div>
 
                                 <div id="videoContent" style="display: none;">
-                                    <label class="block text-sm font-medium mb-2 text-gray-700">Video URL</label>
-                                    <input type="url" name="content" placeholder="Enter your video URL" 
-                                           class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300 input-focus">
+                                    <label class="block text-sm font-medium mb-2 text-gray-700" for="content">Video URL</label>
+                                    <input type="url" id="content" name="content" placeholder="Enter your video URL" 
+                                        class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300 input-focus">
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Tags Card -->
+                     
                         <div class="bg-white rounded-2xl shadow-lg p-8 card-hover">
                             <div class="flex items-center space-x-4 mb-8">
                                 <div class="p-3 bg-purple-100 rounded-xl">
@@ -223,11 +167,12 @@ $tag = $categoryTags->getTags();
                                 <h2 class="text-2xl font-bold text-gray-800">Course Tags</h2>
                             </div>
 
-                            <select id="tags" name="tags[]" class="w-full" multiple>
+                            <select id="tags" name="tags[]" class="w-full" multiple >
                                 <?php foreach ($tag as $tagItem): ?>
                                     <option value="<?= $tagItem['id'] ?>"><?= htmlspecialchars($tagItem['name']) ?></option>
                                 <?php endforeach; ?>
                             </select>
+                            <span id="tagsError" class="text-red-500 text-sm hidden">At least one tag is required</span>
                         </div>
                     </div>
 
@@ -250,9 +195,10 @@ $tag = $categoryTags->getTags();
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium mb-2 text-gray-700">Image URL</label>
-                                    <input type="text" name="courseImage" placeholder="Enter image URL" 
-                                           class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300 input-focus">
+                                    <label class="block text-sm font-medium mb-2 text-gray-700" for="courseImage">Image URL</label>
+                                    <input type="text" id="courseImage" name="courseImage" placeholder="Enter image URL" 
+                                        class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300 input-focus" >
+                                    <span id="courseImageError" class="text-red-500 text-sm hidden">Image URL is required</span>
                                 </div>
                             </div>
                         </div>
@@ -260,8 +206,7 @@ $tag = $categoryTags->getTags();
                 </div>
 
                 <div class="flex justify-end">
-                    <button type="submit" 
-                            class="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+                    <button type="submit" class="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
                         <i class="fas fa-plus-circle mr-2"></i>
                         Create Course
                     </button>
@@ -270,24 +215,6 @@ $tag = $categoryTags->getTags();
         </div>
     </div>
     <?php include __DIR__.'/../../../public/footer.php' ?>
-    <script>
-       
-        new TomSelect("#tags", {
-            create: false,
-            maxItems: 5,
-            placeholder: "Select tags...",
-            persist: false,
-        });
-
-        document.getElementById('content_type').addEventListener('change', function() {
-        if (this.value === 'video') {
-            document.getElementById('documentContent').style.display = 'none';
-            document.getElementById('videoContent').style.display = 'block';
-        } else {
-            document.getElementById('documentContent').style.display = 'block';
-            document.getElementById('videoContent').style.display = 'none';
-        }
-        });
-    </script>
+    <script src="/../../../public/script.js"></script>
 </body>
 </html>

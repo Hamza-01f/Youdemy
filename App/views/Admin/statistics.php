@@ -2,11 +2,11 @@
 
 session_start();
 
-require_once __DIR__ . '/../../Models/Statistics.php';
+require_once __DIR__ . '/../../Models/Admin.php';
 
-use App\Models\Statistics;
+use App\Models\Admin;
 
-$statisticsModel = new Statistics();
+$statisticsModel = new Admin('hamza', 'hamza.boumanjel@gmail.com', '000000', 'admin', 'I am the admin of this website', '/public/Images/admin1.jpg');
 
 $stats = $statisticsModel->getGeneralStats();
 

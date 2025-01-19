@@ -1,43 +1,6 @@
 <?php
-
-require_once __DIR__.'/../models/User.php';
-require_once __DIR__.'/../models/Student.php';
-require_once __DIR__.'/../models/Teacher.php';
-
-use App\models\Student;
-use App\models\Teacher;
-use App\models\User;
-
-$user = null;
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $bio = $_POST['bio'];
-    $imageUrl = $_POST['photo'];
-    $role = $_POST['role'];
-
-    if ($role === 'student') {
-        $user = new Student($username, $email, $password, $role, $bio, $imageUrl);
-    } elseif ($role === 'teacher') {
-        $user = new Teacher($username, $email, $password, $role, $bio, $imageUrl);
-    }
-
-    if ($user instanceof User) {
-        $user->setPassword($password); 
-        if ($user->save()) {
-            echo "Registration successful!";
-        } else {
-            echo "There was an error while registering.";
-        }
-    } else {
-        echo "Invalid user role selected.";
-    }
-}
+session_start();
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -99,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <p class="mt-2 text-gray-600">Start your journey of endless knowledge</p>
             </div>
 
-            <form method="POST"  class="form space-y-6" >
+            <form method="POST"  class="form space-y-6" action="/App/Controllers/userController.php"  onsubmit="return validateForm(this)">
                 <div class="relative">
                     <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
                     <div class="relative">
@@ -232,6 +195,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         hover:opacity-90 transform transition-all duration-300 hover:scale-105
                         focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
                 >
+                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                     Create Account
                 </button>
             </form>
@@ -249,7 +213,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </div>
-    <?php include __DIR__.'/../../public/footer.php' ?>
     <script>
         // const usernameRegex = /^\w{4,20}$/;  
         // const emailRegex = /^[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/;  
@@ -285,9 +248,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         //     return isValid;
         // }
-
-
-        // onsubmit="return validateForm(this)"
 
         function previewImage(input) {
             const preview = document.getElementById('image-preview');

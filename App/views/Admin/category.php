@@ -152,6 +152,5 @@ if (isset($_GET['delete_id'])) {
             </main>
         </div>
     </div>
-    <?php include __DIR__.'/../../../public/footer.php'; ?>
 </body>
 </html>

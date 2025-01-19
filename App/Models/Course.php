@@ -22,15 +22,14 @@ class Course {
 
 
     public function __construct($title, $description, $content,  $imageUrl, $teacherId, $categoryId, $tags = []) {
-        $this->title = $title;
-        $this->description = $description;
-        $this->content = $content;
-        $this->imageUrl = $imageUrl;
-        $this->teacherId = $teacherId;
-        $this->categoryId = $categoryId;
-        $this->tags = $tags;
+        $this->title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8'); 
+        $this->description = htmlspecialchars($description, ENT_QUOTES, 'UTF-8'); 
+        $this->content = htmlspecialchars($content, ENT_QUOTES, 'UTF-8'); 
+        $this->imageUrl = filter_var($imageUrl, FILTER_SANITIZE_URL); 
+        $this->teacherId = (int)$teacherId; 
+        $this->categoryId = (int)$categoryId; 
+        $this->tags = $tags; 
         $this->db = Database::getInstance()->getConnection();
-
     }
 
     public function save() {

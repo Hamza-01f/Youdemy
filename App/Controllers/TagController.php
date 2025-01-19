@@ -24,9 +24,9 @@ class TagController {
 
         $tag = new Tag($name);
         $conn = Database::getInstance()->getConnection();
-    
+        $tag = $tag->getName();
         $stmt = $conn->prepare("INSERT INTO tags (name) VALUES (:name)");
-        $stmt->bindParam(':name', $tag->getName(), \PDO::PARAM_STR);
+        $stmt->bindParam(':name',$tag , \PDO::PARAM_STR);
 
         if ($stmt->execute()) {
             return "Tag added successfully!";

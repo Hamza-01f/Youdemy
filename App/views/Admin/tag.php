@@ -130,7 +130,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateTag'])) {
             </main>
         </div>
     </div>
-    <?php include __DIR__.'/../../../public/footer.php' ?>
 </body>
 
 </html>
